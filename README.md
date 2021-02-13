@@ -1,7 +1,14 @@
 # Main page
 
-+ first
-+ second
+## 更新履歴
++ 
+
+## 論文ウォッチ
++ [1月第1週の論文]
++ [1月第2週の論文]
++ [1月第3週の論文]
++ [1月第4週の論文]
++ [2月第1週の論文]
 + [2月第2週の論文](https://www.notion.so/toguma/2021-2-2-74f63c773d394e21b1eae381ec7ff0f5)
 
-$$ \frac{d}{dt} \boldsymbol{u} = A \boldsymbol{u} $$
+## 学習
