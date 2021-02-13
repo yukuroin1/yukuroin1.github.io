@@ -1,0 +1,644 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>2021年2月第2週の論文</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="74f63c77-3d39-4e21-b1ea-e381ec7ff0f5" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">📰</span></div><h1 class="page-title">2021年2月第2週の論文</h1></header><div class="page-body"><h2 id="7765fc67-9864-448f-b5d8-4593731a9b0e" class="">Machine learning made easy for optimizing chemical reactions
+<a href="https://www.nature.com/articles/d41586-021-00209-6">https://www.nature.com/articles/d41586-021-00209-6</a></h2><ul id="16c0e9a6-3508-4f8f-bfe0-ac40b5f5a1a3" class="bulleted-list"><li>医薬品合成のための最適な反応条件はトライ・アンド・エラーで化学者が見つける</li></ul><ul id="dde64e9a-0d15-4ecc-b75e-57de77dd0a02" class="bulleted-list"><li>ベイズ最適化でその工程を最適化<ul id="61c4c191-3915-4db8-a664-56fa079b429d" class="bulleted-list"><li>次の実験条件を示唆 → 化学者が実験 → その結果を受けて学習 → …</li></ul></li></ul><ul id="c0764318-44bd-4999-82c3-3c24d061f69b" class="bulleted-list"><li>化学者が自分だけで考えて行うよりも工程数が少ない + 誰よりも収率の高い方法を見いだせる</li></ul><hr id="40837505-9c08-4ec8-8d65-489b0eb98193"/><ul id="ccb68099-2b1d-4a0c-9824-d9814442eee5" class="bulleted-list"><li>「機械が考えて人間が手を動かす」時代が来ている。<ul id="95e19a41-9898-4999-9a28-29c0c6d0e117" class="bulleted-list"><li>手を動かす方も自動化出来たらやっと人間は開放されるか</li></ul><ul id="cda8b249-d9ad-48f3-bdc9-9993d1b218d6" class="bulleted-list"><li>生命科学系も全部そうなって欲しい</li></ul></li></ul><ul id="46db426e-0015-45d6-bfda-451fc10df724" class="bulleted-list"><li>医療もやがて診断は機械がして処置や検査を人間がするようになるか。<ul id="33bd037f-5f96-4b68-90a6-b722ea7c77e5" class="bulleted-list"><li>まあ現状でも診断が重要な局面はかなり限られている気もするが。</li></ul><ul id="e7adb28f-6e62-4dd1-9f7e-a483c0a7eb2f" class="bulleted-list"><li>投薬スケジュールを同じようなアルゴリズムで計画するのはありそう<ul id="fee547b7-82f5-4d9f-9d72-75835a551311" class="bulleted-list"><li>まずゲノムデータで初期値を設定 → 投薬 → 各種検査データを基に次の投与量・投与間隔などを決定、というのを繰り返して治療する</li></ul><ul id="8d4e2c06-aa7f-4f50-8aac-f52f7b11f668" class="bulleted-list"><li>これが出来るとしたらおそらく慢性疾患が現実的か？<ul id="bc31cbe8-a924-4238-b8a3-9dbc17d7f710" class="bulleted-list"><li>糖尿病：血糖値が指標？ → 外的な摂動(食事・ストレスなど)が多く、かつ変動の特徴時間が短いから最初ではないか。</li></ul><ul id="abb91b2f-9706-4354-accb-e201c8221564" class="bulleted-list"><li>腫瘍：病態の変化を見出す簡便な検査を見出すのが難しそう。前立腺がんのPSA とかは合原先生がやっているのを大昔聞いた。</li></ul><ul id="32fd0d25-24da-4178-ac06-31ed4f93b6ac" class="bulleted-list"><li>高血圧：なんとかなるか？</li></ul><ul id="9a4e901b-ec05-4306-a08a-4c364b89a953" class="bulleted-list"><li>疼痛：これもありそう。自己麻酔の押す回数に応じて。。</li></ul><ul id="b05bf999-3c17-4108-b3be-dd6dcb9bc0a1" class="bulleted-list"><li>不安：不安さの定量がうまく出来ればいける気がする。別に現状も訴えに応じているだけだと思うが。</li></ul></li></ul></li></ul><ul id="5011ba14-0ad7-4202-a593-4ddd295369f6" class="bulleted-list"><li>病院、薬局に薬の自販機が置かれ、お薬手帳 ID などをタッチすると必要な量の薬が出てくるのでそれを飲む。その自販機が焼き芋屋みたいに毎日回ってきて、そこでピピッと合わせて出てきた薬を飲む。自己管理のように間違って飲むことも無いし、コンプライアンスも守られる。</li></ul><ul id="a6acf3bb-fbdd-4356-87b2-98e4c63c3e7d" class="bulleted-list"><li>病院には定期的にかかる or コントロール不良な人にお声がかかる。そこでこれまでの投薬量の変遷と現状から。</li></ul><ul id="820bf54b-c76d-4413-a547-aef53e00984f" class="bulleted-list"><li>検査：内視鏡とかは撮影された画像に対する熟練者の適切な操作を学習させたり出来ないか？リモコンだけで動くような胃カメラとかが生まれたら秒読みのような気もする。</li></ul></li></ul><h2 id="af299e96-c76d-4031-bbb7-df773b14a3b7" class="">Local immune response to food antigens drives meal-induced abdominal pain | Nature
+<a href="https://www.nature.com/articles/s41586-020-03118-2">https://www.nature.com/articles/s41586-020-03118-2</a></h2><ul id="23da71b5-5a3d-4384-9c40-1746eee0e1a7" class="bulleted-list"><li>食後の消化器症状はどのようなメカニズムで起きている？<ul id="981a91e3-8e4c-4f3e-a71f-b49f9fe03c02" class="bulleted-list"><li>全世界で20％程度の人が経験している</li></ul><ul id="2babb684-a674-4604-a5e1-8c79eaca399a" class="bulleted-list"><li>&quot;グルテンフリー&quot; とかはそういう都合で話題になっていたらしい。</li></ul></li></ul><ul id="7a723b0d-c961-4b10-8a69-ab66211b5f9b" class="bulleted-list"><li>細菌感染 or 細菌毒素 → 抗食物特異的 IgE 抗体 → ヒスタミン受容体 H1 による内臓痛、というメカニズムと主張<ul id="8afeccc4-0abf-4d55-96c1-b6cbafd540e4" class="bulleted-list"><li>グルテン・小麦・大豆・ミルクなどを直腸Ｓ状部に注入すると局所的な浮腫が観察される。</li></ul></li></ul><hr id="ceda1f85-e9ca-4db4-95ed-c8950f1f91db"/><p id="be01cfd1-55c6-4797-b7c8-ee8118cfce7e" class="">なるほど。適当な検査で何が原因かまで分かるようになるとある程度楽になるかもしれんね。牛乳でお腹痛めるメカニズムって浸透圧的な話かと思っていたが、アレルギーという可能性もあるのか。</p><h2 id="66dcd195-22a4-4089-8940-b5e963f969dd" class="">Generating conjectures on fundamental constants with the Ramanujan Machine | Nature
+<a href="https://www.nature.com/articles/s41586-021-03229-4">https://www.nature.com/articles/s41586-021-03229-4</a></h2><ul id="b7a35c67-6019-40c1-b4c8-77e6ebce011d" class="bulleted-list"><li>数学定数 (πとか e とかカタラン数とか) に関連した多項式などは時々見つかる<ul id="414b056f-9899-4e99-b143-864bf689afdd" class="bulleted-list"><li>ラマヌジャンとかが女神に教えてもらったりしていた。</li></ul></li></ul><ul id="f5637762-4c01-4d3c-a253-b16aedeb0d23" class="bulleted-list"><li>そういった無限級数や無限分数などを見出すアルゴリズムを提案 &quot;Ramanujan Machine&quot;<ul id="80728abe-fd56-4769-a583-e039712f7a47" class="bulleted-list"><li>このアルゴリズムで知られてない等式を見いだせました</li></ul><ul id="06a0d688-1ada-4236-b34d-912aeece845e" class="bulleted-list"><li>無限分数の形式を指定して勾配降下して見つけられるらしい</li></ul><ul id="fb02b906-107a-4c22-af7d-09a02cb39079" class="bulleted-list"><li>その数字自体の解釈とかを反映させる必要がなくて、単純に値だけあればいける</li></ul></li></ul><hr id="e25c421f-a31a-437e-ac0b-ba6139cbd42f"/><ul id="b61fbb2e-1307-467a-b0c9-5463deba0ee7" class="bulleted-list"><li>人類が誰も知らない式が出てくる Wolfram alpha みたいなもんか。</li></ul><ul id="926162ab-da93-429e-a298-e1aab24ec15a" class="bulleted-list"><li>数値計算の結果出てきた値を Wolfram alpha に投げ込んで、係数を推定して話をすすめることはよくやってきたけど、それのすごいバージョンという感じ。</li></ul><h2 id="f438efe4-60be-47a8-b345-3339a90f31c2" class="">Viscoelastic control of spatiotemporal order in bacterial active matter | Nature
+<a href="https://www.nature.com/articles/s41586-020-03168-6">https://www.nature.com/articles/s41586-020-03168-6</a></h2><ul id="a54f67bd-46fa-4e5c-8653-3d71f974210a" class="bulleted-list"><li>細菌をアクティブマターとみなして、自己組織化を制御する技術を提供<ul id="a3375194-3a4e-46aa-8496-6270c303d1f3" class="bulleted-list"><li>大腸菌懸濁液に純化させたゲノムDNA を加えることで &quot;粘弾性&quot;を操作</li></ul><ul id="370955ee-e660-48a5-9ddc-29eacb1b2f95" class="bulleted-list"><li>mm スケールの Rotating vortex の周期を変化させられる</li></ul></li></ul><ul id="5a6076a3-c075-40d0-afff-081f4ca5aca5" class="bulleted-list"><li>モデル化 → おそらくActive forcing と 粘弾性ストレス緩和の相互作用で形成されている。</li></ul><figure id="1b5d33e9-7802-4246-883c-b9b36d766322" class="image"><a href="2021%E5%B9%B42%E6%9C%88%E7%AC%AC2%E9%80%B1%E3%81%AE%E8%AB%96%E6%96%87%201b5d33e978024246883cb9b36d766322/Untitled.png"><img style="width:689px" src="2021%E5%B9%B42%E6%9C%88%E7%AC%AC2%E9%80%B1%E3%81%AE%E8%AB%96%E6%96%87%201b5d33e978024246883cb9b36d766322/Untitled.png"/></a></figure><hr id="4b0bff36-dca9-48d2-ab1f-bc2aec544cc7"/><ul id="fcfc3905-0e5a-4848-8ee6-4528b1435cf3" class="bulleted-list"><li>細菌がぐるぐる回る事自体に何か意味があるわけではないと思うけど、こういった現象をモデル化して説明できるというのは面白いように思う。なんかスケーリングの議論もしているし非平衡統計力学的な貢献もあるんだろうか。</li></ul><ul id="46c4cc62-a8ed-4540-82af-5956f0eb52c4" class="bulleted-list"><li>粘弾性を高めるために DNA を添加、というのはあまり知らないな… 他に用いている例ある？<ul id="01512fc4-7658-4abf-8323-c4e479bd1b49" class="bulleted-list"><li>本文に「単純に分子量が大きくて薄くても粘弾性的な働きをするから」と書かれていた。そうなのか…。懸濁液に DNA たくさん入ってると高頻度で回転しますよ、というの、どうやって見つけたんだろう。</li></ul></li></ul><h2 id="04dd2dc3-4de6-49c3-9ad4-73a0b17f5ffe" class="">Control of osteoblast regeneration by a train of Erk activity waves | Nature
+<a href="https://www.nature.com/articles/s41586-020-03085-8">https://www.nature.com/articles/s41586-020-03085-8</a></h2><ul id="36439e55-3ef6-4010-a88b-df399ffed852" class="bulleted-list"><li>組織再生において Growth を制御するメカニズムとは<ul id="0c7db311-08e8-4aaa-855f-dc61dc9473b7" class="bulleted-list"><li>Erk activity の断続的な wave で決まっていると主張 in ゼブラフィッシュの骨</li></ul><ul id="85a52a4a-d5ea-4d0b-936f-65fca34ece82" class="bulleted-list"><li>&quot;波紋&quot;のように osteoblast 集団内を伝播している<ul id="646529ed-7069-41b8-8e5a-8d9a2d58b8a8" class="bulleted-list"><li>伝達速度は2日で辺縁まで到達</li></ul></li></ul><ul id="ea5cdec4-7d31-44cf-8663-02d0506f8d62" class="bulleted-list"><li>Erk wave が到達したところでは tissue growth が抑制される<ul id="73b5bbfe-8cc1-4d44-bb9d-cbfb9f2e570f" class="bulleted-list"><li>この Wave の頻度で制御されているか。</li></ul><figure id="6c7dca9c-09c2-428c-9cb2-55870abf4555" class="image"><a href="2021%E5%B9%B42%E6%9C%88%E7%AC%AC2%E9%80%B1%E3%81%AE%E8%AB%96%E6%96%87%201b5d33e978024246883cb9b36d766322/Untitled%201.png"><img style="width:689px" src="2021%E5%B9%B42%E6%9C%88%E7%AC%AC2%E9%80%B1%E3%81%AE%E8%AB%96%E6%96%87%201b5d33e978024246883cb9b36d766322/Untitled%201.png"/></a></figure></li></ul></li></ul><hr id="89aeea1c-974b-49f5-aecb-770f0ab7fe0f"/><ul id="c7f53491-ab11-4e49-b441-f44c83832219" class="bulleted-list"><li>Wave のモデルは Reaction-Diffusion で書いていた。<figure id="c776d5db-b232-4cda-bf2e-02a1efc00b78" class="equation"><style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><div class="equation-container"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle scriptlevel="0" displaystyle="true"><mtable rowspacing="0.15999999999999992em" columnalign="left" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mfrac><mrow><mi>d</mi><mi>E</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><mfrac><mrow><msub><mi>α</mi><mn>1</mn></msub><msup><mi>A</mi><mn>2</mn></msup></mrow><mrow><msubsup><mi>β</mi><mn>1</mn><mn>2</mn></msubsup><mo>+</mo><msup><mi>A</mi><mn>2</mn></msup></mrow></mfrac><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>E</mi><mo stretchy="false">)</mo><mo>−</mo><mi>E</mi><mrow><mo fence="true">(</mo><msub><mi>γ</mi><mn>1</mn></msub><mi>I</mi><mo>+</mo><msub><mi>γ</mi><mi>e</mi></msub><mo fence="true">)</mo></mrow></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>A</mi></mrow><mrow><mi mathvariant="normal">∂</mi><mi>t</mi></mrow></mfrac><mo>=</mo><msub><mi>α</mi><mn>2</mn></msub><mo>+</mo><msub><mi>α</mi><mn>3</mn></msub><mi>E</mi><mo>−</mo><msub><mi>γ</mi><mn>2</mn></msub><mi>A</mi><mo>+</mo><mi>D</mi><msup><mi mathvariant="normal">∇</mi><mn>2</mn></msup><mi>A</mi></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mfrac><mrow><mi>d</mi><mi>I</mi></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><msub><mi>γ</mi><mn>3</mn></msub><mrow><mo fence="true">(</mo><msub><mi>α</mi><mn>4</mn></msub><mi>E</mi><mo>−</mo><mi>I</mi><mo fence="true">)</mo></mrow></mrow></mstyle></mtd></mtr></mtable></mstyle></mrow><annotation encoding="application/x-tex">\displaystyle\begin{array}{l}\frac{d E}{d t}=\frac{\alpha_{1} A^{2}}{\beta_{1}^{2}+A^{2}}(1-E)-E\left(\gamma_{1} I+\gamma_{e}\right) \\\frac{\partial A}{\partial t}=\alpha_{2}+\alpha_{3} E-\gamma_{2} A+D \nabla^{2} A \\\frac{d I}{d t}=\gamma_{3}\left(\alpha_{4} E-I\right)\end{array}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:4.105875999999999em;vertical-align:-1.802938em;"></span><span class="mord"><span class="mtable"><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:2.3029379999999997em;"><span style="top:-4.302937999999999em;"><span class="pstrut" style="height:3.03402em;"></span><span class="mord"><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">d</span><span class="mord mathdefault mtight">t</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">d</span><span class="mord mathdefault mtight" style="margin-right:0.05764em;">E</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.03402em;"><span style="top:-2.62642em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05278em;">β</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8051142857142857em;"><span style="top:-2.188485714285714em;margin-left:-0.05278em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span><span style="top:-2.8448em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.31151428571428574em;"><span></span></span></span></span></span></span><span class="mbin mtight">+</span><span class="mord mtight"><span class="mord mathdefault mtight">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463142857142857em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4101em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31731428571428577em;"><span style="top:-2.357em;margin-left:-0.0037em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mord mtight"><span class="mord mathdefault mtight">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913142857142857em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5916399999999999em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05556em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.07847em;">I</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.05556em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span><span style="top:-2.8311899999999994em;"><span class="pstrut" style="height:3.03402em;"></span><span class="mord"><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathdefault mtight">t</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathdefault mtight">A</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05556em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">A</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">D</span><span class="mord"><span class="mord">∇</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span><span class="mord mathdefault">A</span></span></span><span style="top:-1.591082em;"><span class="pstrut" style="height:3.03402em;"></span><span class="mord"><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">d</span><span class="mord mathdefault mtight">t</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">d</span><span class="mord mathdefault mtight" style="margin-right:0.07847em;">I</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.05556em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.0037em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">4</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">I</span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.802938em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span></span></span></span></span></span></span></div></figure><ul id="30932de6-24e2-4673-8c17-09379fd67f75" class="bulleted-list"><li>拡散してるの <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi></mrow><annotation encoding="application/x-tex">A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">A</span></span></span></span></span><span>﻿</span></span> だけだな、A が Erk activator, I が inhibitor で、それに応じて <style>@import url('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css')</style><span data-token-index="0" contenteditable="false" class="notion-text-equation-token" style="user-select:all;-webkit-user-select:all;-moz-user-select:all"><span></span><span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi></mrow><annotation encoding="application/x-tex">E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span></span></span></span></span><span>﻿</span></span> が変動する様子。</li></ul><ul id="a7af1d93-e1e2-4e5d-a6c8-f81e4bc7783f" class="bulleted-list"><li>これで Wave になる理由が良くわかっていない。反応部分は比較的単純な気がするけど…。</li></ul></li></ul><h2 id="b2bbfc3e-cb8c-4609-8a34-42fc5e754a93" class="">IgA transcytosis and antigen recognition govern ovarian cancer immunity | Nature
+<a href="https://www.nature.com/articles/s41586-020-03144-0">https://www.nature.com/articles/s41586-020-03144-0</a></h2><ul id="32432fd2-5fc7-43ce-b7b9-4142d7be9b13" class="bulleted-list"><li>卵巣がんには活性化 T cell の浸潤がある場合があり、その時は予後が良い。<ul id="dbddbe84-6cfe-41a7-bcd1-d9754a602a19" class="bulleted-list"><li>一方で免疫チェックポイント阻害剤は大して効かない。</li></ul><ul id="950efb25-69ed-42b4-b0a8-5fddb94251fd" class="bulleted-list"><li>B cell/ 形質細胞の浸潤も予後良好というが、そのあたりは controvarsial</li></ul></li></ul><ul id="77d9e085-bd97-49bb-b81a-01f247b4d5fb" class="bulleted-list"><li>3コホートで検証 → 大体は polyclonal IgA に依存して液性免疫が効いていた<ul id="7677e8c5-14e2-4864-b3f8-71f7c993158b" class="bulleted-list"><li>卵巣がん細胞に普く発現する polymeric IgA receptor に結合</li></ul><ul id="168cbf39-e679-4d3a-9712-bdc485826f74" class="bulleted-list"><li>骨髄球の活性化、 T cell 感受性の亢進を促して死にやすくなる。</li></ul></li></ul><ul id="d7506d31-00bf-4e76-a7f6-5ef18b1b22c4" class="bulleted-list"><li>従来の T cell activation するような免疫療法より、 B cell activation (からの IgA 産生) を促すほうが卵巣がんの場合は良くなるかも？</li></ul><h2 id="e0dfc0a7-c4fb-4349-8b95-df0f38436fad" class="">Reactivation of the pluripotency program precedes formation of the cranial neural crest | Science
+<a href="https://science.sciencemag.org/content/371/6529/eabb4776">https://science.sciencemag.org/content/371/6529/eabb4776</a></h2><ul id="5ca63b7f-9d7d-444a-9304-c744f8aeeb7b" class="bulleted-list"><li>頭部神経堤細胞が出現するために、一度多能性を再獲得するプロセスが必要<ul id="68081139-40b9-42e8-8b1d-114f36dd130e" class="bulleted-list"><li>その多能性を獲得したOct4+ 前駆細胞：外胚葉幹細胞に類似</li></ul><ul id="7874b081-4932-4654-94a0-ce5501f0f3e4" class="bulleted-list"><li>生理的にリプログラミングする細胞という点で珍しい<ul id="d7b172ac-12d2-45a0-a832-7ccf8be4903e" class="bulleted-list"><li>Conrad Waddington landscape の &quot;physiological な&quot; 反例</li></ul></li></ul></li></ul><ul id="1cbf5d12-5308-4efd-ac2d-c2959ff4802f" class="bulleted-list"><li>頭部神経堤細胞は外胚葉から出現するくせに骨とか筋肉とかに分化できる<ul id="f8980630-431e-4bbf-ac17-1c38212147eb" class="bulleted-list"><li>Neuroepithelium の中に一過性に Oct4 が発現：Anterior 側から始まり Posterior 側に移動</li></ul><ul id="5ce81e1b-5f5f-48c4-93d8-2551539bfc8a" class="bulleted-list"><li>Oct4 は分化そのものに重要というわけではない(!) が、 facial mesenchyme の生存に重要</li></ul></li></ul><hr id="0d50cc33-2db3-407e-b61b-b55d0521de6a"/><ul id="9c7f6346-e050-4f84-9245-ea38f1a35543" class="bulleted-list"><li>すごい</li></ul><ul id="20dbc644-5c52-4856-9ed1-126136da52a7" class="bulleted-list"><li>Neuroepithelium の中で神経堤細胞はどうやって選んでるんかね？<ul id="49fa763b-a42c-44f6-bcc4-d73e5dc29991" class="bulleted-list"><li>まあ Notch やないかという気もする。神経だし。</li></ul></li></ul><h2 id="03d490da-00ac-4566-9297-7a23fe98d1a6" class="">Fecal microbiota transplant promotes response in immunotherapy-refractory melanoma patients | Science
+<a href="https://science.sciencemag.org/content/371/6529/602">https://science.sciencemag.org/content/371/6529/602</a></h2><ul id="b1e18f80-8196-4b2f-9685-ab42c91e8655" class="bulleted-list"><li>糞便移植すると悪性黒色腫への免疫療法が効きやすくなる<ul id="edc96b7b-c6f9-40d5-a6a3-955722fa3f23" class="bulleted-list"><li>これは既に言っている人居たらしい<ul id="ee39309a-16fa-43d4-bc17-75f144bd386f" class="bulleted-list"><li>Baruch et al</li></ul><ul id="1503d8b5-98b4-424b-aad0-7449ea363294" class="bulleted-list"><li>Davar et al</li></ul></li></ul><ul id="e13b5d34-4eec-44e5-a06e-bcd6213179fe" class="bulleted-list"><li>その第一相臨床試験の結果</li></ul></li></ul><ul id="807994d0-5163-49c1-a068-ee95da5491c0" class="bulleted-list"><li>10人中1人 Perfect response, 2人 partial response</li></ul><hr id="18c9d8c7-eee4-468d-a9e6-d4cf78e358e4"/><ul id="dc7cf21c-98a6-4cc6-81b8-a349645d879c" class="bulleted-list"><li>この前あらゆるデータで免疫療法の予後を予測する論文が出ていたが、腸内細菌のプロファイルだけで予測できたら納得感ある</li></ul><ul id="145f90f8-648a-4571-ab8b-83e9a03bb310" class="bulleted-list"><li>誤って免疫寛容を起こしてたりするということ？<ul id="e3993094-5e11-440b-bb51-95593ea26336" class="bulleted-list"><li>どういう構成の糞便だと都合いいのか気になるな。</li></ul><ul id="f180aa10-fbb3-441f-b374-d77cbb8b0b89" class="bulleted-list"><li>本文中ではビフィズス菌が多いと言っているが、結局何が良いのか定かでないらしい<ul id="ce9b123f-2610-4109-be44-3f805564abe7" class="bulleted-list"><li>腸内細菌の構成が変化することそのものが免疫を賦活するとかないかな</li></ul></li></ul></li></ul><h2 id="faf37dce-dd3c-4d0d-8373-6d1f3b3996dd" class="">Differences between germline genomes of monozygotic twins | Nature Genetics
+<a href="https://www.nature.com/articles/s41588-020-00755-1">https://www.nature.com/articles/s41588-020-00755-1</a></h2><ul id="0aa57bf0-6a97-4809-9bcf-b31d6f6d023e" class="bulleted-list"><li>一卵性双生児だからといって遺伝子的に一というわけでもない<ul id="f9f3b660-4eb3-40f9-8123-724c6b29de2b" class="bulleted-list"><li>平均 5.2 mutation / twin </li></ul><ul id="75b6e0ff-dd1f-4171-91a6-b653e612e50b" class="bulleted-list"><li>約15%の双子において無視できない差異があると言える。</li></ul></li></ul><ul id="1513796e-a188-4b4e-807c-0f9d1c0574b5" class="bulleted-list"><li>CpG → TpG mutation 多め</li></ul><hr id="8adf87c7-0d65-4c5c-b875-60268c2612b4"/><ul id="8f576ab6-0eba-4f19-8757-0baaf68f6e3c" class="bulleted-list"><li>どのレベルで違うのか良くわからない</li></ul><ul id="e214a0b2-a1af-4c93-abe0-aed9fb508927" class="bulleted-list"><li>親の生殖系列ではなくてそもそも発生過程でゲノムが変化する、というのは面白い気もする。人(多細胞生物)は生まれながらにしてキメラということなのか。</li></ul><h2 id="ba86f411-8ddb-4f89-945e-fe689a01e396" class="">Tumor to normal single-cell mRNA comparisons reveal a pan-neuroblastoma cancer cell | Science Advances
+<a href="https://advances.sciencemag.org/content/7/6/eabd3311">https://advances.sciencemag.org/content/7/6/eabd3311</a></h2><ul id="b9f6cb7a-ed09-4f41-a8e5-d539142ad718" class="bulleted-list"><li>神経芽腫：神経堤細胞っぽい振る舞いをする<ul id="736ca2df-be6c-4747-ba35-22fc5ea8d4e8" class="bulleted-list"><li>神経芽腫と正常副腎細胞の遺伝子発現を比較</li></ul><ul id="7f0ab554-8d86-4d63-873e-fed8eb99c8ed" class="bulleted-list"><li>神経芽腫は副腎細胞というよりは交感神経芽細胞らしいプロファイル</li></ul></li></ul><ul id="18f8afb1-4277-4703-8ea3-8e846c374ba5" class="bulleted-list"><li>この交感神経芽細胞としてのプロファイルは神経芽腫に普く共通している？</li></ul><hr id="865e50f5-e99a-4503-b6a3-d93a3578380f"/><ul id="76f1ed69-16d3-44f1-9c57-bbfe71e32764" class="bulleted-list"><li>そもそもこの &quot;sympathoblast&quot; が初見<ul id="c07d0fe4-79ab-4e30-aeab-83ba282f8353" class="bulleted-list"><li>由来は神経堤じゃないっけ？</li></ul></li></ul><ul id="f90f9db3-e451-4dbf-b09b-9abcd0ff1683" class="bulleted-list"><li>結果は納得だけど、なぜ副腎 (多分髄質だよな)と比較したのかよく分かっていない。神経芽腫って副腎由来っていうコンセンサスがあったんだっけ<ul id="338f86f5-8c48-4d73-b5c3-50e646736772" class="bulleted-list"><li><a href="http://www.f.kpu-m.ac.jp/k/ped/cancer/about/neuroblastoma.html">http://www.f.kpu-m.ac.jp/k/ped/cancer/about/neuroblastoma.html</a></li></ul><ul id="0d5b0582-ba7b-4da8-818d-260f5152f63e" class="bulleted-list"><li>別に交感神経の関与は意外でもない感じ。どう新しいのかよく分からず。類推じゃなくてちゃんとプロファイル見たのが偉いのかな？「普く」が偉いのか。</li></ul></li></ul><h2 id="36b921bf-34fb-44e8-8a8f-5d5059c204c9" class="">Neuronavigation-guided focused ultrasound for transcranial blood-brain barrier opening and immunostimulation in brain tumors | Science Advances
+<a href="https://advances.sciencemag.org/content/7/6/eabd0772">https://advances.sciencemag.org/content/7/6/eabd0772</a></h2><ul id="0de223d3-6f89-42f7-8e74-c01f56ff8bbd" class="bulleted-list"><li>超音波を当てて血液脳関門を開く方法を開発</li></ul><ul id="aabb3c2a-8e98-40d6-9722-cb79b805c805" class="bulleted-list"><li>神経膠芽腫患者に使って<ul id="e00eb30d-3224-4403-9dca-596833de0846" class="bulleted-list"><li>臨床的な免疫応答なし(人では)</li></ul><ul id="8411818b-b461-44d1-9bff-fcc983352d19" class="bulleted-list"><li>動物でより強く使うと免疫反応が持続するようになる。</li></ul></li></ul><hr id="c463793e-bd2a-4a76-8b5f-52ff5cfe7ed9"/><ul id="b136a598-39cc-4a18-b214-6663ca5ab55e" class="bulleted-list"><li>この前硬膜静脈洞が中枢神経系での免疫応答のハブになっている、という話があったが、これはどこに当ててるのかな<ul id="857948ab-c12d-4c54-89dd-2ce3db6e7372" class="bulleted-list"><li>Method ななめ読みしたけどよくわからず。</li></ul></li></ul><h2 id="29b17655-9c9c-4900-ab41-1f12011c737f" class="">Huntingtin CAG expansion impairs germ layer patterning in synthetic human gastruloids through polarity defects. | bioRxiv
+<a href="https://www.biorxiv.org/content/10.1101/2021.02.06.430005v1">https://www.biorxiv.org/content/10.1101/2021.02.06.430005v1</a></h2><ul id="bc5d4de3-1457-484b-a85c-9156ed8a1e7e" class="bulleted-list"><li>Huntingtin gene の CAG repeat がハンチントン病を生み出す<ul id="3b49030d-5c71-40f5-86b0-740fec47d4c8" class="bulleted-list"><li>この CAG repeat は発生過程にどう影響しているか？</li></ul></li></ul><ul id="06dc9996-4cb9-4eb7-a6f5-7d0101f443f7" class="bulleted-list"><li>適当な長さの CAG repeat を持つ ヒト ES 細胞 → 原腸胚まで発生させて観察<ul id="08201388-0a56-440c-aa25-888d5cababfa" class="bulleted-list"><li>外胚葉成分の拡大が抑制されているようだ<ul id="29ce46dd-96c9-443e-a5af-f785a13f0ba5" class="bulleted-list"><li>背景に ACTIVIN signaling の亢進がある<ul id="cb8c09ae-f3a4-443c-a87a-66fd27fc8f83" class="bulleted-list"><li>ACTIVIN pathway : TGF-β ファミリー、</li></ul></li></ul></li></ul><ul id="6aab7a44-d644-44e3-a492-fc46b02856d5" class="bulleted-list"><li>上皮の Apico-Basal 極性が失われる → TGFβ受容体が異常局在する → ACTIVIN の空間情報に依存した抑制がかからない → ACTIVIN の異常活性 → 拡大抑制？</li></ul></li></ul><hr id="c24c0c6c-431e-4d79-a931-4b61cb1d1fd9"/><ul id="c7c5e9b2-c59b-4682-a93c-6397169dcf24" class="bulleted-list"><li>Hungtington 病が発生に関わっているという印象が特に無かった。<ul id="f2b58d62-b22b-4eeb-8a79-09c08935dbf5" class="bulleted-list"><li>特に小児期から発症するというわけでもなく</li></ul><ul id="3fb37b97-18d5-498f-82a6-0e3674fab613" class="bulleted-list"><li>かつよく知られた症状は神経疾患であることを伺わせる</li></ul></li></ul><ul id="6fd31c4c-3af9-4f91-91a0-c105616e55ff" class="bulleted-list"><li>ので、どちらかというと神経毒性とか、変性疾患という病態なのではないかと思っていた。</li></ul><ul id="ba90e358-2647-4eed-abc8-6a26af50b974" class="bulleted-list"><li>上皮の Apico-basal polarity が失われているのに見た目問題ない発生が起きるのすごいな</li></ul><h2 id="130a97b5-0952-41e5-a92f-393e5bf0365d" class="">Morphogenetic coupling leads to pattern emergence in the pre somitic mesoderm | bioRxiv
+<a href="https://www.biorxiv.org/content/10.1101/2021.02.05.429898v1">https://www.biorxiv.org/content/10.1101/2021.02.05.429898v1</a></h2><ul id="de21eb0c-4983-47d3-a898-21dd3f4b553e" class="bulleted-list"><li>パターン形成は細胞のリアレンジメントをあまり考えないケースが多い。<ul id="b470e7a6-8809-4696-9427-bfe9894b7742" class="bulleted-list"><li>一方で実際に見てみるとさんざんリアレンジメントとしてる → これも組み込んでパターン形成を捉えないといけないんじゃないの？</li></ul></li></ul><ul id="210c6b37-ddb8-437e-b5b5-47e9c32849b3" class="bulleted-list"><li>Presomitic mesoderm の TBox 発現 in ゼブラフィッシュに着目<ul id="875a6c49-a30c-4939-b529-f68a67c61ff6" class="bulleted-list"><li>Presomitic mesoderm は空間情報に応じて異なった細胞に分化</li></ul><ul id="2c779fd9-4990-4dff-b569-d994afaed960" class="bulleted-list"><li>その一方で &quot;rapid movement&quot; も起こして軸長を伸ばす</li></ul><ul id="392b962e-bff8-41cf-9ba5-2015165c7436" class="bulleted-list"><li>この時、 TBox は細胞ごとに異なった時間スケールで発現<ul id="b94afb4f-8961-4c12-b700-a75026f9c8b7" class="bulleted-list"><li>in vitro では自発的に分化する(スケールのばらつきは少ない？)</li></ul></li></ul></li></ul><ul id="a2526841-2c49-464b-b1fd-907b53d041e5" class="bulleted-list"><li>TBox 発現の Reverse-engineering → in vitro model の 分化ダイナミクスは予測できる<ul id="051094f1-e710-479b-9875-5c147ae61807" class="bulleted-list"><li>vivo vs vitro の違いは何から生まれるか？ → &quot;live modeling framework&quot; を作成</li></ul><ul id="dcd87d62-5964-437e-a834-f75f0faf7b55" class="bulleted-list"><li>Gene regulatory network と 3D tracking data に乗せてシミュレーション</li></ul><ul id="57dff4b9-1499-4933-997c-ba883b5c260f" class="bulleted-list"><li>結果として in vivo での挙動を再現出来る。</li></ul></li></ul><hr id="bbf3ad33-68a6-4dd1-a1d9-f2530fafa648"/><ul id="57a61256-0d6f-4023-a26e-c65fdb8b0648" class="bulleted-list"><li>Nature or Science 狙いっぽい雰囲気の原稿<ul id="fea21ac6-5fa8-42db-ae0c-4abfb23e957f" class="bulleted-list"><li>リバースエンジニアリングって数理モデル化のことか。なんか合成生物学的なものを想像していた</li></ul><ul id="934b7bb3-6cc5-4383-9042-4b008e5fa026" class="bulleted-list"><li>モデリング、 FGF 勾配とか Wnt 勾配がどう決まっているのか？<ul id="bfe16646-d3dc-4025-92a1-5c1cb56f686d" class="bulleted-list"><li>真面目に実験的に測っている。偉い。 FGF は 脱リン酸化ERK の免疫染色で、 Wnt は 7xTCF-GFP のレポーターの蛍光で定量。</li></ul></li></ul><ul id="4c6b8d96-f38e-4eb3-96f8-11b6d979fa42" class="bulleted-list"><li>しかし何を再現したのかがイマイチよくわからないな。<ul id="85df3a48-85c8-46ab-be96-dcab853bb7cb" class="bulleted-list"><li>3D tracking といい、勾配の測定といい、実験的にすごいのは分かる</li></ul><ul id="e3e8c796-37e0-4b80-aea1-01da0289aa3e" class="bulleted-list"><li>一方でモデルとしては非自明な話では無いような気もするし、対象としている現象そのものもどの程度重要なのかが分かりにくい。</li></ul></li></ul></li></ul><h2 id="75141b78-1926-4c37-8501-b75f62cc1e8f" class="">Regenerating insulin-producing β-cells ectopically from a mesodermal origin in the absence of endothelial specification | bioRxiv
+<a href="https://www.biorxiv.org/content/10.1101/2021.02.01.429189v1">https://www.biorxiv.org/content/10.1101/2021.02.01.429189v1</a></h2><ul id="c89982f3-cda0-4b83-a28d-8d53e3ffb32a" class="bulleted-list"><li>膵臓β細胞の再生のために血管はどう重要か？<ul id="48b797d5-3fa3-4ccb-aa86-6eda67fe6f84" class="bulleted-list"><li>血管が重要という話が既にあったんかな？</li></ul></li></ul><ul id="d67b309d-eec3-405a-9390-09054c179a3b" class="bulleted-list"><li>β cell ablation + avascular mutant のゼブラフィッシュを作成<ul id="4c23dcf2-ee88-4bc0-bd6a-2d66e161cc9f" class="bulleted-list"><li>avascular mutant だと β細胞数が著明に増加<ul id="8ff4dbf3-18ef-4c0e-a63e-f78a8e893849" class="bulleted-list"><li>間質で異所的に β細胞が分化したそうだ</li></ul><ul id="90fca740-2edd-4f35-8633-4417bdc47d4b" class="bulleted-list"><li>機能していることも確認</li></ul></li></ul><ul id="0469676b-ccca-4632-a577-0c9747a3a684" class="bulleted-list"><li>Lineage tracing  → 中胚葉に由来</li></ul><ul id="4f841d66-77b0-4c17-9cca-057cdc8ff575" class="bulleted-list"><li>Etv2 K.O. でも異所性β細胞が出現</li></ul></li></ul><hr id="c0727445-528c-45ec-980a-9c4aa320fc12"/><ul id="871938e3-aa97-4975-8d19-697bac31c854" class="bulleted-list"><li>意味分からなすぎてすごい。1文目でいきなりやった実験を説明し、2文目が &quot;surprisingly&quot; という単刀直入な書き方をしているのも納得。</li></ul><ul id="7267e216-d9a0-4517-b5cc-e2a114ad7753" class="bulleted-list"><li>そもそも膵臓は中腸からボコッと膵芽が出てきて大きくなって出来る、という出自を考えれば内胚葉由来のように思われるし、一方で神経支配や神経内分泌細胞としての機能を考えれば外胚葉由来っぽいイメージも分かる。</li></ul><ul id="7ebcad5b-3573-4cf8-872b-8471ca78f934" class="bulleted-list"><li>今回はそのβ細胞が中胚葉由来でも作れる、という驚きの結果。中胚葉由来で内分泌機能を担うような組織 or 細胞ってなんかあったっけ。血管や腎臓は一応 RAA 系とかを構成しているか。</li></ul><ul id="d5266f3f-dcdb-4c3a-8a8d-707db04ac639" class="bulleted-list"><li>血管内皮、実は結構多能性あるのか？<ul id="e04b22c0-0b6e-44a7-80ea-a21efd510443" class="bulleted-list"><li>外胚葉→中胚葉：上の頭部神経堤細胞とか</li></ul><ul id="fc5f7866-e825-4b6c-90d8-df106452cbaa" class="bulleted-list"><li>中胚葉→内胚葉：今回のβ細胞誘導</li></ul><ul id="3125cd43-20a2-43fe-8d6d-f7966aafd050" class="bulleted-list"><li>外胚葉・内胚葉間は直接リプログラミングされる例ってあまり無いか？</li></ul></li></ul><h2 id="a4263802-a046-43b4-9ebd-48794c025d3b" class="">Intercellular communication induces glycolytic synchronization waves between individually oscillating cells | PNAS
+<a href="https://www.pnas.org/content/118/6/e2010075118">https://www.pnas.org/content/118/6/e2010075118</a></h2><ul id="0551ac76-78f3-4cf8-a241-91f4dfe6f82b" class="bulleted-list"><li>酵母をデバイスに詰め込み、 Flow がある状態にして臓器を模す<figure id="2f9b36e8-d084-4de6-9fa3-06f488266005" class="image"><a href="2021%E5%B9%B42%E6%9C%88%E7%AC%AC2%E9%80%B1%E3%81%AE%E8%AB%96%E6%96%87%201b5d33e978024246883cb9b36d766322/Untitled%202.png"><img style="width:842px" src="2021%E5%B9%B42%E6%9C%88%E7%AC%AC2%E9%80%B1%E3%81%AE%E8%AB%96%E6%96%87%201b5d33e978024246883cb9b36d766322/Untitled%202.png"/></a></figure></li></ul><ul id="a42c28e5-78e5-4cfa-bf76-76a10d2e3046" class="bulleted-list"><li>代謝産物の拡散によって空間的なサブポピュレーションが形成<ul id="7dfc21ed-cb42-4a81-ae93-3f09940ae78e" class="bulleted-list"><li>NADH 濃度を見ているようだ → &quot;離散ヒルベルト変換&quot; で解析<ul id="745b59fb-4aba-443d-937c-f7fdac7325d1" class="bulleted-list"><li>なぜヒルベルト変換なのかは謎。どういう利点があるんだろうか。</li></ul></li></ul></li></ul><ul id="7441336c-215c-4277-99ae-39bd113ed321" class="bulleted-list"><li>数理モデルを構築して cell behavior を予測<ul id="e99b09a7-1575-4945-b7dd-c9523902d523" class="bulleted-list"><li>流体：ナビエ・ストークスの stationary case</li></ul><ul id="8c7d2960-68c2-4058-baf6-1a1a4491337b" class="bulleted-list"><li>代謝産物：拡散移流方程式に従う</li></ul><ul id="ff17be19-a4a9-425c-8f3c-eb3fdad7ffbe" class="bulleted-list"><li>代謝産物と cell behavior の関係は孫引きしないと分からなそうだった。</li></ul></li></ul><hr id="27816996-50e7-4aa8-a40e-a999f976ac2e"/><ul id="53b67db5-2db2-44db-8c2b-dc242efcb583" class="bulleted-list"><li>流れ場を可視化して、それと代謝の空間構造の比較が見たい。Wave も外からの流れを変化させたら変わっちゃったりしないかな。</li></ul><ul id="959c2588-83bb-4765-8baf-d53c8ce3bf24" class="bulleted-list"><li>生命科学側での意義付けはちょっと厳しい気もする。物理的な興味に立脚した研究？</li></ul><h2 id="93fe90f7-7152-490b-9242-84267a5f8c86" class="">African lungfish genome sheds light on the vertebrate water-to-land transition: Cell
+<a href="https://www.cell.com/cell/fulltext/S0092-8674(21)00090-8">https://www.cell.com/cell/fulltext/S0092-8674(21)00090-8</a></h2><ul id="074f0a8d-8caa-4c19-afa2-15797c92c9f9" class="bulleted-list"><li>Lungfish ：水棲 → 陸棲とシフトした祖先生物と目されている<ul id="30fb7b90-e0bd-434b-bcf8-16c66d124574" class="bulleted-list"><li>ゲノムがかなりでかい：40Gb<ul id="c5bb8509-5dd3-4955-b417-eae8080110d2" class="bulleted-list"><li>レトロトランスポゾンによる増幅ででかい</li></ul><ul id="7cdff872-0e09-496b-8061-fb438ad9bfcf" class="bulleted-list"><li>めちゃくちゃ長い配列も同じくらい発現 → 強力な転写機構がある？</li></ul></li></ul><ul id="43ed1e5d-fb9f-4864-8284-d532c055b739" class="bulleted-list"><li>Genome-assembly を行って陸生へのシフトに重要な gene or regulatory elements を推定<ul id="ef3b3247-73ab-46b0-8f09-2b33caae333c" class="bulleted-list"><li>肺サーファクタント、5本の指、喉頭のリモデリング</li></ul><figure id="1912537c-e7f6-4526-aa0e-c6227e0ac5bc" class="image"><a href="2021%E5%B9%B42%E6%9C%88%E7%AC%AC2%E9%80%B1%E3%81%AE%E8%AB%96%E6%96%87%201b5d33e978024246883cb9b36d766322/Untitled%203.png"><img style="width:375px" src="2021%E5%B9%B42%E6%9C%88%E7%AC%AC2%E9%80%B1%E3%81%AE%E8%AB%96%E6%96%87%201b5d33e978024246883cb9b36d766322/Untitled%203.png"/></a></figure></li></ul></li></ul><hr id="5554f834-b135-4e65-822c-c224ef574f0f"/><ul id="d67ed4e0-d0f4-470f-b029-f19202d0a37d" class="bulleted-list"><li>Lungfish 研究、最近良く見る(別に昔から流行っている?)？と思ったら、数週前に Nature に掲載されたやつも Lungfish のゲノム解読ネタだった。「巨大ゲノムに挑む」的な意味でシークエンス業界で競争的だったのか。<ul id="ff666b84-32bd-40a8-9257-3892fae06419" class="bulleted-list"><li><a href="https://ja.wikipedia.org/wiki/%E3%83%8F%E3%82%A4%E3%82%AE%E3%83%A7">https://ja.wikipedia.org/wiki/ハイギョ</a></li></ul><ul id="23b6cdeb-eead-4856-b0a8-db09790ec3d7" class="bulleted-list"><li>冬眠ならぬ夏眠を獲得したのウケるな</li></ul><ul id="5651f1a6-a707-4a1f-a387-f912b5299da9" class="bulleted-list"><li><a href="https://aasj.jp/news/watch/14863">https://aasj.jp/news/watch/14863</a></li></ul></li></ul><h2 id="121f0c15-7ceb-4ea5-9b1e-494ccd50080f" class="">Latent developmental potential to form limb-like skeletal structures in zebrafish: Cell
+<a href="https://www.cell.com/cell/fulltext/S0092-8674(21)00003-9">https://www.cell.com/cell/fulltext/S0092-8674(21)00003-9</a></h2><ul id="d9c07f89-a06b-4ec2-a202-286a996a964d" class="bulleted-list"><li>こちらも陸生へのシフトの解明を目指した研究</li></ul><ul id="042690c4-5534-47c6-87ff-4fb0842c3a83" class="bulleted-list"><li>ゼブラフィッシュに適当な変異を入れると非常に長い骨をヒレに作る<ul id="229fbe24-15ca-46c6-b5b8-a493950a0dc6" class="bulleted-list"><li>fin to limb transition はこれに由来？</li></ul><ul id="e2e47c64-6e58-42fd-9419-ed97f17fceb6" class="bulleted-list"><li>関節を形成、筋系・隣接した骨格と接続している</li></ul></li></ul><ul id="d80427d7-9233-4cb9-90d4-f4a8552b54c6" class="bulleted-list"><li>変異：vav2, waslb という遺伝子<ul id="eb895f2e-b1a8-465e-854b-e065591d6747" class="bulleted-list"><li>wasl 欠損マウス(おそらくwaslb ホモログ)は Hox mutant と同じ表現型</li></ul><ul id="f426baa3-5e79-40e5-b21b-655aaf697261" class="bulleted-list"><li>多分 Hox11 の機能を調節している？<figure id="77a05dac-23a4-4cda-ac14-df9fd2a4e8e0" class="image"><a href="2021%E5%B9%B42%E6%9C%88%E7%AC%AC2%E9%80%B1%E3%81%AE%E8%AB%96%E6%96%87%201b5d33e978024246883cb9b36d766322/Untitled%204.png"><img style="width:375px" src="2021%E5%B9%B42%E6%9C%88%E7%AC%AC2%E9%80%B1%E3%81%AE%E8%AB%96%E6%96%87%201b5d33e978024246883cb9b36d766322/Untitled%204.png"/></a></figure><figure id="edea3e0c-a443-427c-9f9c-3461d504a6c5" class="image"><a href="2021%E5%B9%B42%E6%9C%88%E7%AC%AC2%E9%80%B1%E3%81%AE%E8%AB%96%E6%96%87%201b5d33e978024246883cb9b36d766322/Untitled%205.png"><img style="width:336px" src="2021%E5%B9%B42%E6%9C%88%E7%AC%AC2%E9%80%B1%E3%81%AE%E8%AB%96%E6%96%87%201b5d33e978024246883cb9b36d766322/Untitled%205.png"/></a></figure></li></ul></li></ul><hr id="5658be38-3a50-418f-8220-d58c0b85853d"/><ul id="c932ea07-ad97-41f3-adb1-eef55f921f0a" class="bulleted-list"><li>そんなえげつないほど長くなっているわけではなかった。</li></ul></div></article></body></html>
