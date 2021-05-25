@@ -1,7 +1,8 @@
-theme: jekyll-theme-cayman
+theme: jekyll-theme-primer
 title: [toguma]
 description: [日記]
 logo: asset/icon.jpg
-markdown: redcarpet
-redcarpet:
-  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "strikethrough", "superscript"]
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
