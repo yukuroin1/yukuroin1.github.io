@@ -1,4 +1,7 @@
 theme: jekyll-theme-minimal
-title: [The title of your site]
-description: [A short description of your site's purpose]
+title: [toguma]
+description: [日記]
 logo: asset/icon.jpg
+markdown: redcarpet
+redcarpet:
+  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "strikethrough", "superscript"]
