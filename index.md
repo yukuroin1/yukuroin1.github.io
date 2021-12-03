@@ -1,4 +1,4 @@
-# 本人
+# 人
 ![a](asset/icon.jpg)
 
 
@@ -8,3 +8,8 @@
 [よくわからないtips]([Tips]/README.md)
 
 [どうでもよい日記]([Statement]/README.md)
+
+# そのうちやること
++ 数式対応(MathJax?)
++ pick up はしたが1文字も読んでない論文を読んでファイルを完成させる
++ 完成した[PaperSearch]をスライド化して .html で置く
