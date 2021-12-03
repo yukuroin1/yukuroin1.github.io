@@ -1,0 +1,58 @@
+/* @theme test2 */
+
+@import 'gaia';
+
+section {
+    font-family: "Arial", "Hiragino Maru Gothic ProN";
+    font-size: 20px;
+    padding: 40px;
+}
+
+section.title {
+    color: black;
+    font-family: "Arial", "Hiragino Maru Gothic ProN";
+    font-size: 36px;
+    text-align: center;
+    padding: 40px;
+}
+
+section.title h1 {
+    color: black;
+    font-family: "Arial", "Hiragino Kaku Gothic ProN";
+    font-size: 60px;
+    text-align: center;
+}
+
+section.slides h1 {
+    background: linear-gradient( to left,  rgba(69,179,224,1) 25%, rgb(97, 109, 218) 75% );
+    -webkit-background-clip: text;
+    color: transparent;
+    font-family: "Arial", "Hiragino Kaku Gothic ProN";
+    font-size: 42px;
+    position: absolute;
+    left: 50px; top: 50px;
+}
+
+img[src*='#right'] { 
+    position: absolute;
+    top:  100px;
+    left: 850px;
+}
+
+img[src*='#right2'] { 
+    position: absolute;
+    top:   320px;
+    left: 650px;
+}
+
+img[src*='#right3'] { 
+    position: absolute;
+    top: 400px;
+    left: 650px;
+}
+
+img[src*='#right4'] { 
+    position: absolute;
+    top: 480px;
+    left: 650px;
+}
