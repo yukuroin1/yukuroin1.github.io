@@ -14,5 +14,7 @@ kramdown:
   hard_wrap: false
 
 exclude:
+  - AGENTS.md
   - README.md
+  - inbox/
   - scripts/

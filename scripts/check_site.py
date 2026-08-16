@@ -21,7 +21,7 @@ TEXT_SUFFIXES = {
     ".yaml",
     ".yml",
 }
-IGNORED_DIRECTORIES = {".git", ".jekyll-cache", "_site", "vendor"}
+IGNORED_DIRECTORIES = {".git", ".jekyll-cache", "_site", "inbox", "vendor"}
 
 
 class LinkParser(HTMLParser):

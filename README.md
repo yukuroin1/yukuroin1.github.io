@@ -2,26 +2,29 @@
 
 [公開サイト](https://yukuroin1.github.io/)のソースです。`master` ブランチのルートが GitHub Pages から自動公開されます。
 
-## ページを追加する
+## `inbox` から公開する
 
-静的 HTML の場合は、ページごとにディレクトリを作り、その中へ `index.html` を置きます。
+新しい Markdown、HTML、関連画像などを `inbox/` に置き、Codexへ次のように依頼します。
 
 ```text
-NewPage/
-└── index.html
+inbox に入れたファイルを公開してください。
 ```
 
-Markdown の場合は、`index.md` の先頭に次の front matter を付けます。
+単独の `.md` または `.html` は、そのまま `inbox/` へ置けます。関連ファイルがある場合は、1ページ分を1つのサブフォルダへまとめます。
 
-```yaml
----
-layout: default
-title: ページのタイトル
-description: ページの説明
----
+```text
+inbox/
+├── article.md
+└── another-article/
+    ├── draft.html
+    └── figure.png
 ```
 
-その後、トップページの `Projects & Content` に `NewPage/` へのリンクを追加します。
+公開作業では、内容からタイトル・説明・URL名を決め、`content/<URL名>/` へ移動し、トップページへカードを追加します。検査後に `master` へpushし、GitHub Pagesの公開完了まで確認します。
+
+`inbox/` はJekyllの公開対象と自動検査から除外されています。ファイルを置いただけでは公開されません。
+
+詳しい投入ルールは [`inbox/README.md`](inbox/README.md)、公開処理の規則は [`AGENTS.md`](AGENTS.md) に記載しています。
 
 ## 更新を確認する
 
@@ -39,7 +42,7 @@ python -m http.server 8000
 
 Markdown を含む Jekyll の完成形は、push 後の GitHub Pages デプロイで確認します。`master` への push と pull request では、同じ文字コード・リンク検査が GitHub Actions でも自動実行されます。
 
-## 公開する
+## 手動で公開する場合
 
 ```powershell
 git add <更新したファイル>
