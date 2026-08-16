@@ -1,8 +1,18 @@
+title: toguma
+description: toguma のポートフォリオ、研究ツール、コンテンツ
+url: https://yukuroin1.github.io
+baseurl: ""
+lang: ja-JP
+timezone: Asia/Tokyo
+encoding: utf-8
+
 theme: jekyll-theme-primer
-title: [toguma]
-description: [日記]
-logo: asset/icon.jpg
+logo: /asset/icon.jpg
 markdown: kramdown
 kramdown:
   input: GFM
   hard_wrap: false
+
+exclude:
+  - README.md
+  - scripts/
