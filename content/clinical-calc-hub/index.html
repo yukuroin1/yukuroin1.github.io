@@ -1,0 +1,3543 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="腎機能・化学療法・輸血・救急・緩和ケアなど18種類の臨床計算・スコアリングツール">
+  <title>Clinical Calc Hub - 臨床計算・スコアリングツール</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              blue: '#5e81b5',
+              orange: '#e19c24',
+              green: '#8fb131',
+              red: '#ec6235',
+              purple: '#8778b3',
+              brown: '#c56e1a',
+              cyan: '#5d9ec8',
+              yellow: '#ffbf00'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+    body {
+      font-family: 'Inter', 'Noto Sans JP', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-[#5e81b5] selection:text-white">
+
+  <!-- Top Navbar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex items-center justify-between gap-3">
+      <!-- Logo & Title -->
+      <div class="flex items-center space-x-2.5 shrink-0 cursor-pointer" onclick="selectCalculator('ccr')">
+        <div class="w-9 h-9 rounded-xl bg-[#5e81b5] flex items-center justify-center text-white shadow-sm">
+          <i data-lucide="stethoscope" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-slate-900 text-sm sm:text-base leading-tight flex items-center gap-1.5">
+            <span>臨床計算 Hub</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-[#5e81b5]/15 text-[#5e81b5] font-bold">18 Tools</span>
+          </h1>
+          <p class="text-[11px] text-slate-500 font-medium hidden sm:block">腎機能・化学療法・輸血・救急・緩和予後スコア</p>
+        </div>
+      </div>
+
+      <!-- Quick Search Bar -->
+      <div class="relative flex-1 max-w-md">
+        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+        <input type="text" id="toolSearchInput" placeholder="ツール名・キーワード検索 (例: カルボ, DIC, wells, 輸血...)"
+               class="w-full pl-9 pr-8 py-1.5 sm:py-2 text-xs sm:text-sm bg-slate-100 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5e81b5] focus:border-transparent transition"
+               oninput="onSearchChange(this.value)">
+        <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Toggle Button -->
+      <button onclick="toggleMobileDrawer()" class="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 active:bg-slate-200 transition">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Category Pills (Horizontal Scrollable) -->
+    <div class="bg-slate-50 border-t border-slate-200/70 px-3 sm:px-6 py-1.5 overflow-x-auto scrollbar-thin">
+      <div class="max-w-7xl mx-auto flex items-center space-x-1.5 text-xs font-medium shrink-0">
+        <button onclick="filterCategory('all')" class="cat-pill px-3 py-1 rounded-lg transition shrink-0 bg-[#5e81b5] text-white font-semibold shadow-2xs" data-cat="all">すべて</button>
+        <button onclick="filterCategory('renal')" class="cat-pill px-3 py-1 rounded-lg transition shrink-0 bg-white text-slate-600 hover:bg-slate-200" data-cat="renal">電解質・輸液・腎</button>
+        <button onclick="filterCategory('onco')" class="cat-pill px-3 py-1 rounded-lg transition shrink-0 bg-white text-slate-600 hover:bg-slate-200" data-cat="onco">腫瘍内科・化学療法</button>
+        <button onclick="filterCategory('heme')" class="cat-pill px-3 py-1 rounded-lg transition shrink-0 bg-white text-slate-600 hover:bg-slate-200" data-cat="heme">血液・輸血・移植</button>
+        <button onclick="filterCategory('acute')" class="cat-pill px-3 py-1 rounded-lg transition shrink-0 bg-white text-slate-600 hover:bg-slate-200" data-cat="acute">急性期・呼吸・肝</button>
+        <button onclick="filterCategory('palliative')" class="cat-pill px-3 py-1 rounded-lg transition shrink-0 bg-white text-slate-600 hover:bg-slate-200" data-cat="palliative">緩和ケア・予後・PS</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- App Layout Container -->
+  <div class="max-w-7xl mx-auto w-full flex-1 flex flex-col md:flex-row px-3 sm:px-6 py-4 gap-5">
+
+    <!-- Sidebar / Tool List (Desktop) -->
+    <aside id="sidebarNav" class="w-full md:w-80 shrink-0 hidden md:flex flex-col bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden h-[calc(100vh-140px)] sticky top-[120px]">
+      <div class="p-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between text-xs font-bold text-slate-700">
+        <span class="flex items-center gap-1.5"><i data-lucide="layout-grid" class="w-4 h-4 text-[#5e81b5]"></i> 計算ツール一覧</span>
+        <span id="toolCountBadge" class="text-[11px] bg-slate-200 px-2 py-0.5 rounded-full text-slate-600 font-semibold">18件</span>
+      </div>
+      <div id="toolListContainer" class="flex-1 overflow-y-auto p-2 space-y-1 scrollbar-thin">
+        <!-- Generated dynamically via JS -->
+      </div>
+    </aside>
+
+    <!-- Mobile Drawer Modal for Tool Selection -->
+    <div id="mobileDrawer" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs hidden md:hidden flex justify-end">
+      <div class="w-4/5 max-w-sm bg-white h-full shadow-2xl flex flex-col">
+        <div class="p-3.5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+          <div class="font-bold text-sm text-slate-800 flex items-center gap-1.5">
+            <i data-lucide="list" class="w-4 h-4 text-[#5e81b5]"></i> ツールを選択
+          </div>
+          <button onclick="toggleMobileDrawer()" class="p-1 rounded-lg text-slate-500 hover:bg-slate-200">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+        <div id="mobileToolListContainer" class="flex-1 overflow-y-auto p-2 space-y-1">
+          <!-- Generated dynamically via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Workspace Area -->
+    <main class="flex-1 min-w-0 flex flex-col space-y-4">
+
+      <!-- Calculator Main Card -->
+      <div id="calculatorHost" class="bg-white rounded-2xl border border-slate-200/90 shadow-xs p-4 sm:p-6 transition-all">
+        <!-- Rendered dynamically based on selected tool -->
+      </div>
+
+      <!-- Disclaimer Footer -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 p-4 text-xs text-slate-500 space-y-2">
+        <div class="flex items-center justify-between text-[11px] font-semibold text-slate-600">
+          <span class="flex items-center gap-1.5 text-slate-700">
+            <i data-lucide="shield-alert" class="w-4 h-4 text-[#e19c24]"></i> 臨床判断における免責事項
+          </span>
+          <span class="text-slate-400">GitHub Pages 完全対応 (クライアントサイド単一実行)</span>
+        </div>
+        <p class="leading-relaxed text-[11px] text-slate-500">
+          本ツールは各種学会ガイドラインや文献公表式を元に計算・評価を行う参考ツールです。実際の臨床判断や治療方針決定は、患者の全身状態や合併症、各施設の基準および主治医等の専門的な医学的判断に基づいて行ってください。
+        </p>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 bg-slate-900 text-white text-xs px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2 transform transition duration-200 translate-y-16 opacity-0 pointer-events-none">
+    <i data-lucide="check-circle" class="w-4 h-4 text-[#8fb131]"></i>
+    <span id="toastMessage">コピーしました</span>
+  </div>
+
+  <!-- JavaScript Application Logic -->
+  <script>
+    // =========================================================================
+    // 1. Calculator Registry & Definitions (18 tools)
+    // =========================================================================
+    const CALCULATORS = [
+      // Category: 電解質・輸液・腎 (renal)
+      {
+        id: 'ccr',
+        title: 'CCr / eGFR 推算',
+        shortDesc: 'Cockcroft-Gault式 & 日本腎臓学会eGFR',
+        category: 'renal',
+        categoryLabel: '電解質・腎',
+        keywords: ['ccr', 'egfr', 'クレアチニンクリアランス', 'cg式', 'ckd', '腎機能', 'dubois', '体表面積'],
+        render: renderCcr,
+        onInput: calcCcr,
+        sample: setSampleCcr
+      },
+      {
+        id: 'fena',
+        title: 'FENa / FEUrea 計算',
+        shortDesc: 'ナトリウム・尿素窒素排泄分画 (AKI鑑別)',
+        category: 'renal',
+        categoryLabel: '電解質・腎',
+        keywords: ['fena', 'feurea', 'feun', 'ナトリウム排泄分画', '尿細管', 'aki', '腎前性', '腎性', 'atn'],
+        render: renderFena,
+        onInput: calcFena,
+        sample: setSampleFena
+      },
+      {
+        id: 'adrogue',
+        title: 'Adrogue-Madias 式',
+        shortDesc: '低Na血症補正の輸液1Lあたり予想ΔNa',
+        category: 'renal',
+        categoryLabel: '電解質・腎',
+        keywords: ['adrogue', 'madias', '低ナトリウム血症', '3%食塩水', '高張食塩水', '生理食塩水', 'ods', '補正速度', 'tbw'],
+        render: renderAdrogue,
+        onInput: calcAdrogue,
+        sample: setSampleAdrogue
+      },
+
+      // Category: 腫瘍内科・化学療法 (onco)
+      {
+        id: 'calvert',
+        title: 'カルボプラチン AUC (Calvert式)',
+        shortDesc: '腎機能・目標AUCに応じた投与量算出',
+        category: 'onco',
+        categoryLabel: '腫瘍内科',
+        keywords: ['calvert', 'カルボプラチン', 'carboplatin', 'cbdca', 'auc', 'gfr cap', '化学療法'],
+        render: renderCalvert,
+        onInput: calcCalvert,
+        sample: setSampleCalvert
+      },
+      {
+        id: 'carg',
+        title: 'CARG スコア',
+        shortDesc: '高齢がん患者の化学療法有害事象(Gr3-5)リスク予測',
+        category: 'onco',
+        categoryLabel: '腫瘍内科',
+        keywords: ['carg', '高齢者', '化学療法毒性', 'hurria', '有害事象', '抗がん剤'],
+        render: renderCarg,
+        onInput: calcCarg,
+        sample: setSampleCarg
+      },
+      {
+        id: 'g8',
+        title: 'G8 スコア',
+        shortDesc: '高齢がん患者の簡易機能評価スクリーニング (17点満点)',
+        category: 'onco',
+        categoryLabel: '腫瘍内科',
+        keywords: ['g8', '高齢者機能評価', 'cga', 'フレイル', 'スクリーニング', '栄養'],
+        render: renderG8,
+        onInput: calcG8,
+        sample: setSampleG8
+      },
+      {
+        id: 'fn',
+        title: 'MASCC / CISNE スコア',
+        shortDesc: '発熱性好中球減少症 (FN) のリスク・外来治療判定',
+        category: 'onco',
+        categoryLabel: '腫瘍内科',
+        keywords: ['mascc', 'cisne', 'fn', '発熱性好中球減少症', 'febrile neutropenia', '外来治療'],
+        render: renderFn,
+        onInput: calcFn,
+        sample: setSampleFn
+      },
+      {
+        id: 'khorana',
+        title: 'Khorana スコア',
+        shortDesc: '外来がん化学療法患者の静脈血栓塞栓症 (VTE) リスク',
+        category: 'onco',
+        categoryLabel: '腫瘍内科',
+        keywords: ['khorana', 'vte', '深部静脈血栓', '肺塞栓', '抗凝固', '悪性腫瘍'],
+        render: renderKhorana,
+        onInput: calcKhorana,
+        sample: setSampleKhorana
+      },
+
+      // Category: 血液・輸血・移植 (heme)
+      {
+        id: 'transfusion',
+        title: '輸血効果予測 (RBC / PLT) & CCI',
+        shortDesc: '赤血球・血小板輸血の増加予測・不応状態判定',
+        category: 'heme',
+        categoryLabel: '血液・輸血',
+        keywords: ['輸血', 'rbc', 'plt', '濃厚血小板', '赤血球', 'hb上昇', 'cci', '血小板輸血不応状態', 'ptr'],
+        render: renderTransfusion,
+        onInput: calcTransfusion,
+        sample: setSampleTransfusion
+      },
+      {
+        id: 'hokus10',
+        title: 'HokUS-10 (VOD/SOS)',
+        shortDesc: '造血幹細胞移植後 SOS/VOD の腹部超音波スコア',
+        category: 'heme',
+        categoryLabel: '血液・輸血',
+        keywords: ['hokus', 'hokus-10', 'vod', 'sos', '類洞閉塞症候群', '造血幹細胞移植', 'エコー', '北大'],
+        render: renderHokus,
+        onInput: calcHokus,
+        sample: setSampleHokus
+      },
+      {
+        id: 'hlh',
+        title: '血球貪食症候群 (HLH) 診断基準',
+        shortDesc: 'HLH-2004基準 & 成人HScore確率評価',
+        category: 'heme',
+        categoryLabel: '血液・輸血',
+        keywords: ['hlh', '血球貪食症候群', 'hlh-2004', 'hscore', 'フェリチン', 'sil-2r', '貪食像'],
+        render: renderHlh,
+        onInput: calcHlh,
+        sample: setSampleHlh
+      },
+
+      // Category: 急性期・呼吸・肝 (acute)
+      {
+        id: 'childpugh',
+        title: 'Child-Pugh スコア',
+        shortDesc: '肝硬変の重症度分類 (Class A/B/C)',
+        category: 'acute',
+        categoryLabel: '急性期・肝',
+        keywords: ['child', 'pugh', 'child-pugh', '肝硬変', 'ビリルビン', 'アルブミン', '腹水', '脳症', 'pt-inr'],
+        render: renderChildPugh,
+        onInput: calcChildPugh,
+        sample: setSampleChildPugh
+      },
+      {
+        id: 'dic',
+        title: '急性期 DIC 診断基準 (JAAM)',
+        shortDesc: '救急医学会 JAAM 急性期DICスコア (4点以上でDIC)',
+        category: 'acute',
+        categoryLabel: '急性期',
+        keywords: ['dic', 'jaam', '急性期dic', 'sirs', 'fdp', 'd-dimer', '血小板', 'pt比'],
+        render: renderDic,
+        onInput: calcDic,
+        sample: setSampleDic
+      },
+      {
+        id: 'pe',
+        title: 'Modified Wells / 改定Geneva (PE)',
+        shortDesc: '急性肺血栓塞栓症 (PE) の臨床的予測スコア',
+        category: 'acute',
+        categoryLabel: '急性期・呼吸',
+        keywords: ['wells', 'geneva', 'pe', '肺塞栓', '肺血栓塞栓症', 'dvt', 'd-dimer'],
+        render: renderPe,
+        onInput: calcPe,
+        sample: setSamplePe
+      },
+      {
+        id: 'light',
+        title: '胸水 Light の基準',
+        shortDesc: '胸水の性状鑑別 (滲出性 Exudate vs 漏出性 Transudate)',
+        category: 'acute',
+        categoryLabel: '呼吸器',
+        keywords: ['light', '胸水', '滲出性', '漏出性', 'exudate', 'transudate', 'ldh', 'タンパク比', 'alb勾配'],
+        render: renderLight,
+        onInput: calcLight,
+        sample: setSampleLight
+      },
+
+      // Category: 緩和ケア・予後・PS (palliative)
+      {
+        id: 'katagiri',
+        title: '新片桐スコア (骨転移予後)',
+        shortDesc: '骨転移を有するがん患者の生命予後予測 (1年生存率)',
+        category: 'palliative',
+        categoryLabel: '緩和・予後',
+        keywords: ['片桐', '新片桐スコア', 'katagiri', '骨転移', '予後予測', '生存率', '整形外科'],
+        render: renderKatagiri,
+        onInput: calcKatagiri,
+        sample: setSampleKatagiri
+      },
+      {
+        id: 'pap_ppi',
+        title: 'PaP スコア / PPI / PPS',
+        shortDesc: '終末期がん患者の生命予後予測 (週・日数)',
+        category: 'palliative',
+        categoryLabel: '緩和・予後',
+        keywords: ['pap', 'ppi', 'pps', '緩和ケア', '生命予後', 'palliative', '予後予測'],
+        render: renderPapPpi,
+        onInput: calcPapPpi,
+        sample: setSamplePapPpi
+      },
+      {
+        id: 'ecog_kps',
+        title: 'ECOG-PS & KPS 対比',
+        shortDesc: 'パフォーマンスステータス評価・ワンクリックカルテ記載',
+        category: 'palliative',
+        categoryLabel: '全身状態',
+        keywords: ['ps', 'ecog', 'karnofsky', 'kps', 'パフォーマンスステータス', '全身状態', 'adl'],
+        render: renderEcogKps,
+        onInput: calcEcogKps,
+        sample: setSampleEcogKps
+      }
+    ];
+
+    // =========================================================================
+    // 2. Navigation, Search & State Management
+    // =========================================================================
+    let currentCalcId = 'ccr';
+    let currentCategory = 'all';
+    let searchQuery = '';
+    let currentCopyText = '';
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderSidebarList();
+      selectCalculator('ccr');
+      lucide.createIcons();
+    });
+
+    function filterCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        if (btn.getAttribute('data-cat') === cat) {
+          btn.className = "cat-pill px-3 py-1 rounded-lg transition shrink-0 bg-[#5e81b5] text-white font-semibold shadow-2xs";
+        } else {
+          btn.className = "cat-pill px-3 py-1 rounded-lg transition shrink-0 bg-white text-slate-600 hover:bg-slate-200";
+        }
+      });
+      renderSidebarList();
+    }
+
+    function onSearchChange(val) {
+      searchQuery = val.trim().toLowerCase();
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (searchQuery) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+      renderSidebarList();
+    }
+
+    function clearSearch() {
+      const input = document.getElementById('toolSearchInput');
+      input.value = '';
+      onSearchChange('');
+      input.focus();
+    }
+
+    function toggleMobileDrawer() {
+      const drawer = document.getElementById('mobileDrawer');
+      drawer.classList.toggle('hidden');
+      lucide.createIcons();
+    }
+
+    function selectCalculator(id) {
+      currentCalcId = id;
+      const calc = CALCULATORS.find(c => c.id === id);
+      if (!calc) return;
+
+      // Update Active class in lists
+      document.querySelectorAll('.tool-nav-item').forEach(el => {
+        if (el.getAttribute('data-id') === id) {
+          el.className = "tool-nav-item w-full text-left p-2.5 rounded-xl transition flex items-center justify-between gap-2 bg-[#5e81b5]/10 border border-[#5e81b5]/40 text-[#5e81b5] shadow-2xs font-semibold";
+        } else {
+          el.className = "tool-nav-item w-full text-left p-2.5 rounded-xl transition flex items-center justify-between gap-2 hover:bg-slate-100 text-slate-700 font-normal";
+        }
+      });
+
+      // Render Calculator UI
+      const host = document.getElementById('calculatorHost');
+      host.innerHTML = calc.render();
+      lucide.createIcons();
+
+      // Trigger calculation
+      calc.onInput();
+
+      // Close mobile drawer if open
+      document.getElementById('mobileDrawer').classList.add('hidden');
+    }
+
+    function renderSidebarList() {
+      const filtered = CALCULATORS.filter(c => {
+        const matchesCategory = currentCategory === 'all' || c.category === currentCategory;
+        const matchesSearch = !searchQuery ||
+          c.title.toLowerCase().includes(searchQuery) ||
+          c.shortDesc.toLowerCase().includes(searchQuery) ||
+          c.keywords.some(k => k.toLowerCase().includes(searchQuery));
+        return matchesCategory && matchesSearch;
+      });
+
+      document.getElementById('toolCountBadge').textContent = `${filtered.length}件`;
+
+      const createItemHtml = (c) => `
+        <button onclick="selectCalculator('${c.id}')" data-id="${c.id}" class="tool-nav-item w-full text-left p-2.5 rounded-xl transition flex items-center justify-between gap-2 ${c.id === currentCalcId ? 'bg-[#5e81b5]/10 border border-[#5e81b5]/40 text-[#5e81b5] shadow-2xs font-semibold' : 'hover:bg-slate-100 text-slate-700'}">
+          <div class="min-w-0 flex-1">
+            <div class="text-xs font-bold truncate">${c.title}</div>
+            <div class="text-[11px] text-slate-400 truncate">${c.shortDesc}</div>
+          </div>
+          <span class="text-[9px] px-1.5 py-0.5 rounded-md font-semibold bg-slate-200/80 text-slate-600 shrink-0">${c.categoryLabel}</span>
+        </button>
+      `;
+
+      const listDesktop = document.getElementById('toolListContainer');
+      const listMobile = document.getElementById('mobileToolListContainer');
+
+      if (filtered.length === 0) {
+        const emptyHtml = `<div class="p-6 text-center text-xs text-slate-400">該当するツールが見つかりません</div>`;
+        listDesktop.innerHTML = emptyHtml;
+        listMobile.innerHTML = emptyHtml;
+      } else {
+        const fullHtml = filtered.map(createItemHtml).join('');
+        listDesktop.innerHTML = fullHtml;
+        listMobile.innerHTML = fullHtml;
+      }
+      lucide.createIcons();
+    }
+
+    // Copy helper
+    async function copyToClipboard(text) {
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast("カルテ用テキストをコピーしました");
+      } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast("カルテ用テキストをコピーしました");
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastNotification');
+      document.getElementById('toastMessage').textContent = msg;
+      toast.classList.remove('translate-y-16', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-16', 'opacity-0');
+      }, 1800);
+    }
+
+    // Shell with ALWAYS VISIBLE formula box
+    function toolShell({ title, subtitle, badgeText, sampleFn, copyFn, contentHtml, formulaBoxHtml }) {
+      return `
+        <div>
+          <!-- Header Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-4 bg-[#5e81b5] rounded-full inline-block"></span>
+                <h2 class="text-base sm:text-lg font-bold text-slate-900">${title}</h2>
+                ${badgeText ? `<span class="text-xs px-2 py-0.5 rounded-full bg-[#5e81b5]/10 text-[#5e81b5] font-semibold border border-[#5e81b5]/30">${badgeText}</span>` : ''}
+              </div>
+              <p class="text-xs text-slate-500 mt-0.5">${subtitle}</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="${sampleFn}()" class="text-xs px-2.5 py-1.5 rounded-lg border border-slate-200 text-[#5e81b5] hover:bg-[#5e81b5]/10 font-medium transition flex items-center gap-1">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> 例入力
+              </button>
+              <button id="mainCopyBtn" onclick="${copyFn}()" class="text-xs px-3 py-1.5 rounded-lg bg-[#5e81b5] text-white hover:bg-[#5e81b5]/90 active:bg-[#5e81b5] font-medium transition flex items-center gap-1.5 shadow-2xs">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i> カルテ用コピー
+              </button>
+            </div>
+          </div>
+
+          <!-- Formula Box (Always visible in page) -->
+          <div class="mb-4 p-3.5 rounded-xl bg-[#5d9ec8]/10 border border-[#5d9ec8]/30">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-[#5e81b5] mb-1.5">
+              <i data-lucide="variable" class="w-4 h-4 text-[#5d9ec8]"></i>
+              <span>計算式・定義・基準</span>
+            </div>
+            <div class="text-[11px] leading-relaxed text-slate-700 font-mono space-y-1">
+              ${formulaBoxHtml}
+            </div>
+          </div>
+
+          <!-- Body Content -->
+          <div class="space-y-4">
+            ${contentHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    // =========================================================================
+    // 3. Calculator Implementations with Specific Colors & Formulas
+    // =========================================================================
+
+    // -------------------------------------------------------------------------
+    // 1. CCr & eGFR
+    // -------------------------------------------------------------------------
+    function renderCcr() {
+      return toolShell({
+        title: 'クレアチニンクリアランス (CCr) / eGFR 推算',
+        subtitle: 'Cockcroft-Gault式 (薬物投与量基準) & 日本腎臓学会推算式',
+        badgeText: '腎機能',
+        sampleFn: 'setSampleCcr',
+        copyFn: 'copyCcrResult',
+        formulaBoxHtml: `
+          <div><strong>Cockcroft-Gault式:</strong> CCr (mL/min) = [ (140 - 年齢) × 体重(kg) ] / [ 72 × 血清Cr(mg/dL) ]　※女性は × 0.85</div>
+          <div><strong>日本腎臓学会 eGFR:</strong> eGFR (mL/min/1.73m²) = 194 × 血清Cr^(-1.094) × 年齢^(-0.287)　※女性は × 0.739</div>
+          <div><strong>DuBois 体表面積(BSA):</strong> BSA (m²) = 0.007184 × 身長(cm)^0.725 × 体重(kg)^0.425</div>
+        `,
+        contentHtml: `
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="col-span-2">
+              <label class="block text-xs font-semibold text-slate-600 mb-1">性別</label>
+              <div class="grid grid-cols-2 gap-2">
+                <label class="relative flex items-center justify-center p-2 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition text-sm font-medium has-[:checked]:bg-[#5e81b5]/15 has-[:checked]:border-[#5e81b5] has-[:checked]:text-[#5e81b5]">
+                  <input type="radio" name="ccrGender" value="male" class="sr-only" checked onchange="calcCcr()">
+                  <span>男性</span>
+                </label>
+                <label class="relative flex items-center justify-center p-2 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition text-sm font-medium has-[:checked]:bg-[#ec6235]/15 has-[:checked]:border-[#ec6235] has-[:checked]:text-[#ec6235]">
+                  <input type="radio" name="ccrGender" value="female" class="sr-only" onchange="calcCcr()">
+                  <span>女性</span>
+                </label>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">年齢</label>
+              <div class="relative">
+                <input type="number" id="ccrAge" inputmode="numeric" placeholder="65" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#5e81b5] focus:outline-none" oninput="calcCcr()">
+                <span class="absolute right-3 top-2 text-xs text-slate-400">歳</span>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">体重</label>
+              <div class="relative">
+                <input type="number" id="ccrWeight" inputmode="decimal" step="0.1" placeholder="60.0" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#5e81b5] focus:outline-none" oninput="calcCcr()">
+                <span class="absolute right-3 top-2 text-xs text-slate-400">kg</span>
+              </div>
+            </div>
+            <div class="col-span-1 sm:col-span-2">
+              <label class="block text-xs font-semibold text-slate-600 mb-1">血清クレアチニン (Cr)</label>
+              <div class="relative">
+                <input type="number" id="ccrCre" inputmode="decimal" step="0.01" placeholder="1.00" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#5e81b5] focus:outline-none" oninput="calcCcr()">
+                <span class="absolute right-3 top-2 text-xs text-slate-400">mg/dL</span>
+              </div>
+            </div>
+            <div class="col-span-1 sm:col-span-2">
+              <label class="block text-xs font-semibold text-slate-600 mb-1">身長 <span class="text-slate-400 font-normal">(任意: BSA補正用)</span></label>
+              <div class="relative">
+                <input type="number" id="ccrHeight" inputmode="decimal" step="0.1" placeholder="165.0" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#5e81b5] focus:outline-none" oninput="calcCcr()">
+                <span class="absolute right-3 top-2 text-xs text-slate-400">cm</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Results -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+            <div class="p-4 rounded-xl bg-[#5e81b5]/10 border border-[#5e81b5]/30">
+              <div class="flex items-center justify-between text-xs text-[#5e81b5] font-bold mb-1">
+                <span>CCr (Cockcroft-Gault)</span>
+                <span class="text-[10px] px-1.5 py-0.5 bg-[#5e81b5]/20 text-[#5e81b5] rounded font-semibold">薬物用量基準</span>
+              </div>
+              <div class="flex items-baseline gap-1 my-1">
+                <span id="resCcr" class="text-3xl font-extrabold text-[#5e81b5] tracking-tight">--</span>
+                <span class="text-xs font-semibold text-[#5e81b5]">mL/min</span>
+              </div>
+              <p class="text-[11px] text-slate-500">抗菌薬・抗がん剤等の腎機能別用量調節に標準使用されます</p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-[#8fb131]/10 border border-[#8fb131]/30">
+              <div class="flex items-center justify-between text-xs text-[#8fb131] font-bold mb-1">
+                <span>eGFR (日本人推算式)</span>
+                <span class="text-[10px] px-1.5 py-0.5 bg-[#8fb131]/20 text-[#8fb131] rounded font-semibold">1.73m²換算</span>
+              </div>
+              <div class="flex items-baseline gap-1 my-1">
+                <span id="resEgfr" class="text-3xl font-extrabold text-[#8fb131] tracking-tight">--</span>
+                <span class="text-xs font-semibold text-[#8fb131]">mL/min/1.73m²</span>
+              </div>
+              <p class="text-[11px] text-slate-600">CKDステージ: <span id="resCkdStage" class="font-bold text-slate-800">--</span></p>
+            </div>
+          </div>
+
+          <div id="bsaAdjustedRow" class="hidden p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs flex justify-between">
+            <span class="text-slate-600">体表面積 (DuBois): <b id="resBsa">--</b> m²</span>
+            <span class="text-slate-600">CCr (1.73m²補正): <b id="resCcrBsa" class="text-[#5e81b5]">--</b> mL/min/1.73m²</span>
+          </div>
+        `
+      });
+    }
+
+    function setSampleCcr() {
+      document.querySelector('input[name="ccrGender"][value="male"]').checked = true;
+      document.getElementById('ccrAge').value = '65';
+      document.getElementById('ccrWeight').value = '60.0';
+      document.getElementById('ccrCre').value = '1.10';
+      document.getElementById('ccrHeight').value = '165.0';
+      calcCcr();
+    }
+
+    function calcCcr() {
+      const genderElem = document.querySelector('input[name="ccrGender"]:checked');
+      if (!genderElem) return;
+      const gender = genderElem.value;
+      const age = parseFloat(document.getElementById('ccrAge')?.value);
+      const weight = parseFloat(document.getElementById('ccrWeight')?.value);
+      const cre = parseFloat(document.getElementById('ccrCre')?.value);
+      const height = parseFloat(document.getElementById('ccrHeight')?.value);
+
+      const resCcr = document.getElementById('resCcr');
+      const resEgfr = document.getElementById('resEgfr');
+      const resCkd = document.getElementById('resCkdStage');
+      const bsaRow = document.getElementById('bsaAdjustedRow');
+
+      if (!age || !weight || !cre || age <= 0 || weight <= 0 || cre <= 0) {
+        if (resCcr) resCcr.textContent = '--';
+        if (resEgfr) resEgfr.textContent = '--';
+        if (resCkd) resCkd.textContent = '--';
+        if (bsaRow) bsaRow.classList.add('hidden');
+        currentCopyText = '';
+        return;
+      }
+
+      let ccr = ((140 - age) * weight) / (72 * cre);
+      if (gender === 'female') ccr *= 0.85;
+      const ccrFmt = ccr.toFixed(1);
+      resCcr.textContent = ccrFmt;
+
+      let egfr = 194 * Math.pow(cre, -1.094) * Math.pow(age, -0.287);
+      if (gender === 'female') egfr *= 0.739;
+      const egfrFmt = egfr.toFixed(1);
+      resEgfr.textContent = egfrFmt;
+
+      let ckd = "";
+      if (egfr >= 90) ckd = "G1 (正常または高値)";
+      else if (egfr >= 60) ckd = "G2 (正常〜軽度低下)";
+      else if (egfr >= 45) ckd = "G3a (軽度〜中等度低下)";
+      else if (egfr >= 30) ckd = "G3b (中等度〜高度低下)";
+      else if (egfr >= 15) ckd = "G4 (高度低下)";
+      else ckd = "G5 (末期腎不全)";
+      resCkd.textContent = ckd;
+
+      let bsaFmt = "", ccrBsaFmt = "";
+      if (height && height > 0) {
+        const bsa = 0.007184 * Math.pow(height, 0.725) * Math.pow(weight, 0.425);
+        const ccrBsa = (ccr * 1.73) / bsa;
+        bsaFmt = bsa.toFixed(2);
+        ccrBsaFmt = ccrBsa.toFixed(1);
+        document.getElementById('resBsa').textContent = bsaFmt;
+        document.getElementById('resCcrBsa').textContent = ccrBsaFmt;
+        bsaRow.classList.remove('hidden');
+      } else {
+        bsaRow.classList.add('hidden');
+      }
+
+      const genderStr = gender === 'male' ? '男性' : '女性';
+      currentCopyText = `【腎機能推算 (CCr / eGFR)】\n` +
+        `・患者: ${genderStr}, ${age}歳, ${weight}kg${height ? `, ${height}cm` : ''}\n` +
+        `・血清Cr: ${cre} mg/dL\n` +
+        `・推算CCr (C-G式): ${ccrFmt} mL/min\n` +
+        (height ? `・推算CCr (1.73m²補正): ${ccrBsaFmt} mL/min/1.73m² (BSA: ${bsaFmt} m²)\n` : '') +
+        `・推算eGFR (日本腎臓学会式): ${egfrFmt} mL/min/1.73m² [${ckd}]`;
+    }
+
+    function copyCcrResult() { copyToClipboard(currentCopyText); }
+
+    // -------------------------------------------------------------------------
+    // 2. FENa / FEUrea
+    // -------------------------------------------------------------------------
+    function renderFena() {
+      return toolShell({
+        title: 'FENa / FEUrea 計算',
+        subtitle: '急性腎障害 (AKI) における腎前性 vs 腎性 (ATN等) の鑑別',
+        badgeText: 'AKI鑑別',
+        sampleFn: 'setSampleFena',
+        copyFn: 'copyFenaResult',
+        formulaBoxHtml: `
+          <div><strong>FENa:</strong> FENa (%) = [ 尿中Na × 血清Cr ] / [ 血清Na × 尿中Cr ] × 100</div>
+          <div><strong>FEUrea (利尿薬時):</strong> FEUrea (%) = [ 尿中UN × 血清Cr ] / [ 血清BUN × 尿中Cr ] × 100</div>
+          <div><strong>目安:</strong> FENa &lt; 1.0% (腎前性疑い) / 1.0〜2.0% (境界域) / &gt; 2.0% (腎性/ATN疑い)</div>
+        `,
+        contentHtml: `
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">血清ナトリウム (S-Na)</label>
+              <div class="relative">
+                <input type="number" id="fenaSNa" placeholder="140" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#5e81b5] focus:outline-none" oninput="calcFena()">
+                <span class="absolute right-3 top-2 text-xs text-slate-400">mEq/L</span>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">尿中ナトリウム (U-Na)</label>
+              <div class="relative">
+                <input type="number" id="fenaUNa" placeholder="14" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#5e81b5] focus:outline-none" oninput="calcFena()">
+                <span class="absolute right-3 top-2 text-xs text-slate-400">mEq/L</span>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">血清クレアチニン (S-Cr)</label>
+              <div class="relative">
+                <input type="number" id="fenaSCr" step="0.01" placeholder="2.00" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#5e81b5] focus:outline-none" oninput="calcFena()">
+                <span class="absolute right-3 top-2 text-xs text-slate-400">mg/dL</span>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">尿中クレアチニン (U-Cr)</label>
+              <div class="relative">
+                <input type="number" id="fenaUCr" placeholder="100" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-[#5e81b5] focus:outline-none" oninput="calcFena()">
+                <span class="absolute right-3 top-2 text-xs text-slate-400">mg/dL</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+            <div class="text-xs font-bold text-slate-700 flex items-center justify-between">
+              <span>利尿薬使用時オプション: FEUrea</span>
+              <span class="text-[10px] text-slate-400 font-normal">※利尿薬後はFENa偽高値となるため推奨</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[11px] text-slate-500 mb-0.5">血清BUN</label>
+                <input type="number" id="feunSBun" placeholder="40" class="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs" oninput="calcFena()">
+              </div>
+              <div>
+                <label class="block text-[11px] text-slate-500 mb-0.5">尿中UN</label>
+                <input type="number" id="feunUUn" placeholder="400" class="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs" oninput="calcFena()">
+              </div>
+            </div>
+          </div>
+
+          <!-- Results -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+            <div class="p-4 rounded-xl bg-[#5e81b5]/10 border border-[#5e81b5]/30">
+              <div class="flex items-center justify-between text-xs text-[#5e81b5] font-bold mb-1">
+                <span>FENa (ナトリウム排泄分画)</span>
+                <span id="fenaBadge" class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold">--</span>
+              </div>
+              <div class="flex items-baseline gap-1 my-1">
+                <span id="resFena" class="text-3xl font-extrabold text-[#5e81b5]">--</span>
+                <span class="text-xs font-bold text-[#5e81b5]">%</span>
+              </div>
+              <p id="fenaNote" class="text-[11px] text-slate-600 mt-1">数値を入力してください</p>
+            </div>
+
+            <div id="feunResultBox" class="p-4 rounded-xl bg-[#8778b3]/10 border border-[#8778b3]/30 opacity-60">
+              <div class="flex items-center justify-between text-xs text-[#8778b3] font-bold mb-1">
+                <span>FEUrea (尿素窒素排泄分画)</span>
+                <span id="feunBadge" class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold">--</span>
+              </div>
+              <div class="flex items-baseline gap-1 my-1">
+                <span id="resFeun" class="text-3xl font-extrabold text-[#8778b3]">--</span>
+                <span class="text-xs font-bold text-[#8778b3]">%</span>
+              </div>
+              <p id="feunNote" class="text-[11px] text-slate-600 mt-1">&lt;35%: 腎前性疑い / &gt;50%: 腎性疑い</p>
+            </div>
+          </div>
+        `
+      });
+    }
+
+    function setSampleFena() {
+      document.getElementById('fenaSNa').value = '140';
+      document.getElementById('fenaUNa').value = '14';
+      document.getElementById('fenaSCr').value = '2.20';
+      document.getElementById('fenaUCr').value = '120';
+      document.getElementById('feunSBun').value = '45';
+      document.getElementById('feunUUn').value = '400';
+      calcFena();
+    }
+
+    function calcFena() {
+      const sNa = parseFloat(document.getElementById('fenaSNa')?.value);
+      const uNa = parseFloat(document.getElementById('fenaUNa')?.value);
+      const sCr = parseFloat(document.getElementById('fenaSCr')?.value);
+      const uCr = parseFloat(document.getElementById('fenaUCr')?.value);
+      const sBun = parseFloat(document.getElementById('feunSBun')?.value);
+      const uUn = parseFloat(document.getElementById('feunUUn')?.value);
+
+      const resFena = document.getElementById('resFena');
+      const fenaBadge = document.getElementById('fenaBadge');
+      const fenaNote = document.getElementById('fenaNote');
+
+      const resFeun = document.getElementById('resFeun');
+      const feunBadge = document.getElementById('feunBadge');
+      const feunBox = document.getElementById('feunResultBox');
+
+      if (!sNa || !uNa || !sCr || !uCr || sNa <= 0 || uCr <= 0 || sCr <= 0) {
+        if (resFena) resFena.textContent = '--';
+        if (fenaBadge) fenaBadge.classList.add('hidden');
+        if (fenaNote) fenaNote.textContent = '数値を入力してください';
+        currentCopyText = '';
+        return;
+      }
+
+      const fena = ((uNa * sCr) / (sNa * uCr)) * 100;
+      const fenaFmt = fena.toFixed(2);
+      resFena.textContent = fenaFmt;
+      fenaBadge.classList.remove('hidden');
+
+      let fenaEval = "";
+      if (fena < 1.0) {
+        fenaBadge.className = "px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#8fb131]/20 text-[#8fb131]";
+        fenaBadge.textContent = "腎前性疑い (<1%)";
+        fenaNote.textContent = "【腎前性 AKI 示唆】脱水・心不全等。尿細管のNa再吸収能は維持されています。";
+        fenaEval = "腎前性疑い (<1%)";
+      } else if (fena <= 2.0) {
+        fenaBadge.className = "px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#e19c24]/20 text-[#e19c24]";
+        fenaBadge.textContent = "境界域 (1〜2%)";
+        fenaNote.textContent = "【境界域】臨床所見・病歴・尿沈渣等と併せて総合判定してください。";
+        fenaEval = "境界域 (1〜2%)";
+      } else {
+        fenaBadge.className = "px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#ec6235]/20 text-[#ec6235]";
+        fenaBadge.textContent = "腎性/ATN疑い (>2%)";
+        fenaNote.textContent = "【腎性 AKI 示唆】急性尿細管壊死(ATN)等によるNa再吸収不全が疑われます。";
+        fenaEval = "腎性/ATN疑い (>2%)";
+      }
+
+      let feunFmt = "", feunEval = "";
+      if (sBun && uUn && sBun > 0 && uUn > 0) {
+        const feun = ((uUn * sCr) / (sBun * uCr)) * 100;
+        feunFmt = feun.toFixed(1);
+        resFeun.textContent = feunFmt;
+        feunBox.classList.remove('opacity-60');
+        feunBadge.classList.remove('hidden');
+        if (feun < 35) {
+          feunBadge.className = "px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#8fb131]/20 text-[#8fb131]";
+          feunBadge.textContent = "腎前性 (<35%)";
+          feunEval = "腎前性疑い (<35%)";
+        } else if (feun <= 50) {
+          feunBadge.className = "px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#e19c24]/20 text-[#e19c24]";
+          feunBadge.textContent = "境界域 (35-50%)";
+          feunEval = "境界域 (35-50%)";
+        } else {
+          feunBadge.className = "px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#ec6235]/20 text-[#ec6235]";
+          feunBadge.textContent = "腎性 (>50%)";
+          feunEval = "腎性疑い (>50%)";
+        }
+      } else {
+        resFeun.textContent = '--';
+        feunBox.classList.add('opacity-60');
+        feunBadge.classList.add('hidden');
+      }
+
+      currentCopyText = `【AKI鑑別・電解質排泄分画】\n` +
+        `・検査値: S-Na ${sNa}, U-Na ${uNa}, S-Cr ${sCr}, U-Cr ${uCr}\n` +
+        `・FENa: ${fenaFmt} % [${fenaEval}]\n` +
+        (feunFmt ? `・FEUrea: ${feunFmt} % [${feunEval}] (S-BUN: ${sBun}, U-UN: ${uUn})\n` : '');
+    }
+
+    function copyFenaResult() { copyToClipboard(currentCopyText); }
+
+    // -------------------------------------------------------------------------
+    // 3. Adrogue-Madias Formula
+    // -------------------------------------------------------------------------
+    function renderAdrogue() {
+      return toolShell({
+        title: 'Adrogue-Madias 式 (低Na血症の補正予測)',
+        subtitle: '輸液 1L 投与時の予想血清Na変化量 (ΔNa) と適正輸液速度の算出',
+        badgeText: '電解質・輸液',
+        sampleFn: 'setSampleAdrogue',
+        copyFn: 'copyAdrogueResult',
+        formulaBoxHtml: `
+          <div><strong>Adrogue-Madias式:</strong> 予想ΔNa (mEq/L per 1L) = [ (輸液Na + 輸液K) - 血清Na ] / [ TBW + 1 ]</div>
+          <div><strong>TBW (体内総水分量):</strong> 男性 = 体重 × 0.6 (高齢男性 0.5) / 女性 = 体重 × 0.5 (高齢女性 0.45)</div>
+          <div><strong>安全補正上限:</strong> 1日 4〜6 mEq/L 推奨、最大 8〜10 mEq/L/24h 厳守 (浸透圧性脱髄症候群: ODS予防)</div>
+        `,
+        contentHtml: `
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">患者群 (TBW係数)</label>
+              <select id="adroguePatientType" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:bg-white focus:ring-2 focus:ring-[#5e81b5] focus:outline-none" onchange="calcAdrogue()">
+                <option value="0.6">非高齢男性 (<65歳) [60%]</option>
+                <option value="0.5">非高齢女性 (<65歳) [50%]</option>
+                <option value="0.5">高齢男性 (≥65歳) [50%]</option>
+                <option value="0.45">高齢女性 (≥65歳) [45%]</option>
+                <option value="0.6">小児 [60%]</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">体重 (kg)</label>
+              <input type="number" id="adrogueWeight" placeholder="50.0" step="0.1" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5e81b5]" oninput="calcAdrogue()">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">現在の血清Na (mEq/L)</label>
+              <input type="number" id="adrogueSNa" placeholder="115" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5e81b5]" oninput="calcAdrogue()">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">投与する輸液製剤</label>
+              <select id="adrogueFluid" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:bg-white focus:ring-2 focus:ring-[#5e81b5] focus:outline-none" onchange="calcAdrogue()">
+                <option value="513,0">3% 高張食塩水 (Na 513)</option>
+                <option value="154,0" selected>0.9% 生理食塩水 (Na 154)</option>
+                <option value="130,4">乳酸リンゲル液 (Na 130, K 4)</option>
+                <option value="90,0">1号液 (ソリタT1等: Na 90)</option>
+                <option value="35,20">3号液 (ソリタT3等: Na 35, K 20)</option>
+                <option value="0,0">5% ブドウ糖液 (Na 0)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+            <div class="p-4 rounded-xl bg-[#5e81b5]/10 border border-[#5e81b5]/30">
+              <div class="text-xs font-bold text-[#5e81b5] mb-1">輸液 1L あたりの予想血清Na変化 (ΔNa)</div>
+              <div class="flex items-baseline gap-1 my-1">
+                <span id="resDeltaNa" class="text-3xl font-extrabold text-[#5e81b5]">--</span>
+                <span class="text-xs font-semibold text-[#5e81b5]">mEq/L per 1L</span>
+              </div>
+              <div class="text-[11px] text-slate-500">体内総水分量 (TBW): <b id="resTbw">--</b> L</div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5 text-xs">
+              <div class="font-bold text-slate-800 flex items-center justify-between">
+                <span>目標補正速度の目安</span>
+                <span class="text-[10px] px-1.5 py-0.5 bg-[#ec6235]/20 text-[#ec6235] rounded font-semibold">ODS予防</span>
+              </div>
+              <div class="text-[11px] text-slate-600">
+                ・推奨上昇幅: <b>4〜6 mEq/L / 日</b><br>
+                ・安全上限: <b>8〜10 mEq/L / 24時間</b> (過剰補正厳禁)
+              </div>
+              <div class="p-2 rounded-lg bg-white border border-slate-200 text-[11px] text-slate-700">
+                ΔNa 5 mEq/L 上昇に必要な輸液量: <b id="resReqVol" class="text-[#5e81b5]">--</b> mL<br>
+                24時間での推奨点滴速度: <b id="resDripRate" class="text-[#5e81b5]">--</b> mL/hr
+              </div>
+            </div>
+          </div>
+        `
+      });
+    }
+
+    function setSampleAdrogue() {
+      document.getElementById('adrogueWeight').value = '50.0';
+      document.getElementById('adrogueSNa').value = '118';
+      document.getElementById('adrogueFluid').value = '513,0';
+      calcAdrogue();
+    }
+
+    function calcAdrogue() {
+      const coef = parseFloat(document.getElementById('adroguePatientType')?.value || 0.6);
+      const weight = parseFloat(document.getElementById('adrogueWeight')?.value);
+      const sNa = parseFloat(document.getElementById('adrogueSNa')?.value);
+      const fluidVal = document.getElementById('adrogueFluid')?.value || "154,0";
+      const [infNa, infK] = fluidVal.split(',').map(Number);
+
+      const resDelta = document.getElementById('resDeltaNa');
+      const resTbw = document.getElementById('resTbw');
+      const resReqVol = document.getElementById('resReqVol');
+      const resDripRate = document.getElementById('resDripRate');
+
+      if (!weight || !sNa || weight <= 0 || sNa <= 0) {
+        if (resDelta) resDelta.textContent = '--';
+        if (resTbw) resTbw.textContent = '--';
+        if (resReqVol) resReqVol.textContent = '--';
+        if (resDripRate) resDripRate.textContent = '--';
+        currentCopyText = '';
+        return;
+      }
+
+      const tbw = weight * coef;
+      const deltaNa = (infNa + infK - sNa) / (tbw + 1);
+      const deltaNaSign = deltaNa >= 0 ? `+${deltaNa.toFixed(2)}` : deltaNa.toFixed(2);
+      resDelta.textContent = deltaNaSign;
+      resTbw.textContent = tbw.toFixed(1);
+
+      if (deltaNa > 0) {
+        const targetDelta = 5.0; // 5 mEq/L target
+        const reqVol = (targetDelta / deltaNa) * 1000;
+        const dripRate = reqVol / 24;
+        resReqVol.textContent = Math.round(reqVol).toLocaleString();
+        resDripRate.textContent = dripRate.toFixed(1);
+
+        currentCopyText = `【Adrogue-Madias式 低Na血症補正計算】\n` +
+          `・患者情報: 体重 ${weight}kg, 現在の血清Na ${sNa} mEq/L (TBW: ${tbw.toFixed(1)}L)\n` +
+          `・選択輸液: 輸液中Na ${infNa} mEq/L, K ${infK} mEq/L\n` +
+          `・輸液1Lあたりの予想ΔNa: ${deltaNaSign} mEq/L\n` +
+          `・ΔNa 5mEq/L上昇に必要な液量: 約 ${Math.round(reqVol)} mL (推奨速度: 約 ${dripRate.toFixed(1)} mL/hr)\n` +
+          `※ 24時間の上昇幅は最大 8〜10 mEq/L (ハイリスクは6〜8) を厳守してください。`;
+      } else {
+        resReqVol.textContent = 'Na低下';
+        resDripRate.textContent = '--';
+        currentCopyText = `【Adrogue-Madias式 低Na血症補正計算】\n` +
+          `・患者情報: 体重 ${weight}kg, 現在の血清Na ${sNa} mEq/L\n` +
+          `・輸液1Lあたりの予想ΔNa: ${deltaNaSign} mEq/L (血清Na低下方向)`;
+      }
+    }
+
+    function copyAdrogueResult() { copyToClipboard(currentCopyText); }
+
+    // -------------------------------------------------------------------------
+    // 4. Carboplatin AUC (Calvert Formula)
+    // -------------------------------------------------------------------------
+    function renderCalvert() {
+      return toolShell({
+        title: 'カルボプラチン AUC 投与量計算 (Calvert式)',
+        subtitle: '腎機能 (Cockcroft-Gault式) と目標AUCに応じた投与量算出',
+        badgeText: '化学療法',
+        sampleFn: 'setSampleCalvert',
+        copyFn: 'copyCalvertResult',
+        formulaBoxHtml: `
+          <div><strong>Calvert式:</strong> 総投与量 (mg) = 目標 AUC × ( GFR + 25 )</div>
+          <div><strong>GFR算出:</strong> Cockcroft-Gault 式推算 CCr (mL/min) を適用</div>
+          <div><strong>FDA 安全性勧告:</strong> GFR 上限キャップ 125 mL/min (最大用量 = AUC × 150 mg)</div>
+        `,
+        contentHtml: `
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">目標 AUC (mg·min/mL)</label>
+              <input type="number" id="calvertAuc" placeholder="5" step="0.5" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5e81b5]" oninput="calcCalvert()">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">患者性別</label>
+              <select id="calvertGender" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:bg-white focus:ring-2 focus:ring-[#5e81b5] focus:outline-none" onchange="calcCalvert()">
+                <option value="male">男性</option>
+                <option value="female">女性 (×0.85)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">年齢 (歳)</label>
+              <input type="number" id="calvertAge" placeholder="65" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5e81b5]" oninput="calcCalvert()">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">体重 (kg)</label>
+              <input type="number" id="calvertWeight" placeholder="55.0" step="0.1" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5e81b5]" oninput="calcCalvert()">
+            </div>
+            <div class="col-span-2">
+              <label class="block text-xs font-semibold text-slate-600 mb-1">血清Cr (mg/dL)</label>
+              <input type="number" id="calvertCr" placeholder="0.90" step="0.01" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5e81b5]" oninput="calcCalvert()">
+            </div>
+            <div class="col-span-2 flex items-center pt-5">
+              <label class="flex items-center gap-2 text-xs font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="calvertCap" checked onchange="calcCalvert()" class="w-4 h-4 text-[#5e81b5] rounded">
+                <span>GFRの上限を 125 mL/min で頭打ちにする (FDA推奨)</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+            <div class="p-4 rounded-xl bg-[#8fb131]/10 border border-[#8fb131]/30">
+              <div class="text-xs font-bold text-[#8fb131] mb-1">カルボプラチン 総投与量 (Calvert式)</div>
+              <div class="flex items-baseline gap-1 my-1">
+                <span id="resCalvertDose" class="text-3xl font-extrabold text-[#8fb131]">--</span>
+                <span class="text-sm font-bold text-[#8fb131]">mg</span>
+              </div>
+              <div class="text-[11px] text-slate-600 mt-1">使用GFR (CCr): <b id="resCalvertGfr">--</b> mL/min <span id="resCalvertCapped" class="text-[#ec6235] font-bold hidden">(125キャップ適用)</span></div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1.5">
+              <div class="font-bold text-slate-800">用量確認・注意点</div>
+              <p class="text-[11px] text-slate-500 leading-relaxed">
+                ・Calvert式: 投与量 (mg) = Target AUC × (GFR + 25)<br>
+                ・FDA安全性勧告: 腎機能過大評価による過量投与防止のため、GFRの上限は 125 mL/min (最大用量 = AUC × 150 mg) とすることが推奨されています。
+              </p>
+            </div>
+          </div>
+        `
+      });
+    }
+
+    function setSampleCalvert() {
+      document.getElementById('calvertAuc').value = '5';
+      document.getElementById('calvertGender').value = 'female';
+      document.getElementById('calvertAge').value = '62';
+      document.getElementById('calvertWeight').value = '52.0';
+      document.getElementById('calvertCr').value = '0.80';
+      calcCalvert();
+    }
+
+    function calcCalvert() {
+      const auc = parseFloat(document.getElementById('calvertAuc')?.value);
+      const gender = document.getElementById('calvertGender')?.value;
+      const age = parseFloat(document.getElementById('calvertAge')?.value);
+      const weight = parseFloat(document.getElementById('calvertWeight')?.value);
+      const cr = parseFloat(document.getElementById('calvertCr')?.value);
+      const isCap = document.getElementById('calvertCap')?.checked;
+
+      const resDose = document.getElementById('resCalvertDose');
+      const resGfr = document.getElementById('resCalvertGfr');
+      const resCapped = document.getElementById('resCalvertCapped');
+
+      if (!auc || !age || !weight || !cr || auc <= 0 || age <= 0 || weight <= 0 || cr <= 0) {
+        if (resDose) resDose.textContent = '--';
+        if (resGfr) resGfr.textContent = '--';
+        if (resCapped) resCapped.classList.add('hidden');
+        currentCopyText = '';
+        return;
+      }
+
+      let ccr = ((140 - age) * weight) / (72 * cr);
+      if (gender === 'female') ccr *= 0.85;
+
+      let effectiveGfr = ccr;
+      let wasCapped = false;
+      if (isCap && effectiveGfr > 125) {
+        effectiveGfr = 125;
+        wasCapped = true;
+      }
+
+      const dose = Math.round(auc * (effectiveGfr + 25));
+      resDose.textContent = dose.toLocaleString();
+      resGfr.textContent = ccr.toFixed(1);
+
+      if (wasCapped) {
+        resCapped.classList.remove('hidden');
+      } else {
+        resCapped.classList.add('hidden');
+      }
+
+      currentCopyText = `【カルボプラチン投与量 (Calvert式)】\n` +
+        `・目標AUC: ${auc}\n` +
+        `・患者: ${gender === 'male' ? '男性' : '女性'}, ${age}歳, ${weight}kg, 血清Cr ${cr} mg/dL\n` +
+        `・推算CCr: ${ccr.toFixed(1)} mL/min ${wasCapped ? '(※GFR上限125mL/minキャップ適用)' : ''}\n` +
+        `・カルボプラチン計算投与量: ${dose} mg`;
+    }
+
+    function copyCalvertResult() { copyToClipboard(currentCopyText); }
+
+    // -------------------------------------------------------------------------
+    // 5. CARG Toxicity Score
+    // -------------------------------------------------------------------------
+    function renderCarg() {
+      return toolShell({
+        title: 'CARG スコア (Cancer and Aging Research Group)',
+        subtitle: '高齢がん患者 (≥65歳) の化学療法有害事象 (Grade 3〜5) 予測スコア',
+        badgeText: '高齢者化学療法',
+        sampleFn: 'setSampleCarg',
+        copyFn: 'copyCargResult',
+        formulaBoxHtml: `
+          <div><strong>CARGスコアリング:</strong> 11項目の加点合計 (0〜23点)</div>
+          <div><strong>判定基準:</strong> 低リスク (0〜5点: 毒性発現率 約30%) / 中リスク (6〜9点: 約52%) / 高リスク (10〜23点: 約83%)</div>
+        `,
+        contentHtml: `
+          <div class="space-y-3 text-xs">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <span class="font-bold text-slate-800 block mb-1">1. 年齢</span>
+                <select id="cargAge" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcCarg()">
+                  <option value="0">&lt; 72 歳 (0点)</option>
+                  <option value="2">≥ 72 歳 (2点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <span class="font-bold text-slate-800 block mb-1">2. がん種</span>
+                <select id="cargCancer" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcCarg()">
+                  <option value="0">その他のがん種 (0点)</option>
+                  <option value="2">泌尿生殖器がん (2点)</option>
+                  <option value="3">消化器がん (3点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <span class="font-bold text-slate-800 block mb-1">3. 予定化学療法用量</span>
+                <select id="cargDose" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcCarg()">
+                  <option value="0">減量投与 (0点)</option>
+                  <option value="2">標準用量 100% (2点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <span class="font-bold text-slate-800 block mb-1">4. 併用療法レジメン</span>
+                <select id="cargRegimen" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcCarg()">
+                  <option value="0">単剤化学療法 (0点)</option>
+                  <option value="2">多剤併用化学療法 (2点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <span class="font-bold text-slate-800 block mb-1">5. ヘモグロビン (Hb)</span>
+                <select id="cargHb" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcCarg()">
+                  <option value="0">男性 ≥11 / 女性 ≥10 g/dL (0点)</option>
+                  <option value="3">男性 &lt;11 / 女性 &lt;10 g/dL (3点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <span class="font-bold text-slate-800 block mb-1">6. クレアチニンクリアランス</span>
+                <select id="cargCcr" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcCarg()">
+                  <option value="0">≥ 34 mL/min (0点)</option>
+                  <option value="3">&lt; 34 mL/min (3点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <span class="font-bold text-slate-800 block mb-1">7. 聴力</span>
+                <select id="cargHearing" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcCarg()">
+                  <option value="0">良好〜軽度難聴 (0点)</option>
+                  <option value="2">中等度以上の難聴 / 聞こえにくい (2点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <span class="font-bold text-slate-800 block mb-1">8. 転倒歴 (過去6ヶ月)</span>
+                <select id="cargFalls" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcCarg()">
+                  <option value="0">なし (0点)</option>
+                  <option value="1">1回以上あり (1点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <span class="font-bold text-slate-800 block mb-1">9. 歩行制限 (1マイル/約1.6km)</span>
+                <select id="cargWalk" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcCarg()">
+                  <option value="0">制限なし (0点)</option>
+                  <option value="1">少し制限〜全くできない (1点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <span class="font-bold text-slate-800 block mb-1">10. 社会活動の制限</span>
+                <select id="cargSocial" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcCarg()">
+                  <option value="0">制限なし (0点)</option>
+                  <option value="1">健康上の理由で制限あり (1点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 sm:col-span-2">
+                <span class="font-bold text-slate-800 block mb-1">11. 服薬管理 (内服薬を自分で正しく飲めるか)</span>
+                <select id="cargMeds" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcCarg()">
+                  <option value="0">介助なしで正しく飲める (0点)</option>
+                  <option value="1">一部または全部に介助が必要 (1点)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+              <div>
+                <span class="text-xs font-bold text-slate-700">CARG スコア合計点:</span>
+                <div class="flex items-baseline gap-1 my-0.5">
+                  <span id="resCargScore" class="text-3xl font-extrabold text-[#5e81b5]">0</span>
+                  <span class="text-xs text-slate-500">/ 23 点</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span id="cargRiskBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]">低リスク (0-5点)</span>
+                <div id="cargRiskDesc" class="text-xs text-slate-600 mt-1 font-medium">重篤毒性(Grade 3-5)リスク: 約 30%</div>
+              </div>
+            </div>
+          </div>
+        `
+      });
+    }
+
+    function setSampleCarg() {
+      document.getElementById('cargAge').value = '2';
+      document.getElementById('cargCancer').value = '3';
+      document.getElementById('cargDose').value = '2';
+      document.getElementById('cargRegimen').value = '2';
+      document.getElementById('cargHb').value = '3';
+      calcCarg();
+    }
+
+    function calcCarg() {
+      const ids = ['cargAge', 'cargCancer', 'cargDose', 'cargRegimen', 'cargHb', 'cargCcr', 'cargHearing', 'cargFalls', 'cargWalk', 'cargSocial', 'cargMeds'];
+      let score = 0;
+      ids.forEach(id => {
+        score += parseInt(document.getElementById(id)?.value || 0, 10);
+      });
+
+      const resScore = document.getElementById('resCargScore');
+      const badge = document.getElementById('cargRiskBadge');
+      const desc = document.getElementById('cargRiskDesc');
+      if (!resScore) return;
+
+      resScore.textContent = score;
+
+      let riskStr = "", riskRate = "";
+      if (score <= 5) {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]";
+        badge.textContent = "低リスク (0〜5点)";
+        riskRate = "約 30%";
+        riskStr = "低リスク";
+      } else if (score <= 9) {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#e19c24]/20 text-[#e19c24]";
+        badge.textContent = "中リスク (6〜9点)";
+        riskRate = "約 52%";
+        riskStr = "中リスク";
+      } else {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#ec6235]/20 text-[#ec6235]";
+        badge.textContent = "高リスク (10〜23点)";
+        riskRate = "約 83%";
+        riskStr = "高リスク";
+      }
+      desc.textContent = `重篤毒性(Grade 3〜5)リスク: ${riskRate}`;
+
+      currentCopyText = `【CARG 化学療法毒性予測スコア】\n` +
+        `・スコア: ${score} / 23 点 [${riskStr}]\n` +
+        `・重篤毒性(Grade 3〜5)発現リスク: ${riskRate}\n` +
+        `※ 高リスク例では用量調整、支持療法強化、包括的高齢者機能評価(CGA)を推奨。`;
+    }
+
+    function copyCargResult() { copyToClipboard(currentCopyText); }
+
+    // -------------------------------------------------------------------------
+    // 6. G8 Geriatric Screening Tool
+    // -------------------------------------------------------------------------
+    function renderG8() {
+      return toolShell({
+        title: 'G8 スコア (Geriatric 8)',
+        subtitle: '高齢がん患者の簡易機能評価スクリーニング (17点満点、≤14点で要CGA)',
+        badgeText: '高齢者機能評価',
+        sampleFn: 'setSampleG8',
+        copyFn: 'copyG8Result',
+        formulaBoxHtml: `
+          <div><strong>G8スコアリング:</strong> 8項目合計 (0〜17点)</div>
+          <div><strong>カットオフ:</strong> ≤ 14点: 脆弱・機能低下あり (包括的高齢者機能評価 CGA 推奨) / &gt; 14点: 機能良好</div>
+        `,
+        contentHtml: `
+          <div class="space-y-3 text-xs">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">1. 過去3ヶ月の食事摂取量の減少</label>
+                <select id="g8Food" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcG8()">
+                  <option value="2">減少なし (2点)</option>
+                  <option value="1">中等度の減少 (1点)</option>
+                  <option value="0">著しい減少 (0点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">2. 過去3ヶ月の体重減少</label>
+                <select id="g8Weight" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcG8()">
+                  <option value="3">減少なし (3点)</option>
+                  <option value="2">1〜3 kgの減少 (2点)</option>
+                  <option value="1">減少の有無が不明 (1点)</option>
+                  <option value="0">3 kg以上の減少 (0点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">3. 可動性 (移動能力)</label>
+                <select id="g8Mobility" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcG8()">
+                  <option value="2">外出可能 (2点)</option>
+                  <option value="1">ベッド/車椅子から離れるが外出できない (1点)</option>
+                  <option value="0">寝たきりまたは車椅子生活 (0点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">4. 神経心理学的問題</label>
+                <select id="g8Neuro" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcG8()">
+                  <option value="2">問題なし (2点)</option>
+                  <option value="1">軽度認知症またはうつ (1点)</option>
+                  <option value="0">重度認知症またはうつ (0点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">5. BMI (kg/m²)</label>
+                <select id="g8Bmi" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcG8()">
+                  <option value="3">≥ 23 (3点)</option>
+                  <option value="2">21 ≤ BMI &lt; 23 (2点)</option>
+                  <option value="1">19 ≤ BMI &lt; 21 (1点)</option>
+                  <option value="0">&lt; 19 (0点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">6. 処方薬 (1日3種類以上の内服)</label>
+                <select id="g8Meds" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcG8()">
+                  <option value="1">いいえ (3種類未満) (1点)</option>
+                  <option value="0">はい (3種類以上) (0点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">7. 主観的健康状態 (同年代と比較)</label>
+                <select id="g8Health" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcG8()">
+                  <option value="2">同年代より良い (2点)</option>
+                  <option value="1">同等 (1点)</option>
+                  <option value="0.5">わからない (0.5点)</option>
+                  <option value="0">同年代より悪い (0点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">8. 年齢</label>
+                <select id="g8Age" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcG8()">
+                  <option value="2">&lt; 80 歳 (2点)</option>
+                  <option value="1">80〜85 歳 (1点)</option>
+                  <option value="0">&gt; 85 歳 (0点)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+              <div>
+                <span class="text-xs font-bold text-slate-700">G8 スコア合計点:</span>
+                <div class="flex items-baseline gap-1 my-0.5">
+                  <span id="resG8Score" class="text-3xl font-extrabold text-[#5e81b5]">17</span>
+                  <span class="text-xs text-slate-500">/ 17 点</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span id="g8Badge" class="px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]">機能良好 (&gt;14点)</span>
+                <div id="g8Desc" class="text-xs text-slate-600 mt-1 font-medium">標準的な治療の適応を検討可能です</div>
+              </div>
+            </div>
+          </div>
+        `
+      });
+    }
+
+    function setSampleG8() {
+      document.getElementById('g8Food').value = '1';
+      document.getElementById('g8Weight').value = '2';
+      document.getElementById('g8Mobility').value = '1';
+      document.getElementById('g8Neuro').value = '1';
+      document.getElementById('g8Bmi').value = '2';
+      document.getElementById('g8Meds').value = '0';
+      document.getElementById('g8Health').value = '0';
+      document.getElementById('g8Age').value = '1';
+      calcG8();
+    }
+
+    function calcG8() {
+      const ids = ['g8Food', 'g8Weight', 'g8Mobility', 'g8Neuro', 'g8Bmi', 'g8Meds', 'g8Health', 'g8Age'];
+      let score = 0;
+      ids.forEach(id => {
+        score += parseFloat(document.getElementById(id)?.value || 0);
+      });
+
+      const resScore = document.getElementById('resG8Score');
+      const badge = document.getElementById('g8Badge');
+      const desc = document.getElementById('g8Desc');
+      if (!resScore) return;
+
+      resScore.textContent = score;
+
+      let evalStr = "";
+      if (score > 14) {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]";
+        badge.textContent = "機能良好 (> 14点)";
+        desc.textContent = "標準的な治療の適応を検討可能です";
+        evalStr = "機能良好 (>14点)";
+      } else {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#ec6235]/20 text-[#ec6235]";
+        badge.textContent = "脆弱・機能低下あり (≤ 14点)";
+        desc.textContent = "詳細な高齢者機能評価 (CGA) および支持療法の強化を推奨";
+        evalStr = "脆弱・機能低下あり (≤14点, 要CGA)";
+      }
+
+      currentCopyText = `【G8 高齢者機能評価スクリーニング】\n` +
+        `・G8スコア: ${score} / 17 点 [${evalStr}]\n` +
+        `※ 14点以下は脆弱と判定され、詳細な包括的評価(CGA)が推奨されます。`;
+    }
+
+    function copyG8Result() { copyToClipboard(currentCopyText); }
+
+    // -------------------------------------------------------------------------
+    // 7. MASCC & CISNE (Febrile Neutropenia)
+    // -------------------------------------------------------------------------
+    function renderFn() {
+      return toolShell({
+        title: 'MASCC スコア / CISNE スコア (発熱性好中球減少症)',
+        subtitle: '発熱性好中球減少症 (FN) の重症度判定・外来治療適否の評価',
+        badgeText: 'FN評価',
+        sampleFn: 'setSampleFn',
+        copyFn: 'copyFnResult',
+        formulaBoxHtml: `
+          <div><strong>MASCC基準:</strong> ≥ 21点 (低リスク: 外来経口抗菌薬治療考慮可能) / &lt; 21点 (高リスク: 入院点滴必須)</div>
+          <div><strong>CISNE基準:</strong> 0点 (Class I: 低リスク 1.1%) / 1〜2点 (Class II: 中リスク 6.2%) / ≥ 3点 (Class III: 高リスク 36%)</div>
+        `,
+        contentHtml: `
+          <div class="space-y-4">
+            <div class="bg-slate-100 p-1 rounded-xl flex space-x-1">
+              <button id="fnSubTabMascc" onclick="switchFnSubTab('mascc')" class="flex-1 py-1.5 text-xs font-bold rounded-lg bg-white text-[#5e81b5] shadow-2xs">MASCC スコア (全般・外来適否)</button>
+              <button id="fnSubTabCisne" onclick="switchFnSubTab('cisne')" class="flex-1 py-1.5 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900">CISNE スコア (安定固形癌)</button>
+            </div>
+
+            <!-- MASCC Section -->
+            <div id="fnMasccContent" class="space-y-3 text-xs">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <label class="font-bold text-slate-800 block mb-1">FNの症状の重症度</label>
+                  <select id="masccBurden" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcFn()">
+                    <option value="5">症状なしまたは軽度 (5点)</option>
+                    <option value="3">中等度の症状 (3点)</option>
+                    <option value="0">重度の症状 (0点)</option>
+                  </select>
+                </div>
+
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <label class="font-bold text-slate-800 block mb-1">低血圧 (収縮期血圧 &lt; 90 mmHg)</label>
+                  <select id="masccHypotension" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcFn()">
+                    <option value="5">低血圧なし (5点)</option>
+                    <option value="0">低血圧あり (0点)</option>
+                  </select>
+                </div>
+
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <label class="font-bold text-slate-800 block mb-1">慢性閉塞性肺疾患 (COPD)</label>
+                  <select id="masccCopd" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcFn()">
+                    <option value="4">COPDなし (4点)</option>
+                    <option value="0">COPDあり (0点)</option>
+                  </select>
+                </div>
+
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <label class="font-bold text-slate-800 block mb-1">がん種 / 過去の真菌感染</label>
+                  <select id="masccCancer" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcFn()">
+                    <option value="4">固形癌または真菌既往のない血液腫瘍 (4点)</option>
+                    <option value="0">過去に真菌感染既往のある血液悪性腫瘍 (0点)</option>
+                  </select>
+                </div>
+
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <label class="font-bold text-slate-800 block mb-1">脱水の有無</label>
+                  <select id="masccDehyd" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcFn()">
+                    <option value="3">脱水なし (3点)</option>
+                    <option value="0">脱水あり (輸液が必要) (0点)</option>
+                  </select>
+                </div>
+
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <label class="font-bold text-slate-800 block mb-1">発熱発症時の状況</label>
+                  <select id="masccSetting" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcFn()">
+                    <option value="3">外来で発熱発症 (3点)</option>
+                    <option value="0">入院中に発熱発症 (0点)</option>
+                  </select>
+                </div>
+
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 sm:col-span-2">
+                  <label class="font-bold text-slate-800 block mb-1">年齢</label>
+                  <select id="masccAge" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcFn()">
+                    <option value="2">&lt; 60 歳 (2点)</option>
+                    <option value="0">≥ 60 歳 (0点)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- MASCC Result -->
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div>
+                  <span class="text-xs font-bold text-slate-700">MASCC スコア合計:</span>
+                  <div class="flex items-baseline gap-1 my-0.5">
+                    <span id="resMasccScore" class="text-3xl font-extrabold text-[#5e81b5]">26</span>
+                    <span class="text-xs text-slate-500">/ 26 点</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span id="masccBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]">低リスク (≥21点)</span>
+                  <div id="masccDesc" class="text-xs text-slate-600 mt-1 font-medium">外来経口抗菌薬治療の検討が可能です</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CISNE Section -->
+            <div id="fnCisneContent" class="space-y-3 text-xs hidden">
+              <div class="p-3 bg-[#5e81b5]/10 border border-[#5e81b5]/30 rounded-xl text-slate-800 text-[11px]">
+                ※ 固形がん化学療法後で、一見バイタルサインが安定している軽症FN患者の重篤合併症予測スコアです。
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <label class="font-bold text-slate-800 block mb-1">ECOG PS ≥ 2</label>
+                  <select id="cisnePs" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcFn()">
+                    <option value="0">PS 0〜1 (0点)</option>
+                    <option value="2">PS ≥ 2 (2点)</option>
+                  </select>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <label class="font-bold text-slate-800 block mb-1">慢性閉塞性肺疾患 (COPD)</label>
+                  <select id="cisneCopd" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcFn()">
+                    <option value="0">なし (0点)</option>
+                    <option value="1">あり (1点)</option>
+                  </select>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <label class="font-bold text-slate-800 block mb-1">慢性心血管疾患</label>
+                  <select id="cisneCvd" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcFn()">
+                    <option value="0">なし (0点)</option>
+                    <option value="1">あり (心不全/冠動脈疾患等) (1点)</option>
+                  </select>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <label class="font-bold text-slate-800 block mb-1">口腔粘膜炎 (NCI Grade ≥ 2)</label>
+                  <select id="cisneMuc" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcFn()">
+                    <option value="0">なし〜軽微 (0点)</option>
+                    <option value="1">Grade ≥ 2 (経口摂取困難等) (1点)</option>
+                  </select>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <label class="font-bold text-slate-800 block mb-1">高血糖 (血糖 ≥ 120 mg/dL)</label>
+                  <select id="cisneGlu" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcFn()">
+                    <option value="0">&lt; 120 mg/dL (0点)</option>
+                    <option value="1">≥ 120 mg/dL (1点)</option>
+                  </select>
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <label class="font-bold text-slate-800 block mb-1">好中球数 &lt; 500 /μL</label>
+                  <select id="cisneAnc" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcFn()">
+                    <option value="0">≥ 500 /μL (0点)</option>
+                    <option value="1">&lt; 500 /μL (1点)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- CISNE Result -->
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div>
+                  <span class="text-xs font-bold text-slate-700">CISNE スコア合計:</span>
+                  <div class="flex items-baseline gap-1 my-0.5">
+                    <span id="resCisneScore" class="text-3xl font-extrabold text-[#5e81b5]">0</span>
+                    <span class="text-xs text-slate-500">/ 8 点</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span id="cisneBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]">Class I: 低リスク (0点)</span>
+                  <div id="cisneDesc" class="text-xs text-slate-600 mt-1 font-medium">重篤合併症リスク: 約 1.1%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+      });
+    }
+
+    let activeFnSubTab = 'mascc';
+    function switchFnSubTab(tab) {
+      activeFnSubTab = tab;
+      const tabM = document.getElementById('fnSubTabMascc');
+      const tabC = document.getElementById('fnSubTabCisne');
+      const contM = document.getElementById('fnMasccContent');
+      const contC = document.getElementById('fnCisneContent');
+
+      if (tab === 'mascc') {
+        tabM.className = "flex-1 py-1.5 text-xs font-bold rounded-lg bg-white text-[#5e81b5] shadow-2xs";
+        tabC.className = "flex-1 py-1.5 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900";
+        contM.classList.remove('hidden');
+        contC.classList.add('hidden');
+      } else {
+        tabC.className = "flex-1 py-1.5 text-xs font-bold rounded-lg bg-white text-[#5e81b5] shadow-2xs";
+        tabM.className = "flex-1 py-1.5 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900";
+        contC.classList.remove('hidden');
+        contM.classList.add('hidden');
+      }
+      calcFn();
+    }
+
+    function setSampleFn() {
+      if (activeFnSubTab === 'mascc') {
+        document.getElementById('masccBurden').value = '3';
+        document.getElementById('masccHypotension').value = '5';
+        document.getElementById('masccCopd').value = '4';
+        document.getElementById('masccCancer').value = '4';
+        document.getElementById('masccDehyd').value = '3';
+        document.getElementById('masccSetting').value = '3';
+        document.getElementById('masccAge').value = '0';
+      } else {
+        document.getElementById('cisnePs').value = '0';
+        document.getElementById('cisneCopd').value = '1';
+        document.getElementById('cisneCvd').value = '0';
+        document.getElementById('cisneMuc').value = '1';
+        document.getElementById('cisneGlu').value = '0';
+        document.getElementById('cisneAnc').value = '1';
+      }
+      calcFn();
+    }
+
+    function calcFn() {
+      // MASCC
+      const mIds = ['masccBurden', 'masccHypotension', 'masccCopd', 'masccCancer', 'masccDehyd', 'masccSetting', 'masccAge'];
+      let mascc = 0;
+      mIds.forEach(id => { mascc += parseInt(document.getElementById(id)?.value || 0, 10); });
+      const resM = document.getElementById('resMasccScore');
+      const badgeM = document.getElementById('masccBadge');
+      const descM = document.getElementById('masccDesc');
+      if (resM) {
+        resM.textContent = mascc;
+        if (mascc >= 21) {
+          badgeM.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]";
+          badgeM.textContent = "低リスク (≥21点)";
+          descM.textContent = "外来経口抗菌薬治療の検討が可能です";
+        } else {
+          badgeM.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#ec6235]/20 text-[#ec6235]";
+          badgeM.textContent = "高リスク (<21点)";
+          descM.textContent = "入院のうえ、広域抗菌薬の点滴投与が推奨されます";
+        }
+      }
+
+      // CISNE
+      const cIds = ['cisnePs', 'cisneCopd', 'cisneCvd', 'cisneMuc', 'cisneGlu', 'cisneAnc'];
+      let cisne = 0;
+      cIds.forEach(id => { cisne += parseInt(document.getElementById(id)?.value || 0, 10); });
+      const resC = document.getElementById('resCisneScore');
+      const badgeC = document.getElementById('cisneBadge');
+      const descC = document.getElementById('cisneDesc');
+      if (resC) {
+        resC.textContent = cisne;
+        if (cisne === 0) {
+          badgeC.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]";
+          badgeC.textContent = "Class I: 低リスク (0点)";
+          descC.textContent = "重篤合併症リスク: 約 1.1%";
+        } else if (cisne <= 2) {
+          badgeC.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#e19c24]/20 text-[#e19c24]";
+          badgeC.textContent = "Class II: 中リスク (1〜2点)";
+          descC.textContent = "重篤合併症リスク: 約 6.2%";
+        } else {
+          badgeC.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#ec6235]/20 text-[#ec6235]";
+          badgeC.textContent = "Class III: 高リスク (≥3点)";
+          descC.textContent = "重篤合併症リスク: 約 36%";
+        }
+      }
+
+      if (activeFnSubTab === 'mascc') {
+        currentCopyText = `【発熱性好中球減少症 (FN) MASCCスコア】\n` +
+          `・MASCCスコア: ${mascc} / 26 点 [${mascc >= 21 ? '低リスク (外来治療考慮可能)' : '高リスク (入院・点滴抗菌薬必須)'}]\n` +
+          `※ 重篤合併症率: 低リスク群で <5%、死亡率 <1〜2%`;
+      } else {
+        currentCopyText = `【安定固形癌FN CISNEスコア】\n` +
+          `・CISNEスコア: ${cisne} 点 [${cisne === 0 ? 'Class I (低リスク: 1.1%)' : cisne <= 2 ? 'Class II (中リスク: 6.2%)' : 'Class III (高リスク: 36%)'}]`;
+      }
+    }
+
+    function copyFnResult() { copyToClipboard(currentCopyText); }
+
+    // -------------------------------------------------------------------------
+    // 8. Khorana Score (Cancer VTE Risk)
+    // -------------------------------------------------------------------------
+    function renderKhorana() {
+      return toolShell({
+        title: 'Khorana スコア (がん関連静脈血栓塞栓症 VTE)',
+        subtitle: '外来がん化学療法開始前における VTE (深部静脈血栓症/肺塞栓) 発症リスク評価',
+        badgeText: '腫瘍・血栓',
+        sampleFn: 'setSampleKhorana',
+        copyFn: 'copyKhoranaResult',
+        formulaBoxHtml: `
+          <div><strong>Khoranaスコアリング:</strong> 原発巣部位 (極高2点, 高1点) + Plt≥35万(1点) + Hb&lt;10/ESA(1点) + WBC&gt;1.1万(1点) + BMI≥35(1点)</div>
+          <div><strong>判定:</strong> 0点 (低リスク: 0.3〜0.8%) / 1〜2点 (中リスク: 1.8〜2.0%) / ≥3点 (高リスク: 6.7〜7.1% → 予防的抗凝固薬の検討基準)</div>
+        `,
+        contentHtml: `
+          <div class="space-y-3 text-xs">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 sm:col-span-2">
+                <label class="font-bold text-slate-800 block mb-1">1. 原発巣部位</label>
+                <select id="khoranaSite" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcKhorana()">
+                  <option value="2">極めて高リスク (胃癌、膵癌) (2点)</option>
+                  <option value="1">高リスク (肺癌、悪性リンパ腫、婦人科癌、膀胱癌、精巣腫瘍) (1点)</option>
+                  <option value="0" selected>その他のがん種 (乳癌、大腸癌、前立腺癌等) (0点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">2. 血小板数 (化学療法前)</label>
+                <select id="khoranaPlt" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcKhorana()">
+                  <option value="0">&lt; 35 万/μL (0点)</option>
+                  <option value="1">≥ 35 万/μL (1点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">3. ヘモグロビン (またはESA使用)</label>
+                <select id="khoranaHb" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcKhorana()">
+                  <option value="0">≥ 10 g/dL (0点)</option>
+                  <option value="1">&lt; 10 g/dL または ESA使用 (1点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">4. 白血球数 (化学療法前)</label>
+                <select id="khoranaWbc" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcKhorana()">
+                  <option value="0">≤ 11,000 /μL (0点)</option>
+                  <option value="1">&gt; 11,000 /μL (1点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">5. BMI (体格指数)</label>
+                <select id="khoranaBmi" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcKhorana()">
+                  <option value="0">&lt; 35 kg/m² (0点)</option>
+                  <option value="1">≥ 35 kg/m² (1点)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+              <div>
+                <span class="text-xs font-bold text-slate-700">Khorana スコア合計:</span>
+                <div class="flex items-baseline gap-1 my-0.5">
+                  <span id="resKhoranaScore" class="text-3xl font-extrabold text-[#5e81b5]">0</span>
+                  <span class="text-xs text-slate-500">/ 6 点</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span id="khoranaBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]">低リスク (0点)</span>
+                <div id="khoranaDesc" class="text-xs text-slate-600 mt-1 font-medium">6ヶ月VTE発症率: 0.3〜0.8%</div>
+              </div>
+            </div>
+          </div>
+        `
+      });
+    }
+
+    function setSampleKhorana() {
+      document.getElementById('khoranaSite').value = '2';
+      document.getElementById('khoranaPlt').value = '1';
+      document.getElementById('khoranaHb').value = '1';
+      document.getElementById('khoranaWbc').value = '0';
+      document.getElementById('khoranaBmi').value = '0';
+      calcKhorana();
+    }
+
+    function calcKhorana() {
+      const site = parseInt(document.getElementById('khoranaSite')?.value || 0, 10);
+      const plt = parseInt(document.getElementById('khoranaPlt')?.value || 0, 10);
+      const hb = parseInt(document.getElementById('khoranaHb')?.value || 0, 10);
+      const wbc = parseInt(document.getElementById('khoranaWbc')?.value || 0, 10);
+      const bmi = parseInt(document.getElementById('khoranaBmi')?.value || 0, 10);
+
+      const score = site + plt + hb + wbc + bmi;
+      const resScore = document.getElementById('resKhoranaScore');
+      const badge = document.getElementById('khoranaBadge');
+      const desc = document.getElementById('khoranaDesc');
+      if (!resScore) return;
+
+      resScore.textContent = score;
+
+      let riskCategory = "", vteRate = "";
+      if (score === 0) {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]";
+        badge.textContent = "低リスク (0点)";
+        vteRate = "0.3〜0.8%";
+        riskCategory = "低リスク";
+        desc.textContent = "6ヶ月VTE発症率: " + vteRate;
+      } else if (score <= 2) {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#e19c24]/20 text-[#e19c24]";
+        badge.textContent = "中リスク (1〜2点)";
+        vteRate = "1.8〜2.0%";
+        riskCategory = "中リスク";
+        desc.textContent = "6ヶ月VTE発症率: " + vteRate;
+      } else {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#ec6235]/20 text-[#ec6235]";
+        badge.textContent = "高リスク (≥3点)";
+        vteRate = "6.7〜7.1%";
+        riskCategory = "高リスク";
+        desc.textContent = "6ヶ月VTE発症率: " + vteRate + " (一次予防抗凝固療法の検討推奨)";
+      }
+
+      currentCopyText = `【Khorana スコア (がん関連VTEリスク)】\n` +
+        `・合計スコア: ${score} 点 [${riskCategory}]\n` +
+        `・6ヶ月VTE発症予測率: ${vteRate}\n` +
+        (score >= 3 ? `※ 高リスク(≥3点): ガイドラインに基づき予防的抗凝固療法(DOAC等)の検討対象となります。` : '');
+    }
+
+    function copyKhoranaResult() { copyToClipboard(currentCopyText); }
+
+    // -------------------------------------------------------------------------
+    // 9. Transfusion Prediction (RBC / PLT) & CCI
+    // -------------------------------------------------------------------------
+    function renderTransfusion() {
+      return toolShell({
+        title: '輸血効果予測 (RBC / PLT) & CCI 計算',
+        subtitle: '赤血球・血小板輸血の増加予測および血小板輸血不応状態 (PTR) の判定',
+        badgeText: '輸血管理',
+        sampleFn: 'setSampleTransfusion',
+        copyFn: 'copyTransfusionResult',
+        formulaBoxHtml: `
+          <div><strong>RBC予測ΔHb:</strong> ΔHb (g/dL) = [ RBC単位数 × 28g ] / [ 体重(kg) × 0.7dL ] = 単位数 × 40 / 体重(kg)</div>
+          <div><strong>PC予測ΔPlt:</strong> 予測ΔPlt (/μL) = [ 投与血小板数 × (2/3: 脾臓捕捉係数) ] / [ 体重(kg) × 70mL × 10³ ]</div>
+          <div><strong>CCI (補正血小板増加数):</strong> CCI = [ ΔPlt (/μL) × BSA (m²) ] / [ 投与血小板数 (×10¹¹) ]　※1h後&lt;7500または24h後&lt;4500でPTR疑い</div>
+        `,
+        contentHtml: `
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <!-- RBC Box -->
+            <div class="p-4 rounded-xl bg-[#ec6235]/10 border border-[#ec6235]/30 space-y-3">
+              <div class="font-bold text-[#ec6235] flex items-center justify-between">
+                <span class="flex items-center gap-1.5"><i data-lucide="droplet" class="w-4 h-4 text-[#ec6235]"></i> 赤血球 (RBC) 輸血予測</span>
+                <span class="text-[10px] bg-[#ec6235]/20 text-[#ec6235] px-1.5 py-0.5 rounded font-semibold">日赤基準</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="text-[11px] text-slate-600 block mb-0.5">患者体重 (kg)</label>
+                  <input type="number" id="rbcWeight" placeholder="50.0" step="0.1" class="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs" oninput="calcTransfusion()">
+                </div>
+                <div>
+                  <label class="text-[11px] text-slate-600 block mb-0.5">投与RBC単位数</label>
+                  <select id="rbcUnits" class="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcTransfusion()">
+                    <option value="1">1 単位 (約140mL)</option>
+                    <option value="2" selected>2 単位 (約280mL)</option>
+                    <option value="4">4 単位 (約560mL)</option>
+                    <option value="6">6 単位 (約840mL)</option>
+                  </select>
+                </div>
+                <div class="col-span-2">
+                  <label class="text-[11px] text-slate-600 block mb-0.5">輸血前 Hb (任意: 予測後Hb算出)</label>
+                  <input type="number" id="rbcPreHb" placeholder="6.5" step="0.1" class="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs" oninput="calcTransfusion()">
+                </div>
+              </div>
+              <div class="p-3 bg-white rounded-lg border border-[#ec6235]/30">
+                <div class="text-[11px] text-slate-500">予測 Hb 上昇量 (ΔHb)</div>
+                <div class="flex items-baseline gap-1 my-0.5">
+                  <span id="resDeltaHb" class="text-2xl font-extrabold text-[#ec6235]">--</span>
+                  <span class="text-xs font-bold text-[#ec6235]">g/dL</span>
+                </div>
+                <div class="text-[11px] text-slate-600">予測後 Hb: <b id="resPostHb" class="text-slate-800">--</b> g/dL</div>
+              </div>
+            </div>
+
+            <!-- PLT Box -->
+            <div class="p-4 rounded-xl bg-[#8778b3]/10 border border-[#8778b3]/30 space-y-3">
+              <div class="font-bold text-[#8778b3] flex items-center justify-between">
+                <span class="flex items-center gap-1.5"><i data-lucide="disc" class="w-4 h-4 text-[#8778b3]"></i> 血小板 (PC) 輸血予測</span>
+                <span class="text-[10px] bg-[#8778b3]/20 text-[#8778b3] px-1.5 py-0.5 rounded font-semibold">脾臓捕捉考慮</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="text-[11px] text-slate-600 block mb-0.5">患者体重 (kg)</label>
+                  <input type="number" id="pltWeight" placeholder="50.0" step="0.1" class="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs" oninput="calcTransfusion()">
+                </div>
+                <div>
+                  <label class="text-[11px] text-slate-600 block mb-0.5">投与PC単位数</label>
+                  <select id="pltUnits" class="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcTransfusion()">
+                    <option value="5">5 単位 (1.0×10¹¹個)</option>
+                    <option value="10" selected>10 単位 (2.0×10¹¹個)</option>
+                    <option value="20">20 単位 (4.0×10¹¹個)</option>
+                  </select>
+                </div>
+                <div class="col-span-2">
+                  <label class="text-[11px] text-slate-600 block mb-0.5">輸血前 血小板数 (任意: 万/μL)</label>
+                  <input type="number" id="pltPreCount" placeholder="1.2" step="0.1" class="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs" oninput="calcTransfusion()">
+                </div>
+              </div>
+              <div class="p-3 bg-white rounded-lg border border-[#8778b3]/30">
+                <div class="text-[11px] text-slate-500">予測 血小板 上昇量 (ΔPlt)</div>
+                <div class="flex items-baseline gap-1 my-0.5">
+                  <span id="resDeltaPlt" class="text-2xl font-extrabold text-[#8778b3]">--</span>
+                  <span class="text-xs font-bold text-[#8778b3]">万 /μL</span>
+                </div>
+                <div class="text-[11px] text-slate-600">予測後 Plt: <b id="resPostPlt" class="text-slate-800">--</b> 万/μL</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CCI Collapsible -->
+          <div class="mt-3 pt-3 border-t border-slate-100">
+            <details class="group text-xs">
+              <summary class="font-bold text-[#8778b3] cursor-pointer flex items-center justify-between p-2.5 bg-[#8778b3]/10 rounded-xl border border-[#8778b3]/30 select-none">
+                <span>輸血後効果判定: CCI (補正血小板増加数) を計算する</span>
+                <i data-lucide="chevron-down" class="w-4 h-4 transition-transform group-open:rotate-180"></i>
+              </summary>
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 mt-2 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                <div>
+                  <label class="text-[11px] text-slate-600 block mb-0.5">輸血前 Plt (/μL)</label>
+                  <input type="number" id="cciPre" placeholder="10000" class="w-full p-1.5 bg-white border rounded text-xs" oninput="calcTransfusion()">
+                </div>
+                <div>
+                  <label class="text-[11px] text-slate-600 block mb-0.5">輸血後 Plt (/μL)</label>
+                  <input type="number" id="cciPost" placeholder="35000" class="w-full p-1.5 bg-white border rounded text-xs" oninput="calcTransfusion()">
+                </div>
+                <div>
+                  <label class="text-[11px] text-slate-600 block mb-0.5">体表面積 (m²)</label>
+                  <input type="number" id="cciBsa" placeholder="1.50" step="0.01" class="w-full p-1.5 bg-white border rounded text-xs" oninput="calcTransfusion()">
+                </div>
+                <div>
+                  <label class="text-[11px] text-slate-600 block mb-0.5">投与PC単位数</label>
+                  <select id="cciUnits" class="w-full p-1.5 bg-white border rounded text-xs" onchange="calcTransfusion()">
+                    <option value="5">5 単位 (1.0×10¹¹)</option>
+                    <option value="10" selected>10 単位 (2.0×10¹¹)</option>
+                    <option value="20">20 単位 (4.0×10¹¹)</option>
+                  </select>
+                </div>
+                <div class="col-span-2 sm:col-span-4 p-2 bg-white rounded border border-[#8778b3]/30 flex items-center justify-between">
+                  <span>算出 CCI: <b id="resCciVal" class="text-[#8778b3] text-sm">--</b></span>
+                  <span id="resCciEval" class="text-[11px] text-slate-600">目安: 1h後 &lt;7,500 または 24h後 &lt;4,500 で血小板輸血不応(PTR)疑い</span>
+                </div>
+              </div>
+            </details>
+          </div>
+        `
+      });
+    }
+
+    function setSampleTransfusion() {
+      document.getElementById('rbcWeight').value = '50.0';
+      document.getElementById('rbcPreHb').value = '6.8';
+      document.getElementById('pltWeight').value = '50.0';
+      document.getElementById('pltPreCount').value = '1.0';
+      calcTransfusion();
+    }
+
+    function calcTransfusion() {
+      const rbcWeight = parseFloat(document.getElementById('rbcWeight')?.value);
+      const rbcUnits = parseFloat(document.getElementById('rbcUnits')?.value || 2);
+      const rbcPreHb = parseFloat(document.getElementById('rbcPreHb')?.value);
+
+      const pltWeight = parseFloat(document.getElementById('pltWeight')?.value);
+      const pltUnits = parseFloat(document.getElementById('pltUnits')?.value || 10);
+      const pltPreCount = parseFloat(document.getElementById('pltPreCount')?.value);
+
+      const resDeltaHb = document.getElementById('resDeltaHb');
+      const resPostHb = document.getElementById('resPostHb');
+      const resDeltaPlt = document.getElementById('resDeltaPlt');
+      const resPostPlt = document.getElementById('resPostPlt');
+
+      let deltaHbFmt = "--", postHbFmt = "--";
+      if (rbcWeight && rbcWeight > 0) {
+        const deltaHb = (rbcUnits * 40) / rbcWeight;
+        deltaHbFmt = deltaHb.toFixed(1);
+        resDeltaHb.textContent = deltaHbFmt;
+        if (rbcPreHb) {
+          postHbFmt = (rbcPreHb + deltaHb).toFixed(1);
+          resPostHb.textContent = postHbFmt;
+        } else {
+          resPostHb.textContent = '--';
+        }
+      } else {
+        resDeltaHb.textContent = '--';
+        resPostHb.textContent = '--';
+      }
+
+      let deltaPltFmt = "--", postPltFmt = "--";
+      if (pltWeight && pltWeight > 0) {
+        const deltaPltPerUl = (pltUnits * 2e10 * (2/3)) / (pltWeight * 70 * 1000);
+        const deltaPltMan = deltaPltPerUl / 10000;
+        deltaPltFmt = deltaPltMan.toFixed(1);
+        resDeltaPlt.textContent = deltaPltFmt;
+        if (pltPreCount) {
+          postPltFmt = (pltPreCount + deltaPltMan).toFixed(1);
+          resPostPlt.textContent = postPltFmt;
+        } else {
+          resPostPlt.textContent = '--';
+        }
+      } else {
+        resDeltaPlt.textContent = '--';
+        resPostPlt.textContent = '--';
+      }
+
+      // CCI
+      const cciPre = parseFloat(document.getElementById('cciPre')?.value);
+      const cciPost = parseFloat(document.getElementById('cciPost')?.value);
+      const cciBsa = parseFloat(document.getElementById('cciBsa')?.value);
+      const cciUnits = parseFloat(document.getElementById('cciUnits')?.value || 10);
+      const resCci = document.getElementById('resCciVal');
+      if (cciPre >= 0 && cciPost > cciPre && cciBsa > 0) {
+        const totalPlt1011 = cciUnits * 0.2;
+        const cci = ((cciPost - cciPre) * cciBsa) / totalPlt1011;
+        resCci.textContent = Math.round(cci).toLocaleString();
+      } else if (resCci) {
+        resCci.textContent = '--';
+      }
+
+      currentCopyText = `【輸血効果予測】\n` +
+        (rbcWeight ? `・RBC輸血 (${rbcUnits}単位, 体重${rbcWeight}kg): 予想ΔHb +${deltaHbFmt} g/dL${postHbFmt !== '--' ? ` (予測後: ${postHbFmt} g/dL)` : ''}\n` : '') +
+        (pltWeight ? `・PLT輸血 (${pltUnits}単位, 体重${pltWeight}kg): 予想ΔPlt +${deltaPltFmt} 万/μL${postPltFmt !== '--' ? ` (予測後: ${postPltFmt} 万/μL)` : ''}\n` : '');
+    }
+
+    function copyTransfusionResult() { copyToClipboard(currentCopyText); }
+
+    // -------------------------------------------------------------------------
+    // 10. HokUS-10 (VOD/SOS Score)
+    // -------------------------------------------------------------------------
+    function renderHokus() {
+      return toolShell({
+        title: 'HokUS-10 (VOD/SOS 超音波診断スコア)',
+        subtitle: '造血幹細胞移植後 類洞閉塞症候群 (SOS/VOD) の腹部超音波スコアリング (北大方式)',
+        badgeText: '移植・エコー',
+        sampleFn: 'setSampleHokus',
+        copyFn: 'copyHokusResult',
+        formulaBoxHtml: `
+          <div><strong>HokUS-10超音波スコア:</strong> 10項目加点 (0〜13点)</div>
+          <div><strong>判定基準:</strong> 合計 ≥ 5点で SOS/VOD 診断 (感度100%, 特異度95.8%)</div>
+        `,
+        contentHtml: `
+          <div class="space-y-3 text-xs">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                <span>1. 肝左葉前後径 ≥ 70 mm</span>
+                <select id="hokus1" class="p-1.5 bg-white border rounded text-xs" onchange="calcHokus()">
+                  <option value="0">なし (0点)</option>
+                  <option value="1">陽性 (1点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                <span>2. 肝右葉前後径 ≥ 110 mm</span>
+                <select id="hokus2" class="p-1.5 bg-white border rounded text-xs" onchange="calcHokus()">
+                  <option value="0">なし (0点)</option>
+                  <option value="1">陽性 (1点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                <span>3. 胆嚢壁肥厚 ≥ 6 mm</span>
+                <select id="hokus3" class="p-1.5 bg-white border rounded text-xs" onchange="calcHokus()">
+                  <option value="0">なし (0点)</option>
+                  <option value="1">陽性 (1点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                <span>4. 門脈本幹径 ≥ 12 mm</span>
+                <select id="hokus4" class="p-1.5 bg-white border rounded text-xs" onchange="calcHokus()">
+                  <option value="0">なし (0点)</option>
+                  <option value="1">陽性 (1点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                <span>5. 傍臍静脈 (PUV) 径 ≥ 2 mm</span>
+                <select id="hokus5" class="p-1.5 bg-white border rounded text-xs" onchange="calcHokus()">
+                  <option value="0">なし (0点)</option>
+                  <option value="2">陽性 (2点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                <span>6. 腹水貯留</span>
+                <select id="hokus6" class="p-1.5 bg-white border rounded text-xs" onchange="calcHokus()">
+                  <option value="0">なし (0点)</option>
+                  <option value="1">少量 (1点)</option>
+                  <option value="2">中等量以上 (2点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                <span>7. 門脈平均流速 &lt; 10 cm/s</span>
+                <select id="hokus7" class="p-1.5 bg-white border rounded text-xs" onchange="calcHokus()">
+                  <option value="0">なし (0点)</option>
+                  <option value="1">陽性 (1点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                <span>8. 門脈血流方向 (遠肝性または鬱滞)</span>
+                <select id="hokus8" class="p-1.5 bg-white border rounded text-xs" onchange="calcHokus()">
+                  <option value="0">向肝性/正常 (0点)</option>
+                  <option value="1">遠肝性・鬱滞 (1点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                <span>9. 傍臍静脈 (PUV) 血流シグナル</span>
+                <select id="hokus9" class="p-1.5 bg-white border rounded text-xs" onchange="calcHokus()">
+                  <option value="0">なし (0点)</option>
+                  <option value="2">血流シグナルあり (2点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                <span>10. 肝動脈 Resistive Index (RI) ≥ 0.75</span>
+                <select id="hokus10" class="p-1.5 bg-white border rounded text-xs" onchange="calcHokus()">
+                  <option value="0">RI &lt; 0.75 (0点)</option>
+                  <option value="1">RI ≥ 0.75 (1点)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Result -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+              <div>
+                <span class="text-xs font-bold text-slate-700">HokUS-10 合計スコア:</span>
+                <div class="flex items-baseline gap-1 my-0.5">
+                  <span id="resHokusScore" class="text-3xl font-extrabold text-[#5e81b5]">0</span>
+                  <span class="text-xs text-slate-500">/ 13 点</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span id="hokusBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]">SOS/VOD 否定的 (&lt;5点)</span>
+                <div id="hokusDesc" class="text-xs text-slate-600 mt-1 font-medium">カットオフ: 5点以上で SOS/VOD 強力示唆</div>
+              </div>
+            </div>
+          </div>
+        `
+      });
+    }
+
+    function setSampleHokus() {
+      document.getElementById('hokus3').value = '1';
+      document.getElementById('hokus5').value = '2';
+      document.getElementById('hokus6').value = '2';
+      document.getElementById('hokus9').value = '2';
+      calcHokus();
+    }
+
+    function calcHokus() {
+      let score = 0;
+      for (let i = 1; i <= 10; i++) {
+        score += parseInt(document.getElementById(`hokus${i}`)?.value || 0, 10);
+      }
+      const resScore = document.getElementById('resHokusScore');
+      const badge = document.getElementById('hokusBadge');
+      const desc = document.getElementById('hokusDesc');
+      if (!resScore) return;
+
+      resScore.textContent = score;
+
+      let evalStr = "";
+      if (score >= 5) {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#ec6235]/20 text-[#ec6235]";
+        badge.textContent = "SOS/VOD 強力示唆 (≥5点)";
+        desc.textContent = "早期のデフィブロチド等治療介入を検討";
+        evalStr = "SOS/VOD 強力示唆 (≥5点)";
+      } else {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]";
+        badge.textContent = "SOS/VOD 否定的 (<5点)";
+        desc.textContent = "臨床経過・ビリルビン値等の推移に留意";
+        evalStr = "SOS/VOD 否定的 (<5点)";
+      }
+
+      currentCopyText = `【HokUS-10 超音波スコア (VOD/SOS)】\n` +
+        `・合計スコア: ${score} / 13 点 [${evalStr}]\n` +
+        `※ カットオフ 5点以上で SOS/VOD 陽性と判定されます。`;
+    }
+
+    function copyHokusResult() { copyToClipboard(currentCopyText); }
+
+    // -------------------------------------------------------------------------
+    // 11. HLH Criteria & HScore
+    // -------------------------------------------------------------------------
+    function renderHlh() {
+      return toolShell({
+        title: '血球貪食症候群 (HLH) 診断基準 (HLH-2004)',
+        subtitle: '8項目中5項目以上で診断。高フェリチン血症・sIL-2R・血球減少等の評価',
+        badgeText: '血液・免疫',
+        sampleFn: 'setSampleHlh',
+        copyFn: 'copyHlhResult',
+        formulaBoxHtml: `
+          <div><strong>HLH-2004 基準:</strong> 以下の 8項目中 5項目以上を満たすことで血球貪食症候群と診断</div>
+          <div><strong>必須・主要所見:</strong> 発熱、脾腫、2系統以上の血球減少、高TG/低Fib、血球貪食像、NK細胞活性低下、フェリチン≥500μg/L、sIL-2R≥2400U/mL</div>
+        `,
+        contentHtml: `
+          <div class="space-y-3 text-xs">
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+              <span class="font-bold text-slate-800 block">以下の8項目中、該当するものをチェックしてください：</span>
+              <div class="space-y-2">
+                <label class="flex items-start gap-2 cursor-pointer">
+                  <input type="checkbox" id="hlh1" class="mt-0.5 w-4 h-4 text-[#5e81b5] rounded" onchange="calcHlh()">
+                  <span>1. 発熱 (≥ 38.5℃ が 7日以上持続)</span>
+                </label>
+                <label class="flex items-start gap-2 cursor-pointer">
+                  <input type="checkbox" id="hlh2" class="mt-0.5 w-4 h-4 text-[#5e81b5] rounded" onchange="calcHlh()">
+                  <span>2. 脾腫</span>
+                </label>
+                <label class="flex items-start gap-2 cursor-pointer">
+                  <input type="checkbox" id="hlh3" class="mt-0.5 w-4 h-4 text-[#5e81b5] rounded" onchange="calcHlh()">
+                  <span>3. 末梢血2系統以上の血球減少 (Hb &lt; 9.0 g/dL, Plt &lt; 10万/μL, 好中球 &lt; 1000/μL)</span>
+                </label>
+                <label class="flex items-start gap-2 cursor-pointer">
+                  <input type="checkbox" id="hlh4" class="mt-0.5 w-4 h-4 text-[#5e81b5] rounded" onchange="calcHlh()">
+                  <span>4. 高トリグリセリド血症 (≥ 265 mg/dL) かつ/または 低フィブリノゲン血症 (≤ 150 mg/dL)</span>
+                </label>
+                <label class="flex items-start gap-2 cursor-pointer">
+                  <input type="checkbox" id="hlh5" class="mt-0.5 w-4 h-4 text-[#5e81b5] rounded" onchange="calcHlh()">
+                  <span>5. 骨髄・脾臓・リンパ節における血球貪食像 (悪性腫瘍の所見なし)</span>
+                </label>
+                <label class="flex items-start gap-2 cursor-pointer">
+                  <input type="checkbox" id="hlh6" class="mt-0.5 w-4 h-4 text-[#5e81b5] rounded" onchange="calcHlh()">
+                  <span>6. NK細胞活性の低下または消失</span>
+                </label>
+                <label class="flex items-start gap-2 cursor-pointer">
+                  <input type="checkbox" id="hlh7" class="mt-0.5 w-4 h-4 text-[#5e81b5] rounded" onchange="calcHlh()">
+                  <span>7. 高フェリチン血症 (≥ 500 μg/L)</span>
+                </label>
+                <label class="flex items-start gap-2 cursor-pointer">
+                  <input type="checkbox" id="hlh8" class="mt-0.5 w-4 h-4 text-[#5e81b5] rounded" onchange="calcHlh()">
+                  <span>8. 可溶性IL-2受容体 (sIL-2R) 高値 (≥ 2,400 U/mL)</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+              <div>
+                <span class="text-xs font-bold text-slate-700">合致項目数:</span>
+                <div class="flex items-baseline gap-1 my-0.5">
+                  <span id="resHlhCount" class="text-3xl font-extrabold text-[#5e81b5]">0</span>
+                  <span class="text-xs text-slate-500">/ 8 項目</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span id="hlhBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-200 text-slate-700">診断基準未充足</span>
+                <div id="hlhDesc" class="text-xs text-slate-600 mt-1 font-medium">5項目以上で HLH と診断</div>
+              </div>
+            </div>
+          </div>
+        `
+      });
+    }
+
+    function setSampleHlh() {
+      document.getElementById('hlh1').checked = true;
+      document.getElementById('hlh2').checked = true;
+      document.getElementById('hlh3').checked = true;
+      document.getElementById('hlh5').checked = true;
+      document.getElementById('hlh7').checked = true;
+      document.getElementById('hlh8').checked = true;
+      calcHlh();
+    }
+
+    function calcHlh() {
+      let count = 0;
+      for (let i = 1; i <= 8; i++) {
+        if (document.getElementById(`hlh${i}`)?.checked) count++;
+      }
+      const resCount = document.getElementById('resHlhCount');
+      const badge = document.getElementById('hlhBadge');
+      const desc = document.getElementById('hlhDesc');
+      if (!resCount) return;
+
+      resCount.textContent = count;
+
+      let isHlh = count >= 5;
+      if (isHlh) {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#ec6235]/20 text-[#ec6235]";
+        badge.textContent = "HLH 診断基準充足 (≥5項目)";
+        desc.textContent = "原疾患の精査および免疫抑制療法の検討";
+      } else {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-slate-200 text-slate-700";
+        badge.textContent = `基準未充足 (${count}/8項目)`;
+        desc.textContent = "5項目以上で HLH 診断基準を満たします";
+      }
+
+      currentCopyText = `【血球貪食症候群 (HLH) HLH-2004診断基準】\n` +
+        `・充足項目数: ${count} / 8 項目 [${isHlh ? 'HLH診断基準充足' : '基準未充足'}]\n` +
+        `※ 5項目以上合致で HLH と診断されます。`;
+    }
+
+    function copyHlhResult() { copyToClipboard(currentCopyText); }
+
+    // -------------------------------------------------------------------------
+    // 12. Child-Pugh Score
+    // -------------------------------------------------------------------------
+    function renderChildPugh() {
+      return toolShell({
+        title: 'Child-Pugh スコア (肝機能障害・肝硬変重症度)',
+        subtitle: '肝性脳症、腹水、ビリルビン、アルブミン、PT比による予後分類 (Class A/B/C)',
+        badgeText: '肝機能評価',
+        sampleFn: 'setSampleChildPugh',
+        copyFn: 'copyChildPughResult',
+        formulaBoxHtml: `
+          <div><strong>Child-Pugh 分類:</strong> 5項目 (脳症、腹水、Bil、Alb、PT) 各1〜3点 (合計 5〜15点)</div>
+          <div><strong>判定:</strong> Class A (5〜6点: 軽度/代償期) / Class B (7〜9点: 中等度) / Class C (10〜15点: 高度非代償期)</div>
+        `,
+        contentHtml: `
+          <div class="space-y-3 text-xs">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">1. 肝性脳症</label>
+                <select id="cpEnceph" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcChildPugh()">
+                  <option value="1">なし (1点)</option>
+                  <option value="2">軽度 (グレード I〜II、内服でコントロール可) (2点)</option>
+                  <option value="3">高度 (グレード III〜IV、昏睡等) (3点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">2. 腹水</label>
+                <select id="cpAscites" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcChildPugh()">
+                  <option value="1">なし (1点)</option>
+                  <option value="2">少量 (利尿薬等でコントロール可) (2点)</option>
+                  <option value="3">中等量以上・難治性 (3点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">3. 総ビリルビン (mg/dL)</label>
+                <select id="cpBil" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcChildPugh()">
+                  <option value="1">&lt; 2.0 mg/dL (1点)</option>
+                  <option value="2">2.0 〜 3.0 mg/dL (2点)</option>
+                  <option value="3">&gt; 3.0 mg/dL (3点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">4. 血清アルブミン (g/dL)</label>
+                <select id="cpAlb" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcChildPugh()">
+                  <option value="1">&gt; 3.5 g/dL (1点)</option>
+                  <option value="2">2.8 〜 3.5 g/dL (2点)</option>
+                  <option value="3">&lt; 2.8 g/dL (3点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 sm:col-span-2">
+                <label class="font-bold text-slate-800 block mb-1">5. プロトロンビン時間 (PT活性% または PT-INR)</label>
+                <select id="cpPt" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcChildPugh()">
+                  <option value="1">PT &gt; 70% または PT-INR &lt; 1.7 (1点)</option>
+                  <option value="2">PT 40〜70% または PT-INR 1.7〜2.3 (2点)</option>
+                  <option value="3">PT &lt; 40% または PT-INR &gt; 2.3 (3点)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Result -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+              <div>
+                <span class="text-xs font-bold text-slate-700">Child-Pugh スコア:</span>
+                <div class="flex items-baseline gap-1 my-0.5">
+                  <span id="resCpScore" class="text-3xl font-extrabold text-[#5e81b5]">5</span>
+                  <span class="text-xs text-slate-500">/ 15 点</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span id="cpBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]">Class A (5〜6点)</span>
+                <div id="cpDesc" class="text-xs text-slate-600 mt-1 font-medium">代償期 / 1年生存率 約100%</div>
+              </div>
+            </div>
+          </div>
+        `
+      });
+    }
+
+    function setSampleChildPugh() {
+      document.getElementById('cpEnceph').value = '1';
+      document.getElementById('cpAscites').value = '2';
+      document.getElementById('cpBil').value = '2';
+      document.getElementById('cpAlb').value = '2';
+      document.getElementById('cpPt').value = '2';
+      calcChildPugh();
+    }
+
+    function calcChildPugh() {
+      const ids = ['cpEnceph', 'cpAscites', 'cpBil', 'cpAlb', 'cpPt'];
+      let score = 0;
+      ids.forEach(id => { score += parseInt(document.getElementById(id)?.value || 1, 10); });
+
+      const resScore = document.getElementById('resCpScore');
+      const badge = document.getElementById('cpBadge');
+      const desc = document.getElementById('cpDesc');
+      if (!resScore) return;
+
+      resScore.textContent = score;
+
+      let cls = "", surv = "";
+      if (score <= 6) {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]";
+        badge.textContent = `Class A (${score}点)`;
+        cls = "Class A";
+        surv = "代償期 / 1年生存率 約100%, 2年生存率 約85%";
+      } else if (score <= 9) {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#e19c24]/20 text-[#e19c24]";
+        badge.textContent = `Class B (${score}点)`;
+        cls = "Class B";
+        surv = "非代償期 (中等度) / 1年生存率 約80%, 2年生存率 約60%";
+      } else {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#ec6235]/20 text-[#ec6235]";
+        badge.textContent = `Class C (${score}点)`;
+        cls = "Class C";
+        surv = "高度障害 / 1年生存率 約45%, 2年生存率 約35%";
+      }
+      desc.textContent = surv;
+
+      currentCopyText = `【Child-Pugh 肝機能分類】\n` +
+        `・合計スコア: ${score} 点 [${cls}]\n` +
+        `・予後目安: ${surv}`;
+    }
+
+    function copyChildPughResult() { copyToClipboard(currentCopyText); }
+
+    // -------------------------------------------------------------------------
+    // 13. Acute DIC Score (JAAM)
+    // -------------------------------------------------------------------------
+    function renderDic() {
+      return toolShell({
+        title: '急性期 DIC 診断基準 (日本救急医学会 JAAM)',
+        subtitle: 'SIRS、血小板、PT比、FDP/D-dimer による急性期播種性血管内凝固症候群の診断',
+        badgeText: '救急・凝固',
+        sampleFn: 'setSampleDic',
+        copyFn: 'copyDicResult',
+        formulaBoxHtml: `
+          <div><strong>JAAM 急性期DIC診断基準:</strong> SIRS(1点) + 血小板(0/1/3点) + PT比≥1.2(1点) + FDP/D-dimer(0/1/3点)</div>
+          <div><strong>診断基準:</strong> 合計 ≥ 4点 で急性期 DIC と診断 (抗凝固療法等の早期開始を検討)</div>
+        `,
+        contentHtml: `
+          <div class="space-y-3 text-xs">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 sm:col-span-2">
+                <label class="font-bold text-slate-800 block mb-1">1. 全身性炎症反応症候群 (SIRS) 項目</label>
+                <select id="dicSirs" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcDic()">
+                  <option value="0">2項目以下 (0点)</option>
+                  <option value="1">3項目以上を満たす (体温, 心拍>90, 呼吸>20, WBC異常) (1点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">2. 血小板数</label>
+                <select id="dicPlt" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcDic()">
+                  <option value="0">&gt; 12 万/μL (0点)</option>
+                  <option value="1">8〜12 万/μL または 24h以内に30%以上低下 (1点)</option>
+                  <option value="3">&lt; 8 万/μL または 24h以内に50%以上低下 (3点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">3. PT比 (患者PT秒 / 正常対照秒)</label>
+                <select id="dicPt" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcDic()">
+                  <option value="0">&lt; 1.2 (0点)</option>
+                  <option value="1">≥ 1.2 (1点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 sm:col-span-2">
+                <label class="font-bold text-slate-800 block mb-1">4. FDP または D-dimer (μg/mL)</label>
+                <select id="dicFdp" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcDic()">
+                  <option value="0">FDP &lt; 10 (D-dimer &lt; 6) (0点)</option>
+                  <option value="1">FDP 10〜25 (D-dimer 6〜15) (1点)</option>
+                  <option value="3">FDP ≥ 25 (D-dimer ≥ 15) (3点)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Result -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+              <div>
+                <span class="text-xs font-bold text-slate-700">JAAM 急性期DIC スコア:</span>
+                <div class="flex items-baseline gap-1 my-0.5">
+                  <span id="resDicScore" class="text-3xl font-extrabold text-[#5e81b5]">0</span>
+                  <span class="text-xs text-slate-500">/ 8 点</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span id="dicBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]">DIC 基準未満</span>
+                <div id="dicDesc" class="text-xs text-slate-600 mt-1 font-medium">合計 4点以上で 急性期DIC と診断</div>
+              </div>
+            </div>
+          </div>
+        `
+      });
+    }
+
+    function setSampleDic() {
+      document.getElementById('dicSirs').value = '1';
+      document.getElementById('dicPlt').value = '3';
+      document.getElementById('dicPt').value = '1';
+      document.getElementById('dicFdp').value = '1';
+      calcDic();
+    }
+
+    function calcDic() {
+      const sirs = parseInt(document.getElementById('dicSirs')?.value || 0, 10);
+      const plt = parseInt(document.getElementById('dicPlt')?.value || 0, 10);
+      const pt = parseInt(document.getElementById('dicPt')?.value || 0, 10);
+      const fdp = parseInt(document.getElementById('dicFdp')?.value || 0, 10);
+
+      const score = sirs + plt + pt + fdp;
+      const resScore = document.getElementById('resDicScore');
+      const badge = document.getElementById('dicBadge');
+      const desc = document.getElementById('dicDesc');
+      if (!resScore) return;
+
+      resScore.textContent = score;
+
+      let isDic = score >= 4;
+      if (isDic) {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#ec6235]/20 text-[#ec6235]";
+        badge.textContent = `急性期 DIC 診断 (≥4点)`;
+        desc.textContent = "抗凝固療法等の治療介入を検討";
+      } else {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]";
+        badge.textContent = `DIC 基準未満 (${score}点)`;
+        desc.textContent = "4点以上で急性期DIC診断";
+      }
+
+      currentCopyText = `【日本救急医学会 (JAAM) 急性期DICスコア】\n` +
+        `・スコア: ${score} / 8 点 [${isDic ? '急性期DIC 診断' : 'DIC 基準未満'}]\n` +
+        `※ 4点以上で急性期DICと診断されます。`;
+    }
+
+    function copyDicResult() { copyToClipboard(currentCopyText); }
+
+    // -------------------------------------------------------------------------
+    // 14. Pulmonary Embolism (Wells & Geneva)
+    // -------------------------------------------------------------------------
+    function renderPe() {
+      return toolShell({
+        title: '改定Genevaスコア / Modified Wellsスコア (肺塞栓症 PE)',
+        subtitle: '急性肺血栓塞栓症 (PE) の臨床的予測スコアリング',
+        badgeText: '血栓・救急',
+        sampleFn: 'setSamplePe',
+        copyFn: 'copyPeResult',
+        formulaBoxHtml: `
+          <div><strong>Modified Wells基準 (PE):</strong> ≤ 4点: PE unlikely (D-dimer除外可能) / &gt; 4点: PE likely (造影CT推奨)</div>
+          <div><strong>改定Geneva基準:</strong> 0〜3点 (低リスク: 8%) / 4〜10点 (中リスク: 28%) / ≥ 11点 (高リスク: 74%)</div>
+        `,
+        contentHtml: `
+          <div class="space-y-4">
+            <div class="bg-slate-100 p-1 rounded-xl flex space-x-1 text-xs font-bold">
+              <button id="peSubTabWells" onclick="switchPeSubTab('wells')" class="flex-1 py-1.5 rounded-lg bg-white text-[#5e81b5] shadow-2xs">Modified Wells スコア</button>
+              <button id="peSubTabGeneva" onclick="switchPeSubTab('geneva')" class="flex-1 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">改定 Geneva スコア</button>
+            </div>
+
+            <!-- Wells Content -->
+            <div id="peWellsContent" class="space-y-2.5 text-xs">
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>1. DVTの臨床症状・徴候 (下肢腫脹・圧痛)</span>
+                <select id="wellsDvt" class="p-1.5 bg-white border rounded text-xs" onchange="calcPe()">
+                  <option value="0">なし (0点)</option>
+                  <option value="3">あり (+3点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>2. 他の疾患よりPEの可能性が高い</span>
+                <select id="wellsAlt" class="p-1.5 bg-white border rounded text-xs" onchange="calcPe()">
+                  <option value="0">いいえ (0点)</option>
+                  <option value="3">はい (+3点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>3. 心拍数 &gt; 100 回/分</span>
+                <select id="wellsHr" class="p-1.5 bg-white border rounded text-xs" onchange="calcPe()">
+                  <option value="0">HR ≤ 100 (0点)</option>
+                  <option value="1.5">HR &gt; 100 (+1.5点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>4. 過去4週以内の臥床安静(3日超)または大手術</span>
+                <select id="wellsImmob" class="p-1.5 bg-white border rounded text-xs" onchange="calcPe()">
+                  <option value="0">なし (0点)</option>
+                  <option value="1.5">あり (+1.5点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>5. DVT または PE の既往</span>
+                <select id="wellsPrev" class="p-1.5 bg-white border rounded text-xs" onchange="calcPe()">
+                  <option value="0">なし (0点)</option>
+                  <option value="1.5">あり (+1.5点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>6. 喀血</span>
+                <select id="wellsHemo" class="p-1.5 bg-white border rounded text-xs" onchange="calcPe()">
+                  <option value="0">なし (0点)</option>
+                  <option value="1">あり (+1点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>7. 活動性悪性腫瘍</span>
+                <select id="wellsMalign" class="p-1.5 bg-white border rounded text-xs" onchange="calcPe()">
+                  <option value="0">なし (0点)</option>
+                  <option value="1">あり (+1点)</option>
+                </select>
+              </div>
+
+              <!-- Wells Result -->
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+                <div>
+                  <span class="text-xs font-bold text-slate-700">Modified Wells スコア:</span>
+                  <div class="flex items-baseline gap-1 my-0.5">
+                    <span id="resWellsScore" class="text-3xl font-extrabold text-[#5e81b5]">0</span>
+                    <span class="text-xs text-slate-500">点</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span id="wellsBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]">PE unlikely (≤4点)</span>
+                  <div id="wellsDesc" class="text-xs text-slate-600 mt-1 font-medium">D-dimer 陰性であればPE除外可能</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Geneva Content -->
+            <div id="peGenevaContent" class="space-y-2.5 text-xs hidden">
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>1. 年齢 &gt; 65 歳</span>
+                <select id="genAge" class="p-1.5 bg-white border rounded text-xs" onchange="calcPe()">
+                  <option value="0">≤ 65 歳 (0点)</option>
+                  <option value="1">&gt; 65 歳 (1点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>2. DVT または PE の既往</span>
+                <select id="genPrev" class="p-1.5 bg-white border rounded text-xs" onchange="calcPe()">
+                  <option value="0">なし (0点)</option>
+                  <option value="3">あり (3点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>3. 過去1ヶ月以内の手術または下肢骨折</span>
+                <select id="genSurg" class="p-1.5 bg-white border rounded text-xs" onchange="calcPe()">
+                  <option value="0">なし (0点)</option>
+                  <option value="2">あり (2点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>4. 活動性悪性腫瘍</span>
+                <select id="genMalign" class="p-1.5 bg-white border rounded text-xs" onchange="calcPe()">
+                  <option value="0">なし (0点)</option>
+                  <option value="2">あり (2点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>5. 片側下肢痛</span>
+                <select id="genPain" class="p-1.5 bg-white border rounded text-xs" onchange="calcPe()">
+                  <option value="0">なし (0点)</option>
+                  <option value="3">あり (3点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>6. 喀血</span>
+                <select id="genHemo" class="p-1.5 bg-white border rounded text-xs" onchange="calcPe()">
+                  <option value="0">なし (0点)</option>
+                  <option value="2">あり (2点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>7. 心拍数</span>
+                <select id="genHr" class="p-1.5 bg-white border rounded text-xs" onchange="calcPe()">
+                  <option value="0">&lt; 75 bpm (0点)</option>
+                  <option value="3">75 〜 94 bpm (3点)</option>
+                  <option value="5">≥ 95 bpm (5点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>8. 片側下肢深部静脈圧痛 &amp; 片側浮腫</span>
+                <select id="genEdema" class="p-1.5 bg-white border rounded text-xs" onchange="calcPe()">
+                  <option value="0">なし (0点)</option>
+                  <option value="4">あり (4点)</option>
+                </select>
+              </div>
+
+              <!-- Geneva Result -->
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+                <div>
+                  <span class="text-xs font-bold text-slate-700">改定 Geneva スコア:</span>
+                  <div class="flex items-baseline gap-1 my-0.5">
+                    <span id="resGenevaScore" class="text-3xl font-extrabold text-[#5e81b5]">0</span>
+                    <span class="text-xs text-slate-500">点</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span id="genevaBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]">低リスク (0〜3点)</span>
+                  <div id="genevaDesc" class="text-xs text-slate-600 mt-1 font-medium">PE確率 約 8%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+      });
+    }
+
+    let activePeSubTab = 'wells';
+    function switchPeSubTab(tab) {
+      activePeSubTab = tab;
+      const tabW = document.getElementById('peSubTabWells');
+      const tabG = document.getElementById('peSubTabGeneva');
+      const contW = document.getElementById('peWellsContent');
+      const contG = document.getElementById('peGenevaContent');
+
+      if (tab === 'wells') {
+        tabW.className = "flex-1 py-1.5 rounded-lg bg-white text-[#5e81b5] shadow-2xs";
+        tabG.className = "flex-1 py-1.5 rounded-lg text-slate-600 hover:text-slate-900";
+        contW.classList.remove('hidden');
+        contG.classList.add('hidden');
+      } else {
+        tabG.className = "flex-1 py-1.5 rounded-lg bg-white text-[#5e81b5] shadow-2xs";
+        tabW.className = "flex-1 py-1.5 rounded-lg text-slate-600 hover:text-slate-900";
+        contG.classList.remove('hidden');
+        contW.classList.add('hidden');
+      }
+      calcPe();
+    }
+
+    function setSamplePe() {
+      if (activePeSubTab === 'wells') {
+        document.getElementById('wellsDvt').value = '3';
+        document.getElementById('wellsAlt').value = '3';
+        document.getElementById('wellsHr').value = '1.5';
+      } else {
+        document.getElementById('genAge').value = '1';
+        document.getElementById('genPain').value = '3';
+        document.getElementById('genHr').value = '5';
+      }
+      calcPe();
+    }
+
+    function calcPe() {
+      // Wells
+      const wDvt = parseFloat(document.getElementById('wellsDvt')?.value || 0);
+      const wAlt = parseFloat(document.getElementById('wellsAlt')?.value || 0);
+      const wHr = parseFloat(document.getElementById('wellsHr')?.value || 0);
+      const wImmob = parseFloat(document.getElementById('wellsImmob')?.value || 0);
+      const wPrev = parseFloat(document.getElementById('wellsPrev')?.value || 0);
+      const wHemo = parseFloat(document.getElementById('wellsHemo')?.value || 0);
+      const wMalign = parseFloat(document.getElementById('wellsMalign')?.value || 0);
+
+      const wellsScore = wDvt + wAlt + wHr + wImmob + wPrev + wHemo + wMalign;
+      const resW = document.getElementById('resWellsScore');
+      const badgeW = document.getElementById('wellsBadge');
+      const descW = document.getElementById('wellsDesc');
+      if (resW) {
+        resW.textContent = wellsScore;
+        if (wellsScore <= 4) {
+          badgeW.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]";
+          badgeW.textContent = "PE unlikely (≤4点)";
+          descW.textContent = "D-dimer 陰性でPEを除外可能";
+        } else {
+          badgeW.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#ec6235]/20 text-[#ec6235]";
+          badgeW.textContent = "PE likely (>4点)";
+          descW.textContent = "造影CT (CTPA) または抗凝固の検討を推奨";
+        }
+      }
+
+      // Geneva
+      const gIds = ['genAge', 'genPrev', 'genSurg', 'genMalign', 'genPain', 'genHemo', 'genHr', 'genEdema'];
+      let genevaScore = 0;
+      gIds.forEach(id => { genevaScore += parseInt(document.getElementById(id)?.value || 0, 10); });
+      const resG = document.getElementById('resGenevaScore');
+      const badgeG = document.getElementById('genevaBadge');
+      const descG = document.getElementById('genevaDesc');
+      if (resG) {
+        resG.textContent = genevaScore;
+        if (genevaScore <= 3) {
+          badgeG.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]";
+          badgeG.textContent = "低リスク (0〜3点)";
+          descG.textContent = "PE確率 約 8%";
+        } else if (genevaScore <= 10) {
+          badgeG.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#e19c24]/20 text-[#e19c24]";
+          badgeG.textContent = "中リスク (4〜10点)";
+          descG.textContent = "PE確率 約 28%";
+        } else {
+          badgeG.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#ec6235]/20 text-[#ec6235]";
+          badgeG.textContent = "高リスク (≥11点)";
+          descG.textContent = "PE確率 約 74% (造影CT推奨)";
+        }
+      }
+
+      if (activePeSubTab === 'wells') {
+        currentCopyText = `【Modified Wells 肺塞栓症(PE)スコア】\n` +
+          `・スコア: ${wellsScore} 点 [${wellsScore <= 4 ? 'PE unlikely (≤4点: D-dimer除外可能)' : 'PE likely (>4点: 造影CT推奨)'}]`;
+      } else {
+        currentCopyText = `【改定 Geneva 肺塞栓症(PE)スコア】\n` +
+          `・スコア: ${genevaScore} 点 [${genevaScore <= 3 ? '低リスク (0-3点)' : genevaScore <= 10 ? '中リスク (4-10点)' : '高リスク (≥11点)'}]`;
+      }
+    }
+
+    function copyPeResult() { copyToClipboard(currentCopyText); }
+
+    // -------------------------------------------------------------------------
+    // 15. Light's Criteria (Pleural Effusion)
+    // -------------------------------------------------------------------------
+    function renderLight() {
+      return toolShell({
+        title: '胸水 Light の基準 (Light\'s criteria)',
+        subtitle: '胸水の性状鑑別 (滲出性 Exudate vs 漏出性 Transudate)',
+        badgeText: '胸水鑑別',
+        sampleFn: 'setSampleLight',
+        copyFn: 'copyLightResult',
+        formulaBoxHtml: `
+          <div><strong>Light基準 (以下の1つ以上で「滲出性」):</strong></div>
+          <div>① 胸水TP / 血清TP &gt; 0.5　② 胸水LDH / 血清LDH &gt; 0.6　③ 胸水LDH &gt; 血清LDH正常上限の 2/3</div>
+          <div><strong>利尿薬使用時の補正:</strong> 血清Alb - 胸水Alb 勾配 &gt; 1.2 g/dL の場合は「漏出性」と補正判定</div>
+        `,
+        contentHtml: `
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div>
+              <label class="block text-slate-600 font-semibold mb-1">胸水 総蛋白 (P-TP)</label>
+              <div class="relative">
+                <input type="number" id="lightPtp" placeholder="3.5" step="0.1" class="w-full px-2.5 py-1.5 bg-slate-50 border rounded-xl text-xs font-medium focus:bg-white focus:ring-2 focus:ring-[#5e81b5] focus:outline-none" oninput="calcLight()">
+                <span class="absolute right-2.5 top-2 text-[10px] text-slate-400">g/dL</span>
+              </div>
+            </div>
+            <div>
+              <label class="block text-slate-600 font-semibold mb-1">血清 総蛋白 (S-TP)</label>
+              <div class="relative">
+                <input type="number" id="lightStp" placeholder="6.2" step="0.1" class="w-full px-2.5 py-1.5 bg-slate-50 border rounded-xl text-xs font-medium focus:bg-white focus:ring-2 focus:ring-[#5e81b5] focus:outline-none" oninput="calcLight()">
+                <span class="absolute right-2.5 top-2 text-[10px] text-slate-400">g/dL</span>
+              </div>
+            </div>
+            <div>
+              <label class="block text-slate-600 font-semibold mb-1">胸水 LDH (P-LDH)</label>
+              <div class="relative">
+                <input type="number" id="lightPldh" placeholder="280" class="w-full px-2.5 py-1.5 bg-slate-50 border rounded-xl text-xs font-medium focus:bg-white focus:ring-2 focus:ring-[#5e81b5] focus:outline-none" oninput="calcLight()">
+                <span class="absolute right-2.5 top-2 text-[10px] text-slate-400">IU/L</span>
+              </div>
+            </div>
+            <div>
+              <label class="block text-slate-600 font-semibold mb-1">血清 LDH (S-LDH)</label>
+              <div class="relative">
+                <input type="number" id="lightSldh" placeholder="200" class="w-full px-2.5 py-1.5 bg-slate-50 border rounded-xl text-xs font-medium focus:bg-white focus:ring-2 focus:ring-[#5e81b5] focus:outline-none" oninput="calcLight()">
+                <span class="absolute right-2.5 top-2 text-[10px] text-slate-400">IU/L</span>
+              </div>
+            </div>
+            <div class="col-span-2">
+              <label class="block text-slate-600 font-semibold mb-1">血清LDH 正常上限値 (施設基準)</label>
+              <input type="number" id="lightUlnLdh" value="220" class="w-full px-2.5 py-1.5 bg-slate-50 border rounded-xl text-xs font-medium focus:bg-white focus:ring-2 focus:ring-[#5e81b5] focus:outline-none" oninput="calcLight()">
+            </div>
+            <div class="col-span-2">
+              <label class="block text-slate-600 font-semibold mb-1">血清Alb - 胸水Alb 勾配 <span class="text-slate-400 font-normal">(利尿薬使用時)</span></label>
+              <input type="number" id="lightAlbGrad" placeholder="任意 (例: 1.4)" step="0.1" class="w-full px-2.5 py-1.5 bg-slate-50 border rounded-xl text-xs font-medium focus:bg-white focus:ring-2 focus:ring-[#5e81b5] focus:outline-none" oninput="calcLight()">
+            </div>
+          </div>
+
+          <!-- Result Boxes -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 mt-4 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700">Light 基準による鑑別結果:</span>
+              <span id="lightBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-slate-200 text-slate-700">値を入力してください</span>
+            </div>
+            <div class="text-xs text-slate-600 space-y-1 pt-1 border-t border-slate-200/80">
+              <div class="flex justify-between">
+                <span>① 胸水TP / 血清TP 比 (&gt;0.5):</span>
+                <b id="resLightTpRatio">--</b>
+              </div>
+              <div class="flex justify-between">
+                <span>② 胸水LDH / 血清LDH 比 (&gt;0.6):</span>
+                <b id="resLightLdhRatio">--</b>
+              </div>
+              <div class="flex justify-between">
+                <span>③ 胸水LDH &gt; 正常上限の2/3:</span>
+                <b id="resLightLdhCutoff">--</b>
+              </div>
+              <div id="lightAlbNote" class="hidden text-[11px] text-[#5e81b5] font-medium pt-1"></div>
+            </div>
+          </div>
+        `
+      });
+    }
+
+    function setSampleLight() {
+      document.getElementById('lightPtp').value = '3.8';
+      document.getElementById('lightStp').value = '6.4';
+      document.getElementById('lightPldh').value = '310';
+      document.getElementById('lightSldh').value = '190';
+      document.getElementById('lightUlnLdh').value = '220';
+      calcLight();
+    }
+
+    function calcLight() {
+      const pTp = parseFloat(document.getElementById('lightPtp')?.value);
+      const sTp = parseFloat(document.getElementById('lightStp')?.value);
+      const pLdh = parseFloat(document.getElementById('lightPldh')?.value);
+      const sLdh = parseFloat(document.getElementById('lightSldh')?.value);
+      const ulnLdh = parseFloat(document.getElementById('lightUlnLdh')?.value || 220);
+      const albGrad = parseFloat(document.getElementById('lightAlbGrad')?.value);
+
+      const badge = document.getElementById('lightBadge');
+      const resTp = document.getElementById('resLightTpRatio');
+      const resLdh = document.getElementById('resLightLdhRatio');
+      const resCut = document.getElementById('resLightLdhCutoff');
+      const albNote = document.getElementById('lightAlbNote');
+
+      if (!pTp || !sTp || !pLdh || !sLdh) {
+        if (badge) {
+          badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-slate-200 text-slate-700";
+          badge.textContent = "値を入力してください";
+        }
+        if (resTp) resTp.textContent = '--';
+        if (resLdh) resLdh.textContent = '--';
+        if (resCut) resCut.textContent = '--';
+        if (albNote) albNote.classList.add('hidden');
+        currentCopyText = '';
+        return;
+      }
+
+      const tpRatio = pTp / sTp;
+      const ldhRatio = pLdh / sLdh;
+      const ldh23 = (ulnLdh * 2) / 3;
+
+      const c1 = tpRatio > 0.5;
+      const c2 = ldhRatio > 0.6;
+      const c3 = pLdh > ldh23;
+
+      resTp.innerHTML = `${tpRatio.toFixed(2)} ${c1 ? '<span class="text-[#ec6235] font-bold">[陽性]</span>' : '<span class="text-slate-400">[陰性]</span>'}`;
+      resLdh.innerHTML = `${ldhRatio.toFixed(2)} ${c2 ? '<span class="text-[#ec6235] font-bold">[陽性]</span>' : '<span class="text-slate-400">[陰性]</span>'}`;
+      resCut.innerHTML = `${pLdh} (基準: &gt;${Math.round(ldh23)}) ${c3 ? '<span class="text-[#ec6235] font-bold">[陽性]</span>' : '<span class="text-slate-400">[陰性]</span>'}`;
+
+      const isExudate = c1 || c2 || c3;
+
+      let finalEval = "";
+      if (isExudate) {
+        if (albGrad && albGrad > 1.2) {
+          badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#5e81b5]/20 text-[#5e81b5]";
+          badge.textContent = "漏出性胸水 (Alb勾配補正)";
+          finalEval = "漏出性胸水 (Transudate) ※Alb勾配 > 1.2g/dL による補正判定";
+          albNote.textContent = `※ Light基準では滲出性ですが、血清-胸水Alb勾配 (${albGrad} > 1.2 g/dL) より利尿薬下の漏出性胸水が示唆されます。`;
+          albNote.classList.remove('hidden');
+        } else {
+          badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#ec6235]/20 text-[#ec6235]";
+          badge.textContent = "滲出性胸水 (Exudate)";
+          finalEval = "滲出性胸水 (Exudate)";
+          albNote.classList.add('hidden');
+        }
+      } else {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]";
+        badge.textContent = "漏出性胸水 (Transudate)";
+        finalEval = "漏出性胸水 (Transudate)";
+        albNote.classList.add('hidden');
+      }
+
+      currentCopyText = `【胸水 Light の基準判定】\n` +
+        `・検査値: 胸水TP ${pTp} / 血清TP ${sTp} (比: ${tpRatio.toFixed(2)}), 胸水LDH ${pLdh} / 血清LDH ${sLdh} (比: ${ldhRatio.toFixed(2)})\n` +
+        `・判定結果: 【${finalEval}】\n` +
+        `・Light基準項目: TP比>0.5(${c1 ? '陽性' : '陰性'}), LDH比>0.6(${c2 ? '陽性' : '陰性'}), 胸水LDH>正常上限2/3(${c3 ? '陽性' : '陰性'})`;
+    }
+
+    function copyLightResult() { copyToClipboard(currentCopyText); }
+
+    // -------------------------------------------------------------------------
+    // 16. New Katagiri Score (Bone Metastasis Prognosis)
+    // -------------------------------------------------------------------------
+    function renderKatagiri() {
+      return toolShell({
+        title: '新片桐スコア (New Katagiri Score)',
+        subtitle: '骨転移を有するがん患者の生命予後予測 (1年生存率・治療方針決定補助)',
+        badgeText: '骨転移予後',
+        sampleFn: 'setSampleKatagiri',
+        copyFn: 'copyKatagiriResult',
+        formulaBoxHtml: `
+          <div><strong>新片桐スコアリング:</strong> 原発巣(0/2/3点) + 内臓転移(0/1/2点) + 検査異常(0/1/2点) + PS3-4(1点) + 化学療法歴(1点) + 多発骨転移(1点)</div>
+          <div><strong>予後分類:</strong> 低リスク (0〜3点: 1年生存率 &gt;80%) / 中リスク (4〜6点: 30〜80%) / 高リスク (7〜10点: ≤10%)</div>
+        `,
+        contentHtml: `
+          <div class="space-y-3 text-xs">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 sm:col-span-2">
+                <label class="font-bold text-slate-800 block mb-1">1. 原発巣の発育速度</label>
+                <select id="kataPrimary" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcKatagiri()">
+                  <option value="0">緩徐発育 (乳癌・前立腺癌のホルモン依存性、甲状腺癌、多発性骨髄腫、悪性リンパ腫) (0点)</option>
+                  <option value="2">中間 (分子標的薬治療可能な肺癌、ホルモン不応乳癌・前立腺癌、腎癌、肉腫等) (2点)</option>
+                  <option value="3">急速発育 (分子標的薬無効の肺癌、胃癌、大腸癌、肝胆膵癌、メラノーマ、原発不明癌) (3点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">2. 内臓転移・脳転移</label>
+                <select id="kataVisceral" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcKatagiri()">
+                  <option value="0">なし (0点)</option>
+                  <option value="1">結節性の内臓転移 または 脳転移 (1点)</option>
+                  <option value="2">播種性転移 (胸膜・腹膜・髄膜播種) (2点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">3. 臨床検査異常</label>
+                <select id="kataLab" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcKatagiri()">
+                  <option value="0">なし (0点)</option>
+                  <option value="1">異常あり (CRP ≥0.4, LDH ≥250, Alb &lt;3.7 のいずれか) (1点)</option>
+                  <option value="2">重大な異常あり (Plt &lt;10万, Ca ≥10.3, 総Bil ≥1.4 のいずれか) (2点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">4. ECOG パフォーマンスステータス (PS)</label>
+                <select id="kataPs" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcKatagiri()">
+                  <option value="0">PS 0 〜 2 (歩行可能) (0点)</option>
+                  <option value="1">PS 3 〜 4 (日中の半分以上ベッド上) (1点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                <label class="font-bold text-slate-800 block mb-1">5. これまでの化学療法歴</label>
+                <select id="kataChemo" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcKatagiri()">
+                  <option value="0">なし (0点)</option>
+                  <option value="1">あり (1点)</option>
+                </select>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 sm:col-span-2">
+                <label class="font-bold text-slate-800 block mb-1">6. 多発骨転移</label>
+                <select id="kataBone" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs" onchange="calcKatagiri()">
+                  <option value="0">なし (単発骨転移) (0点)</option>
+                  <option value="1">あり (多発骨転移) (1点)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Result Box -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+              <div>
+                <span class="text-xs font-bold text-slate-700">新片桐スコア合計点:</span>
+                <div class="flex items-baseline gap-1 my-0.5">
+                  <span id="resKataScore" class="text-3xl font-extrabold text-[#5e81b5]">0</span>
+                  <span class="text-xs text-slate-500">/ 10 点</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span id="kataBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]">低リスク (0〜3点)</span>
+                <div id="kataDesc" class="text-xs text-slate-600 mt-1 font-medium">1年生存率 &gt; 80% (積極的局所治療の適応検討)</div>
+              </div>
+            </div>
+          </div>
+        `
+      });
+    }
+
+    function setSampleKatagiri() {
+      document.getElementById('kataPrimary').value = '2';
+      document.getElementById('kataVisceral').value = '1';
+      document.getElementById('kataLab').value = '1';
+      document.getElementById('kataPs').value = '0';
+      document.getElementById('kataChemo').value = '1';
+      document.getElementById('kataBone').value = '1';
+      calcKatagiri();
+    }
+
+    function calcKatagiri() {
+      const ids = ['kataPrimary', 'kataVisceral', 'kataLab', 'kataPs', 'kataChemo', 'kataBone'];
+      let score = 0;
+      ids.forEach(id => { score += parseInt(document.getElementById(id)?.value || 0, 10); });
+
+      const resScore = document.getElementById('resKataScore');
+      const badge = document.getElementById('kataBadge');
+      const desc = document.getElementById('kataDesc');
+      if (!resScore) return;
+
+      resScore.textContent = score;
+
+      let riskCat = "", surv = "";
+      if (score <= 3) {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]";
+        badge.textContent = `低リスク (0〜3点)`;
+        riskCat = "低リスク (0〜3点)";
+        surv = "1年生存率 > 80% (積極的手術や根治的放射線等の適応考慮)";
+      } else if (score <= 6) {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#e19c24]/20 text-[#e19c24]";
+        badge.textContent = `中リスク (4〜6点)`;
+        riskCat = "中リスク (4〜6点)";
+        surv = "1年生存率 30〜80% (除痛・QOL向上・病的骨折予防を主眼)";
+      } else {
+        badge.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#ec6235]/20 text-[#ec6235]";
+        badge.textContent = `高リスク (7〜10点)`;
+        riskCat = "高リスク (7〜10点)";
+        surv = "1年生存率 ≤ 10% (低侵襲治療・緩和ケアを優先)";
+      }
+      desc.textContent = surv;
+
+      currentCopyText = `【新片桐スコア (骨転移生命予後予測)】\n` +
+        `・合計スコア: ${score} / 10 点 [${riskCat}]\n` +
+        `・予測予後: ${surv}\n` +
+        `※ 近年の分子標的薬・免疫療法による予後改善傾向を考慮し総合判断してください。`;
+    }
+
+    function copyKatagiriResult() { copyToClipboard(currentCopyText); }
+
+    // -------------------------------------------------------------------------
+    // 17. PaP Score & PPI / PPS (Palliative Prognosis)
+    // -------------------------------------------------------------------------
+    function renderPapPpi() {
+      return toolShell({
+        title: 'PaP スコア / PPI / PPS (終末期がん生命予後予測)',
+        subtitle: '緩和ケアにおける生命予後予測 (週・日数単位) の客観的評価',
+        badgeText: '緩和予後',
+        sampleFn: 'setSamplePapPpi',
+        copyFn: 'copyPapPpiResult',
+        formulaBoxHtml: `
+          <div><strong>PPI基準:</strong> &gt; 6点 (予後3週未満) / &gt; 4点 (予後6週未満) / ≤ 4点 (予後6週以上)</div>
+          <div><strong>PaP基準:</strong> 0〜5.5点 (Group A: 30日生存率&gt;70%) / 5.6〜11点 (Group B: 30-70%) / 11.1〜17.5点 (Group C: &lt;30%)</div>
+        `,
+        contentHtml: `
+          <div class="space-y-4">
+            <div class="bg-slate-100 p-1 rounded-xl flex space-x-1 text-xs font-bold">
+              <button id="papSubTabPpi" onclick="switchPapSubTab('ppi')" class="flex-1 py-1.5 rounded-lg bg-white text-[#5e81b5] shadow-2xs">PPI (Palliative Prognostic Index)</button>
+              <button id="papSubTabPap" onclick="switchPapSubTab('pap')" class="flex-1 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">PaP スコア (Palliative Prognostic Score)</button>
+            </div>
+
+            <!-- PPI Section -->
+            <div id="papPpiContent" class="space-y-2.5 text-xs">
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>1. PPS (Palliative Performance Scale)</span>
+                <select id="ppiPps" class="p-1.5 bg-white border rounded text-xs" onchange="calcPapPpi()">
+                  <option value="0">PPS 60% 以上 (0点)</option>
+                  <option value="2.5">PPS 30 〜 50% (2.5点)</option>
+                  <option value="4">PPS 10 〜 20% (寝たきり) (4点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>2. 経口摂取量</span>
+                <select id="ppiOral" class="p-1.5 bg-white border rounded text-xs" onchange="calcPapPpi()">
+                  <option value="0">通常量 (0点)</option>
+                  <option value="1">軽度低下 (1点)</option>
+                  <option value="2.5">著明に低下 (点滴主体の水分程度) (2.5点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>3. 浮腫</span>
+                <select id="ppiEdema" class="p-1.5 bg-white border rounded text-xs" onchange="calcPapPpi()">
+                  <option value="0">なし (0点)</option>
+                  <option value="1">あり (1点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>4. 安静時呼吸困難</span>
+                <select id="ppiDyspnea" class="p-1.5 bg-white border rounded text-xs" onchange="calcPapPpi()">
+                  <option value="0">なし (0点)</option>
+                  <option value="3.5">あり (3.5点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>5. せん妄</span>
+                <select id="ppiDelirium" class="p-1.5 bg-white border rounded text-xs" onchange="calcPapPpi()">
+                  <option value="0">なし (0点)</option>
+                  <option value="4">あり (4点)</option>
+                </select>
+              </div>
+
+              <!-- PPI Result -->
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+                <div>
+                  <span class="text-xs font-bold text-slate-700">PPI スコア合計:</span>
+                  <div class="flex items-baseline gap-1 my-0.5">
+                    <span id="resPpiScore" class="text-3xl font-extrabold text-[#5e81b5]">0</span>
+                    <span class="text-xs text-slate-500">点</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span id="ppiBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]">予後 6週以上 (≤4点)</span>
+                  <div id="ppiDesc" class="text-xs text-slate-600 mt-1 font-medium">生命予後目安: 6週以上</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PaP Section -->
+            <div id="papPapContent" class="space-y-2.5 text-xs hidden">
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>1. 臨床的予測生存期間</span>
+                <select id="papPred" class="p-1.5 bg-white border rounded text-xs" onchange="calcPapPpi()">
+                  <option value="0">&gt; 12 週 (0点)</option>
+                  <option value="2">11 〜 12 週 (2点)</option>
+                  <option value="2.5">9 〜 10 週 (2.5点)</option>
+                  <option value="2.5">7 〜 8 週 (2.5点)</option>
+                  <option value="4.5">5 〜 6 週 (4.5点)</option>
+                  <option value="6">3 〜 4 週 (6点)</option>
+                  <option value="8.5">1 〜 2 週 (8.5点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>2. KPS (Karnofsky Performance Status)</span>
+                <select id="papKps" class="p-1.5 bg-white border rounded text-xs" onchange="calcPapPpi()">
+                  <option value="0">KPS ≥ 30% (0点)</option>
+                  <option value="2.5">KPS 10 〜 20% (寝たきり) (2.5点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>3. 食欲不振</span>
+                <select id="papAnorexia" class="p-1.5 bg-white border rounded text-xs" onchange="calcPapPpi()">
+                  <option value="0">なし (0点)</option>
+                  <option value="1.5">あり (1.5点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>4. 呼吸困難</span>
+                <select id="papDyspnea" class="p-1.5 bg-white border rounded text-xs" onchange="calcPapPpi()">
+                  <option value="0">なし (0点)</option>
+                  <option value="1">あり (1点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>5. 白血球数 (/μL)</span>
+                <select id="papWbc" class="p-1.5 bg-white border rounded text-xs" onchange="calcPapPpi()">
+                  <option value="0">≤ 8,500 (0点)</option>
+                  <option value="0.5">8,501 〜 11,000 (0.5点)</option>
+                  <option value="1.5">&gt; 11,000 (1.5点)</option>
+                </select>
+              </div>
+              <div class="p-2.5 bg-slate-50 rounded-xl border flex items-center justify-between">
+                <span>6. リンパ球割合 (%)</span>
+                <select id="papLym" class="p-1.5 bg-white border rounded text-xs" onchange="calcPapPpi()">
+                  <option value="0">≥ 12.0% (0点)</option>
+                  <option value="1">9.0 〜 11.9% (1点)</option>
+                  <option value="2.5">0 〜 8.9% (2.5点)</option>
+                </select>
+              </div>
+
+              <!-- PaP Result -->
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+                <div>
+                  <span class="text-xs font-bold text-slate-700">PaP スコア合計:</span>
+                  <div class="flex items-baseline gap-1 my-0.5">
+                    <span id="resPapScore" class="text-3xl font-extrabold text-[#5e81b5]">0</span>
+                    <span class="text-xs text-slate-500">点</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span id="papBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]">Group A (0〜5.5点)</span>
+                  <div id="papDesc" class="text-xs text-slate-600 mt-1 font-medium">30日生存率 &gt; 70%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `
+      });
+    }
+
+    let activePapSubTab = 'ppi';
+    function switchPapSubTab(tab) {
+      activePapSubTab = tab;
+      const tabI = document.getElementById('papSubTabPpi');
+      const tabP = document.getElementById('papSubTabPap');
+      const contI = document.getElementById('papPpiContent');
+      const contP = document.getElementById('papPapContent');
+
+      if (tab === 'ppi') {
+        tabI.className = "flex-1 py-1.5 rounded-lg bg-white text-[#5e81b5] shadow-2xs";
+        tabP.className = "flex-1 py-1.5 rounded-lg text-slate-600 hover:text-slate-900";
+        contI.classList.remove('hidden');
+        contP.classList.add('hidden');
+      } else {
+        tabP.className = "flex-1 py-1.5 rounded-lg bg-white text-[#5e81b5] shadow-2xs";
+        tabI.className = "flex-1 py-1.5 rounded-lg text-slate-600 hover:text-slate-900";
+        contP.classList.remove('hidden');
+        contI.classList.add('hidden');
+      }
+      calcPapPpi();
+    }
+
+    function setSamplePapPpi() {
+      if (activePapSubTab === 'ppi') {
+        document.getElementById('ppiPps').value = '2.5';
+        document.getElementById('ppiOral').value = '2.5';
+        document.getElementById('ppiEdema').value = '1';
+        document.getElementById('ppiDyspnea').value = '0';
+        document.getElementById('ppiDelirium').value = '0';
+      } else {
+        document.getElementById('papPred').value = '6';
+        document.getElementById('papKps').value = '2.5';
+        document.getElementById('papAnorexia').value = '1.5';
+      }
+      calcPapPpi();
+    }
+
+    function calcPapPpi() {
+      // PPI
+      const pps = parseFloat(document.getElementById('ppiPps')?.value || 0);
+      const oral = parseFloat(document.getElementById('ppiOral')?.value || 0);
+      const edema = parseFloat(document.getElementById('ppiEdema')?.value || 0);
+      const dys = parseFloat(document.getElementById('ppiDyspnea')?.value || 0);
+      const del = parseFloat(document.getElementById('ppiDelirium')?.value || 0);
+
+      const ppiScore = pps + oral + edema + dys + del;
+      const resI = document.getElementById('resPpiScore');
+      const badgeI = document.getElementById('ppiBadge');
+      const descI = document.getElementById('ppiDesc');
+      if (resI) {
+        resI.textContent = ppiScore;
+        if (ppiScore > 6) {
+          badgeI.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#ec6235]/20 text-[#ec6235]";
+          badgeI.textContent = "予後 3週未満 (>6点)";
+          descI.textContent = "生命予後目安: 3週未満 (日〜週単位のケア体制確立)";
+        } else if (ppiScore > 4) {
+          badgeI.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#e19c24]/20 text-[#e19c24]";
+          badgeI.textContent = "予後 6週未満 (>4点)";
+          descI.textContent = "生命予後目安: 6週未満";
+        } else {
+          badgeI.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]";
+          badgeI.textContent = "予後 6週以上 (≤4点)";
+          descI.textContent = "生命予後目安: 6週以上";
+        }
+      }
+
+      // PaP
+      const ids = ['papPred', 'papKps', 'papAnorexia', 'papDyspnea', 'papWbc', 'papLym'];
+      let papScore = 0;
+      ids.forEach(id => { papScore += parseFloat(document.getElementById(id)?.value || 0); });
+      const resP = document.getElementById('resPapScore');
+      const badgeP = document.getElementById('papBadge');
+      const descP = document.getElementById('papDesc');
+      if (resP) {
+        resP.textContent = papScore;
+        if (papScore <= 5.5) {
+          badgeP.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#8fb131]/20 text-[#8fb131]";
+          badgeP.textContent = "Group A (0〜5.5点)";
+          descP.textContent = "30日生存率 > 70%";
+        } else if (papScore <= 11.0) {
+          badgeP.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#e19c24]/20 text-[#e19c24]";
+          badgeP.textContent = "Group B (5.6〜11.0点)";
+          descP.textContent = "30日生存率 30〜70%";
+        } else {
+          badgeP.className = "px-3 py-1 rounded-full text-xs font-bold bg-[#ec6235]/20 text-[#ec6235]";
+          badgeP.textContent = "Group C (11.1〜17.5点)";
+          descP.textContent = "30日生存率 < 30%";
+        }
+      }
+
+      if (activePapSubTab === 'ppi') {
+        currentCopyText = `【緩和ケア PPI (Palliative Prognostic Index)】\n` +
+          `・PPIスコア: ${ppiScore} 点 [${ppiScore > 6 ? '予後3週未満 (>6点)' : ppiScore > 4 ? '予後6週未満 (>4点)' : '予後6週以上 (≤4点)'}]`;
+      } else {
+        currentCopyText = `【緩和ケア PaP スコア】\n` +
+          `・PaPスコア: ${papScore} 点 [${papScore <= 5.5 ? 'Group A (30日生存率>70%)' : papScore <= 11 ? 'Group B (30日生存率30-70%)' : 'Group C (30日生存率<30%)'}]`;
+      }
+    }
+
+    function copyPapPpiResult() { copyToClipboard(currentCopyText); }
+
+    // -------------------------------------------------------------------------
+    // 18. ECOG-PS & Karnofsky Performance Status (KPS)
+    // -------------------------------------------------------------------------
+    function renderEcogKps() {
+      return toolShell({
+        title: 'ECOG-PS & Karnofsky (KPS) 全身状態評価',
+        subtitle: 'パフォーマンスステータス対比一覧およびワンクリックカルテ転記',
+        badgeText: '全身状態・ADL',
+        sampleFn: 'setSampleEcogKps',
+        copyFn: 'copyEcogKpsResult',
+        formulaBoxHtml: `
+          <div><strong>対比関係:</strong> PS 0 (KPS 90-100%) / PS 1 (KPS 70-80%) / PS 2 (KPS 50-60%) / PS 3 (KPS 30-40%) / PS 4 (KPS 10-20%)</div>
+          <div><strong>定義:</strong> 腫瘍内科・緩和ケア・臨床試験における日常生活遂行能力 (ADL) の標準評価指標</div>
+        `,
+        contentHtml: `
+          <div class="space-y-3 text-xs">
+            <p class="text-slate-600 text-[11px]">該当するステータスを選択してください。カルテ転記用テキストが自動生成されます。</p>
+
+            <div class="space-y-2">
+              <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition has-[:checked]:bg-[#5e81b5]/15 has-[:checked]:border-[#5e81b5]">
+                <input type="radio" name="psSelect" value="0" class="mt-1" checked onchange="calcEcogKps()">
+                <div class="flex-1">
+                  <div class="flex items-center justify-between font-bold text-slate-900">
+                    <span>ECOG PS 0 (正常・無症状)</span>
+                    <span class="text-[#5e81b5]">KPS 100〜90%</span>
+                  </div>
+                  <p class="text-[11px] text-slate-500 mt-0.5">発症前と変わらずに日常生活・社会活動を行うことができる。</p>
+                </div>
+              </label>
+
+              <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition has-[:checked]:bg-[#5e81b5]/15 has-[:checked]:border-[#5e81b5]">
+                <input type="radio" name="psSelect" value="1" class="mt-1" onchange="calcEcogKps()">
+                <div class="flex-1">
+                  <div class="flex items-center justify-between font-bold text-slate-900">
+                    <span>ECOG PS 1 (軽度の症状・軽労働可)</span>
+                    <span class="text-[#5e81b5]">KPS 80〜70%</span>
+                  </div>
+                  <p class="text-[11px] text-slate-500 mt-0.5">肉体的に激しい活動は制限されるが、歩行や軽作業・座業(事務など)は行える。</p>
+                </div>
+              </label>
+
+              <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition has-[:checked]:bg-[#5e81b5]/15 has-[:checked]:border-[#5e81b5]">
+                <input type="radio" name="psSelect" value="2" class="mt-1" onchange="calcEcogKps()">
+                <div class="flex-1">
+                  <div class="flex items-center justify-between font-bold text-slate-900">
+                    <span>ECOG PS 2 (歩行可能・身の回り自立)</span>
+                    <span class="text-[#5e81b5]">KPS 60〜50%</span>
+                  </div>
+                  <p class="text-[11px] text-slate-500 mt-0.5">歩行や身の回りのことは自立しているが作業はできない。日中の半分以上は起居している。</p>
+                </div>
+              </label>
+
+              <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition has-[:checked]:bg-[#5e81b5]/15 has-[:checked]:border-[#5e81b5]">
+                <input type="radio" name="psSelect" value="3" class="mt-1" onchange="calcEcogKps()">
+                <div class="flex-1">
+                  <div class="flex items-center justify-between font-bold text-slate-900">
+                    <span>ECOG PS 3 (介助必要・日中半分以上ベッド上)</span>
+                    <span class="text-[#5e81b5]">KPS 40〜30%</span>
+                  </div>
+                  <p class="text-[11px] text-slate-500 mt-0.5">限られた身の回りのことしかできず、日中の50%以上をベッドや車椅子で過ごす。</p>
+                </div>
+              </label>
+
+              <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition has-[:checked]:bg-[#5e81b5]/15 has-[:checked]:border-[#5e81b5]">
+                <input type="radio" name="psSelect" value="4" class="mt-1" onchange="calcEcogKps()">
+                <div class="flex-1">
+                  <div class="flex items-center justify-between font-bold text-slate-900">
+                    <span>ECOG PS 4 (完全寝たきり)</span>
+                    <span class="text-[#5e81b5]">KPS 20〜10%</span>
+                  </div>
+                  <p class="text-[11px] text-slate-500 mt-0.5">全く動けず、身の回りのこともできない。終日ベッドまたは車椅子で過ごす。</p>
+                </div>
+              </label>
+            </div>
+
+            <!-- Preview Card -->
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+              <span class="font-bold text-slate-700 block mb-1">カルテ転記プレビュー:</span>
+              <pre id="psPreviewText" class="p-2.5 rounded-lg bg-white border border-slate-200 text-slate-700 font-mono text-[11px] whitespace-pre-wrap"></pre>
+            </div>
+          </div>
+        `
+      });
+    }
+
+    function setSampleEcogKps() {
+      const radio = document.querySelector('input[name="psSelect"][value="1"]');
+      if (radio) radio.checked = true;
+      calcEcogKps();
+    }
+
+    function calcEcogKps() {
+      const val = document.querySelector('input[name="psSelect"]:checked')?.value || "0";
+      const preview = document.getElementById('psPreviewText');
+
+      const data = {
+        "0": { ecog: "0", kps: "90〜100%", desc: "発症前と変わらずに日常生活・社会活動を行うことができる" },
+        "1": { ecog: "1", kps: "70〜80%", desc: "肉体的に激しい活動は制限されるが、歩行や軽作業・座業は可能" },
+        "2": { ecog: "2", kps: "50〜60%", desc: "歩行や身の回りのことは自立しているが作業は不能。日中50%以上起居" },
+        "3": { ecog: "3", kps: "30〜40%", desc: "限られた身の回りしかできず、日中50%以上をベッドや車椅子で過ごす" },
+        "4": { ecog: "4", kps: "10〜20%", desc: "全く動けず完全寝たきり。終日ベッドまたは車椅子で過ごす" }
+      }[val];
+
+      currentCopyText = `【全身状態 Performance Status】\n` +
+        `・ECOG-PS: ${data.ecog} (KPS目安: ${data.kps})\n` +
+        `・状態: ${data.desc}`;
+
+      if (preview) preview.textContent = currentCopyText;
+    }
+
+    function copyEcogKpsResult() { copyToClipboard(currentCopyText); }
+
+  </script>
+</body>
+</html>
