@@ -13,6 +13,7 @@ TEXT_SUFFIXES = {
     ".html",
     ".js",
     ".json",
+    ".less",
     ".md",
     ".py",
     ".svg",
@@ -98,8 +99,26 @@ def local_target_exists(source: Path, value: str) -> bool:
     return False
 
 
+def check_style_sync() -> list[str]:
+    less_file = ROOT / "style.less"
+    css_file = ROOT / "asset" / "style.css"
+    if not less_file.is_file():
+        return []
+
+    if not css_file.is_file():
+        return [f"{css_file.relative_to(ROOT)} is missing. Run 'python scripts/build_style.py'."]
+
+    if less_file.stat().st_mtime > css_file.stat().st_mtime:
+        return [
+            f"{less_file.name} is newer than {css_file.relative_to(ROOT)}. "
+            "Run 'python scripts/build_style.py' to update CSS."
+        ]
+    return []
+
+
 def main() -> int:
     errors: list[str] = []
+    errors.extend(check_style_sync())
     files = source_files()
 
     for path in files:

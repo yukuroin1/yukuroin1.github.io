@@ -1,0 +1,523 @@
+/* ==========================================================================
+   Markdown Preview Enhanced (MPE) Custom Stylesheet
+   プレビュー / HTML出力 / PDF印刷用 最適化スタイル
+   ========================================================================== */
+
+@page {
+  size: A4;
+  margin: 18mm 16mm 18mm 16mm;
+}
+
+// MPEプレビューおよびHTMLエクスポート全体に適用
+html body,
+.markdown-preview.markdown-preview {
+
+  /* --------------------------------------------------------------------------
+     【デフォルトカラーテーマの選択】
+     全体のデフォルトアクセントカラーを選択できます（初期値：青 {94, 129, 181}）
+     -------------------------------------------------------------------------- */
+  // 1. 青 {94, 129, 181}
+  @accent-primary: rgb(94, 129, 181);
+  @accent-secondary: darken(rgb(94, 129, 181), 10%);
+  @accent-subtle: rgba(94, 129, 181, 0.08);
+
+  // 2. 橙 {225, 156, 36}
+  // @accent-primary: rgb(225, 156, 36);
+  // @accent-secondary: darken(rgb(225, 156, 36), 10%);
+  // @accent-subtle: rgba(225, 156, 36, 0.08);
+
+  // 3. 緑 {143, 177, 49}
+  // @accent-primary: rgb(143, 177, 49);
+  // @accent-secondary: darken(rgb(143, 177, 49), 10%);
+  // @accent-subtle: rgba(143, 177, 49, 0.08);
+
+  // 4. 赤 {236, 98, 53}
+  // @accent-primary: rgb(236, 98, 53);
+  // @accent-secondary: darken(rgb(236, 98, 53), 10%);
+  // @accent-subtle: rgba(236, 98, 53, 0.08);
+
+  // 5. 紫 {135, 120, 179}
+  // @accent-primary: rgb(135, 120, 179);
+  // @accent-secondary: darken(rgb(135, 120, 179), 10%);
+  // @accent-subtle: rgba(135, 120, 179, 0.08);
+
+  // 6. 茶 {197, 110, 26}
+  // @accent-primary: rgb(197, 110, 26);
+  // @accent-secondary: darken(rgb(197, 110, 26), 10%);
+  // @accent-subtle: rgba(197, 110, 26, 0.08);
+
+  // 7. 水 {93, 158, 200}
+  // @accent-primary: rgb(93, 158, 200);
+  // @accent-secondary: darken(rgb(93, 158, 200), 10%);
+  // @accent-subtle: rgba(93, 158, 200, 0.08);
+
+  // 8. 黄 {255, 191, 0}
+  // @accent-primary: rgb(255, 191, 0);
+  // @accent-secondary: #b45309;
+  // @accent-subtle: rgba(255, 191, 0, 0.12);
+
+  // 基本テキスト・背景色
+  @text-main: #24292f;
+  @text-heading: #0f172a;
+  @text-muted: #57606a;
+  @bg-page: #ffffff;
+  @bg-subtle: #f8fafc;
+  @bg-hover: #f1f5f9;
+  @border-light: #e2e8f0;
+  @border-default: #cbd5e1;
+
+  // --- 日本語視認性重視のフォントスタック ---
+  @font-base: -apple-system, BlinkMacSystemFont, "Segoe UI", "BIZ UDPGothic", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
+  @font-mono: "Cascadia Code", "Cascadia Mono", Consolas, "SFMono-Regular", "Courier New", monospace;
+
+  // --- 全体レイアウト ---
+  font-family: @font-base !important;
+  font-size: 15px !important;
+  line-height: 1.8 !important;
+  color: @text-main !important;
+  background-color: @bg-page !important;
+  max-width: 1000px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 24px 20px !important;
+  box-sizing: border-box !important;
+  word-wrap: break-word !important;
+
+  // --- 見出し全般 ---
+  h1, h2, h3, h4, h5, h6 {
+    color: @text-heading !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+    margin-top: 1.8em !important;
+    margin-bottom: 0.6em !important;
+    border: none;
+  }
+
+  &:first-child,
+  > *:first-child,
+  h1:first-child,
+  h2:first-child,
+  h3:first-child {
+    margin-top: 0 !important;
+  }
+
+  // h1: ドキュメントタイトル（太いアクセント下線）
+  h1 {
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    padding-bottom: 0.4em !important;
+    border-bottom: 3px solid @accent-primary !important;
+    margin-top: 1.2em !important;
+    margin-bottom: 0.8em !important;
+  }
+
+  // h2: 大見出し（アクセントバー ＋ 背景グラデーション ＋ 薄い下線）
+  h2 {
+    font-size: 1.45rem !important;
+    padding: 0.35em 0.6em 0.35em 12px !important;
+    border-left: 5px solid @accent-primary !important;
+    border-bottom: 1px solid @border-light !important;
+    background: linear-gradient(to right, @accent-subtle, transparent 70%) !important;
+    border-radius: 0 4px 4px 0 !important;
+    margin-top: 2em !important;
+  }
+
+  // h3: 中見出し（スッキリとした破線下線）
+  h3 {
+    font-size: 1.2rem !important;
+    padding-bottom: 0.25em !important;
+    border-bottom: 1.5px dashed @border-default !important;
+    margin-top: 1.6em !important;
+  }
+
+  // h4: 小見出し
+  h4 {
+    font-size: 1.05rem !important;
+    color: #334155 !important;
+    margin-top: 1.4em !important;
+  }
+
+  // 段落
+  p {
+    margin-top: 0 !important;
+    margin-bottom: 1.15em !important;
+    line-height: 1.8 !important;
+  }
+
+  strong {
+    font-weight: 600 !important;
+    color: #0f172a !important;
+  }
+
+  em {
+    color: @text-muted !important;
+  }
+
+  // リンク
+  a {
+    color: @accent-primary !important;
+    text-decoration: none !important;
+    border-bottom: 1px solid transparent !important;
+    transition: all 0.15s ease-in-out !important;
+
+    &:hover {
+      color: @accent-secondary !important;
+      border-bottom-color: @accent-secondary !important;
+    }
+  }
+
+  // 水平線
+  hr {
+    border: 0 !important;
+    height: 1px !important;
+    background: linear-gradient(to right, transparent, @border-default, transparent) !important;
+    margin: 2.5em 0 !important;
+  }
+
+  // リスト
+  ul, ol {
+    padding-left: 26px !important;
+    margin-top: 0 !important;
+    margin-bottom: 1.15em !important;
+  }
+
+  li {
+    margin-bottom: 0.45em !important;
+    line-height: 1.75 !important;
+
+    > ul, > ol {
+      margin-top: 0.35em !important;
+      margin-bottom: 0.35em !important;
+    }
+  }
+
+  // 引用文（Blockquote）
+  blockquote {
+    margin: 1.4em 0 !important;
+    padding: 14px 20px !important;
+    color: #475569 !important;
+    background-color: @bg-subtle !important;
+    border-left: 4px solid @accent-primary !important;
+    border-radius: 0 8px 8px 0 !important;
+
+    > :first-child {
+      margin-top: 0 !important;
+    }
+    > :last-child {
+      margin-bottom: 0 !important;
+    }
+  }
+
+  // テーブル（表）
+  table {
+    display: table !important;
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 1.5em 0 !important;
+    font-size: 0.95em !important;
+    border-spacing: 0 !important;
+    border-radius: 6px !important;
+    overflow: hidden !important;
+    border: 1px solid @border-default !important;
+
+    th {
+      background-color: #f1f5f9 !important;
+      color: #0f172a !important;
+      font-weight: 600 !important;
+      padding: 11px 16px !important;
+      border: 1px solid @border-default !important;
+      text-align: left !important;
+    }
+
+    td {
+      padding: 10px 16px !important;
+      border: 1px solid @border-default !important;
+      color: @text-main !important;
+    }
+
+    tr:nth-child(even) {
+      background-color: @bg-subtle !important;
+    }
+
+    tr:hover {
+      background-color: @bg-hover !important;
+    }
+  }
+
+  // インラインコード
+  code {
+    font-family: @font-mono !important;
+    font-size: 0.88em !important;
+    padding: 0.2em 0.5em !important;
+    margin: 0 0.25em !important;
+    color: #0f172a !important;
+    background-color: #f1f5f9 !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 4px !important;
+    word-break: break-word !important;
+
+    &::before, &::after {
+      content: none !important;
+    }
+  }
+
+  // コードブロック
+  pre {
+    position: relative !important;
+    font-family: @font-mono !important;
+    font-size: 0.88rem !important;
+    line-height: 1.6 !important;
+    padding: 18px 22px !important;
+    background-color: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    overflow-x: auto !important;
+    margin: 1.4em 0 !important;
+
+    code {
+      font-family: inherit !important;
+      font-size: inherit !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      color: inherit !important;
+    }
+  }
+
+  // 画像
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    margin: 1.5em auto !important;
+    border-radius: 6px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  // ==========================================================================
+  // 【テーマ適用 Mixin】
+  // ==========================================================================
+  .apply-theme(@c) {
+    h1 {
+      border-bottom-color: @c !important;
+    }
+    h2 {
+      border-left-color: @c !important;
+      background: linear-gradient(to right, fade(@c, 9%), transparent 70%) !important;
+    }
+    blockquote {
+      border-left-color: @c !important;
+    }
+    a {
+      color: @c !important;
+      &:hover {
+        color: darken(@c, 12%) !important;
+      }
+    }
+    @media print {
+      h1 { border-bottom-color: @c !important; }
+      h2 { border-left-color: @c !important; }
+      blockquote { border-left-color: @c !important; }
+      a { color: @c !important; }
+    }
+  }
+
+  // 黄色専用（リンク文字の可読性を確保する特別処理）
+  .apply-theme-yellow(@c) {
+    @link-c: #b45309;
+    h1 { border-bottom-color: @c !important; }
+    h2 {
+      border-left-color: @c !important;
+      background: linear-gradient(to right, fade(@c, 15%), transparent 70%) !important;
+    }
+    blockquote { border-left-color: @c !important; }
+    a {
+      color: @link-c !important;
+      &:hover { color: darken(@link-c, 10%) !important; }
+    }
+    @media print {
+      h1 { border-bottom-color: @c !important; }
+      h2 { border-left-color: @c !important; }
+      blockquote { border-left-color: @c !important; }
+      a { color: @link-c !important; }
+    }
+  }
+
+  // ==========================================================================
+  // 【指定配色クラス】
+  // Markdownのfront-matterやタグのclassで自由に指定可能
+  // ==========================================================================
+
+  // 1. 青 {94, 129, 181}
+  html.theme-blue &, html.theme-ao &, html.blue &,
+  body.theme-blue &, body.theme-ao &, body.blue &,
+  &.theme-blue, &.theme-ao, &.blue,
+  & .theme-blue, & .theme-ao, & .blue {
+    .apply-theme(rgb(94, 129, 181));
+  }
+
+  // 2. 橙 {225, 156, 36}
+  html.theme-orange &, html.theme-daidai &, html.orange &,
+  body.theme-orange &, body.theme-daidai &, body.orange &,
+  &.theme-orange, &.theme-daidai, &.orange,
+  & .theme-orange, & .theme-daidai, & .orange {
+    .apply-theme(rgb(225, 156, 36));
+  }
+
+  // 3. 緑 {143, 177, 49}
+  html.theme-green &, html.theme-midori &, html.green &,
+  body.theme-green &, body.theme-midori &, body.green &,
+  &.theme-green, &.theme-midori, &.green,
+  & .theme-green, & .theme-midori, & .green {
+    .apply-theme(rgb(143, 177, 49));
+  }
+
+  // 4. 赤 {236, 98, 53}
+  html.theme-red &, html.theme-aka &, html.red &,
+  body.theme-red &, body.theme-aka &, body.red &,
+  &.theme-red, &.theme-aka, &.red,
+  & .theme-red, & .theme-aka, & .red {
+    .apply-theme(rgb(236, 98, 53));
+  }
+
+  // 5. 紫 {135, 120, 179}
+  html.theme-purple &, html.theme-murasaki &, html.purple &,
+  body.theme-purple &, body.theme-murasaki &, body.purple &,
+  &.theme-purple, &.theme-murasaki, &.purple,
+  & .theme-purple, & .theme-murasaki, & .purple {
+    .apply-theme(rgb(135, 120, 179));
+  }
+
+  // 6. 茶 {197, 110, 26}
+  html.theme-brown &, html.theme-cha &, html.brown &,
+  body.theme-brown &, body.theme-cha &, body.brown &,
+  &.theme-brown, &.theme-cha, &.brown,
+  & .theme-brown, & .theme-cha, & .brown {
+    .apply-theme(rgb(197, 110, 26));
+  }
+
+  // 7. 水 {93, 158, 200}
+  html.theme-cyan &, html.theme-mizu &, html.theme-aqua &, html.cyan &,
+  body.theme-cyan &, body.theme-mizu &, body.theme-aqua &, body.cyan &,
+  &.theme-cyan, &.theme-mizu, &.theme-aqua, &.cyan,
+  & .theme-cyan, & .theme-mizu, & .theme-aqua, & .cyan {
+    .apply-theme(rgb(93, 158, 200));
+  }
+
+  // 8. 黄 {255, 191, 0}
+  html.theme-yellow &, html.theme-ki &, html.yellow &,
+  body.theme-yellow &, body.theme-ki &, body.yellow &,
+  &.theme-yellow, &.theme-ki, &.yellow,
+  & .theme-yellow, & .theme-ki, & .yellow {
+    .apply-theme-yellow(rgb(255, 191, 0));
+  }
+
+  // ==========================================================================
+  // 印刷・PDF出力用スタイル（@media print & Puppeteerエクスポート）
+  // ==========================================================================
+  @media print {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #111827 !important;
+    background: #ffffff !important;
+    font-size: 10.5pt !important;
+    line-height: 1.65 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+
+    h1, h2, h3, h4, h5, h6 {
+      page-break-after: avoid !important;
+      break-after: avoid !important;
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+
+    table, pre, blockquote, img, figure {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+      box-shadow: none !important;
+    }
+
+    tr {
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+
+    h1 {
+      font-size: 18pt !important;
+      border-bottom: 2pt solid @accent-primary !important;
+      margin-top: 1.2em !important;
+      margin-bottom: 0.6em !important;
+    }
+
+    h2 {
+      font-size: 14pt !important;
+      border-left: 3.5pt solid @accent-primary !important;
+      border-bottom: 1pt solid #cbd5e1 !important;
+      background: #f8fafc !important;
+      margin-top: 1.4em !important;
+      padding: 3pt 6pt 3pt 8pt !important;
+    }
+
+    h3 {
+      font-size: 12pt !important;
+      border-bottom: 1pt dashed #94a3b8 !important;
+      margin-top: 1.2em !important;
+      padding-bottom: 2pt !important;
+    }
+
+    table {
+      box-shadow: none !important;
+      margin: 1em 0 !important;
+      border: 0.8pt solid #cbd5e1 !important;
+
+      th {
+        background-color: #f1f5f9 !important;
+        color: #0f172a !important;
+        border: 0.8pt solid #cbd5e1 !important;
+        padding: 6pt 10pt !important;
+      }
+
+      td {
+        border: 0.8pt solid #cbd5e1 !important;
+        padding: 5pt 10pt !important;
+        color: #1e293b !important;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f8fafc !important;
+      }
+    }
+
+    pre {
+      background-color: #f8fafc !important;
+      border: 0.8pt solid #e2e8f0 !important;
+      padding: 10pt 14pt !important;
+      margin: 1.1em 0 !important;
+      font-size: 9pt !important;
+      line-height: 1.45 !important;
+    }
+
+    code {
+      background-color: #f1f5f9 !important;
+      border: 0.5pt solid #e2e8f0 !important;
+      color: #0f172a !important;
+      padding: 0.1em 0.35em !important;
+    }
+
+    blockquote {
+      background-color: #f8fafc !important;
+      border-left: 3pt solid @accent-primary !important;
+      padding: 8pt 12pt !important;
+      margin: 1em 0 !important;
+    }
+
+    a {
+      color: @accent-primary !important;
+      text-decoration: none !important;
+    }
+  }
+}

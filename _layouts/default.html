@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'ja' }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+  {% if page.description %}
+  <meta name="description" content="{{ page.description }}">
+  {% elsif site.description %}
+  <meta name="description" content="{{ site.description }}">
+  {% endif %}
+  <link rel="icon" href="{{ '/asset/icon.jpg' | relative_url }}" type="image/jpeg">
+  <link rel="stylesheet" href="{{ '/asset/style.css' | relative_url }}">
+  {% include mathjax_v2.html %}
+  <style>
+    .site-nav {
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 0.95rem;
+    }
+    .site-nav a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #5e81b5;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.15s ease-in-out;
+    }
+    .site-nav a:hover {
+      color: #4a6894;
+      text-decoration: underline;
+    }
+    .site-footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid #e2e8f0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+    @media print {
+      .site-nav,
+      .site-footer {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="markdown-preview{% if page.theme %} theme-{{ page.theme }}{% endif %}">
+  <nav class="site-nav">
+    <a href="{{ '/' | relative_url }}">← {{ site.title }} ホーム</a>
+  </nav>
+  <main>
+    {{ content }}
+  </main>
+  <footer class="site-footer">
+    &copy; {{ site.time | date: '%Y' }} {{ site.title }}. All rights reserved.
+  </footer>
+</body>
+</html>

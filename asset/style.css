@@ -1,0 +1,2338 @@
+/* ==========================================================================
+   Markdown Preview Enhanced (MPE) Custom Stylesheet
+   プレビュー / HTML出力 / PDF印刷用 最適化スタイル
+   ========================================================================== */
+@page {
+  size: A4;
+  margin: 18mm 16mm 18mm 16mm;
+}
+html body,
+.markdown-preview.markdown-preview {
+  /* --------------------------------------------------------------------------
+     【デフォルトカラーテーマの選択】
+     全体のデフォルトアクセントカラーを選択できます（初期値：青 {94, 129, 181}）
+     -------------------------------------------------------------------------- */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "BIZ UDPGothic", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif !important;
+  font-size: 15px !important;
+  line-height: 1.8 !important;
+  color: #24292f !important;
+  background-color: #ffffff !important;
+  max-width: 1000px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 24px 20px !important;
+  box-sizing: border-box !important;
+  word-wrap: break-word !important;
+}
+html body h1,
+.markdown-preview.markdown-preview h1,
+html body h2,
+.markdown-preview.markdown-preview h2,
+html body h3,
+.markdown-preview.markdown-preview h3,
+html body h4,
+.markdown-preview.markdown-preview h4,
+html body h5,
+.markdown-preview.markdown-preview h5,
+html body h6,
+.markdown-preview.markdown-preview h6 {
+  color: #0f172a !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+  margin-top: 1.8em !important;
+  margin-bottom: 0.6em !important;
+  border: none;
+}
+html body:first-child,
+.markdown-preview.markdown-preview:first-child,
+html body > *:first-child,
+.markdown-preview.markdown-preview > *:first-child,
+html body h1:first-child,
+.markdown-preview.markdown-preview h1:first-child,
+html body h2:first-child,
+.markdown-preview.markdown-preview h2:first-child,
+html body h3:first-child,
+.markdown-preview.markdown-preview h3:first-child {
+  margin-top: 0 !important;
+}
+html body h1,
+.markdown-preview.markdown-preview h1 {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  padding-bottom: 0.4em !important;
+  border-bottom: 3px solid #5e81b5 !important;
+  margin-top: 1.2em !important;
+  margin-bottom: 0.8em !important;
+}
+html body h2,
+.markdown-preview.markdown-preview h2 {
+  font-size: 1.45rem !important;
+  padding: 0.35em 0.6em 0.35em 12px !important;
+  border-left: 5px solid #5e81b5 !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  background: linear-gradient(to right, rgba(94, 129, 181, 0.08), transparent 70%) !important;
+  border-radius: 0 4px 4px 0 !important;
+  margin-top: 2em !important;
+}
+html body h3,
+.markdown-preview.markdown-preview h3 {
+  font-size: 1.2rem !important;
+  padding-bottom: 0.25em !important;
+  border-bottom: 1.5px dashed #cbd5e1 !important;
+  margin-top: 1.6em !important;
+}
+html body h4,
+.markdown-preview.markdown-preview h4 {
+  font-size: 1.05rem !important;
+  color: #334155 !important;
+  margin-top: 1.4em !important;
+}
+html body p,
+.markdown-preview.markdown-preview p {
+  margin-top: 0 !important;
+  margin-bottom: 1.15em !important;
+  line-height: 1.8 !important;
+}
+html body strong,
+.markdown-preview.markdown-preview strong {
+  font-weight: 600 !important;
+  color: #0f172a !important;
+}
+html body em,
+.markdown-preview.markdown-preview em {
+  color: #57606a !important;
+}
+html body a,
+.markdown-preview.markdown-preview a {
+  color: #5e81b5 !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid transparent !important;
+  transition: all 0.15s ease-in-out !important;
+}
+html body a:hover,
+.markdown-preview.markdown-preview a:hover {
+  color: #476899 !important;
+  border-bottom-color: #476899 !important;
+}
+html body hr,
+.markdown-preview.markdown-preview hr {
+  border: 0 !important;
+  height: 1px !important;
+  background: linear-gradient(to right, transparent, #cbd5e1, transparent) !important;
+  margin: 2.5em 0 !important;
+}
+html body ul,
+.markdown-preview.markdown-preview ul,
+html body ol,
+.markdown-preview.markdown-preview ol {
+  padding-left: 26px !important;
+  margin-top: 0 !important;
+  margin-bottom: 1.15em !important;
+}
+html body li,
+.markdown-preview.markdown-preview li {
+  margin-bottom: 0.45em !important;
+  line-height: 1.75 !important;
+}
+html body li > ul,
+.markdown-preview.markdown-preview li > ul,
+html body li > ol,
+.markdown-preview.markdown-preview li > ol {
+  margin-top: 0.35em !important;
+  margin-bottom: 0.35em !important;
+}
+html body blockquote,
+.markdown-preview.markdown-preview blockquote {
+  margin: 1.4em 0 !important;
+  padding: 14px 20px !important;
+  color: #475569 !important;
+  background-color: #f8fafc !important;
+  border-left: 4px solid #5e81b5 !important;
+  border-radius: 0 8px 8px 0 !important;
+}
+html body blockquote > :first-child,
+.markdown-preview.markdown-preview blockquote > :first-child {
+  margin-top: 0 !important;
+}
+html body blockquote > :last-child,
+.markdown-preview.markdown-preview blockquote > :last-child {
+  margin-bottom: 0 !important;
+}
+html body table,
+.markdown-preview.markdown-preview table {
+  display: table !important;
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin: 1.5em 0 !important;
+  font-size: 0.95em !important;
+  border-spacing: 0 !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+  border: 1px solid #cbd5e1 !important;
+}
+html body table th,
+.markdown-preview.markdown-preview table th {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+  font-weight: 600 !important;
+  padding: 11px 16px !important;
+  border: 1px solid #cbd5e1 !important;
+  text-align: left !important;
+}
+html body table td,
+.markdown-preview.markdown-preview table td {
+  padding: 10px 16px !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #24292f !important;
+}
+html body table tr:nth-child(even),
+.markdown-preview.markdown-preview table tr:nth-child(even) {
+  background-color: #f8fafc !important;
+}
+html body table tr:hover,
+.markdown-preview.markdown-preview table tr:hover {
+  background-color: #f1f5f9 !important;
+}
+html body code,
+.markdown-preview.markdown-preview code {
+  font-family: "Cascadia Code", "Cascadia Mono", Consolas, "SFMono-Regular", "Courier New", monospace !important;
+  font-size: 0.88em !important;
+  padding: 0.2em 0.5em !important;
+  margin: 0 0.25em !important;
+  color: #0f172a !important;
+  background-color: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 4px !important;
+  word-break: break-word !important;
+}
+html body code::before,
+.markdown-preview.markdown-preview code::before,
+html body code::after,
+.markdown-preview.markdown-preview code::after {
+  content: none !important;
+}
+html body pre,
+.markdown-preview.markdown-preview pre {
+  position: relative !important;
+  font-family: "Cascadia Code", "Cascadia Mono", Consolas, "SFMono-Regular", "Courier New", monospace !important;
+  font-size: 0.88rem !important;
+  line-height: 1.6 !important;
+  padding: 18px 22px !important;
+  background-color: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 8px !important;
+  overflow-x: auto !important;
+  margin: 1.4em 0 !important;
+}
+html body pre code,
+.markdown-preview.markdown-preview pre code {
+  font-family: inherit !important;
+  font-size: inherit !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  color: inherit !important;
+}
+html body img,
+.markdown-preview.markdown-preview img {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  margin: 1.5em auto !important;
+  border-radius: 6px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+html.theme-blue html body h1,
+html.theme-blue .markdown-preview.markdown-preview h1,
+html.theme-ao html body h1,
+html.theme-ao .markdown-preview.markdown-preview h1,
+html.blue html body h1,
+html.blue .markdown-preview.markdown-preview h1,
+body.theme-blue html body h1,
+body.theme-blue .markdown-preview.markdown-preview h1,
+body.theme-ao html body h1,
+body.theme-ao .markdown-preview.markdown-preview h1,
+body.blue html body h1,
+body.blue .markdown-preview.markdown-preview h1,
+html body.theme-blue h1,
+.markdown-preview.markdown-preview.theme-blue h1,
+html body.theme-ao h1,
+.markdown-preview.markdown-preview.theme-ao h1,
+html body.blue h1,
+.markdown-preview.markdown-preview.blue h1,
+html body .theme-blue h1,
+.markdown-preview.markdown-preview .theme-blue h1,
+html body .theme-ao h1,
+.markdown-preview.markdown-preview .theme-ao h1,
+html body .blue h1,
+.markdown-preview.markdown-preview .blue h1 {
+  border-bottom-color: #5e81b5 !important;
+}
+html.theme-blue html body h2,
+html.theme-blue .markdown-preview.markdown-preview h2,
+html.theme-ao html body h2,
+html.theme-ao .markdown-preview.markdown-preview h2,
+html.blue html body h2,
+html.blue .markdown-preview.markdown-preview h2,
+body.theme-blue html body h2,
+body.theme-blue .markdown-preview.markdown-preview h2,
+body.theme-ao html body h2,
+body.theme-ao .markdown-preview.markdown-preview h2,
+body.blue html body h2,
+body.blue .markdown-preview.markdown-preview h2,
+html body.theme-blue h2,
+.markdown-preview.markdown-preview.theme-blue h2,
+html body.theme-ao h2,
+.markdown-preview.markdown-preview.theme-ao h2,
+html body.blue h2,
+.markdown-preview.markdown-preview.blue h2,
+html body .theme-blue h2,
+.markdown-preview.markdown-preview .theme-blue h2,
+html body .theme-ao h2,
+.markdown-preview.markdown-preview .theme-ao h2,
+html body .blue h2,
+.markdown-preview.markdown-preview .blue h2 {
+  border-left-color: #5e81b5 !important;
+  background: linear-gradient(to right, rgba(94, 129, 181, 0.09), transparent 70%) !important;
+}
+html.theme-blue html body blockquote,
+html.theme-blue .markdown-preview.markdown-preview blockquote,
+html.theme-ao html body blockquote,
+html.theme-ao .markdown-preview.markdown-preview blockquote,
+html.blue html body blockquote,
+html.blue .markdown-preview.markdown-preview blockquote,
+body.theme-blue html body blockquote,
+body.theme-blue .markdown-preview.markdown-preview blockquote,
+body.theme-ao html body blockquote,
+body.theme-ao .markdown-preview.markdown-preview blockquote,
+body.blue html body blockquote,
+body.blue .markdown-preview.markdown-preview blockquote,
+html body.theme-blue blockquote,
+.markdown-preview.markdown-preview.theme-blue blockquote,
+html body.theme-ao blockquote,
+.markdown-preview.markdown-preview.theme-ao blockquote,
+html body.blue blockquote,
+.markdown-preview.markdown-preview.blue blockquote,
+html body .theme-blue blockquote,
+.markdown-preview.markdown-preview .theme-blue blockquote,
+html body .theme-ao blockquote,
+.markdown-preview.markdown-preview .theme-ao blockquote,
+html body .blue blockquote,
+.markdown-preview.markdown-preview .blue blockquote {
+  border-left-color: #5e81b5 !important;
+}
+html.theme-blue html body a,
+html.theme-blue .markdown-preview.markdown-preview a,
+html.theme-ao html body a,
+html.theme-ao .markdown-preview.markdown-preview a,
+html.blue html body a,
+html.blue .markdown-preview.markdown-preview a,
+body.theme-blue html body a,
+body.theme-blue .markdown-preview.markdown-preview a,
+body.theme-ao html body a,
+body.theme-ao .markdown-preview.markdown-preview a,
+body.blue html body a,
+body.blue .markdown-preview.markdown-preview a,
+html body.theme-blue a,
+.markdown-preview.markdown-preview.theme-blue a,
+html body.theme-ao a,
+.markdown-preview.markdown-preview.theme-ao a,
+html body.blue a,
+.markdown-preview.markdown-preview.blue a,
+html body .theme-blue a,
+.markdown-preview.markdown-preview .theme-blue a,
+html body .theme-ao a,
+.markdown-preview.markdown-preview .theme-ao a,
+html body .blue a,
+.markdown-preview.markdown-preview .blue a {
+  color: #5e81b5 !important;
+}
+html.theme-blue html body a:hover,
+html.theme-blue .markdown-preview.markdown-preview a:hover,
+html.theme-ao html body a:hover,
+html.theme-ao .markdown-preview.markdown-preview a:hover,
+html.blue html body a:hover,
+html.blue .markdown-preview.markdown-preview a:hover,
+body.theme-blue html body a:hover,
+body.theme-blue .markdown-preview.markdown-preview a:hover,
+body.theme-ao html body a:hover,
+body.theme-ao .markdown-preview.markdown-preview a:hover,
+body.blue html body a:hover,
+body.blue .markdown-preview.markdown-preview a:hover,
+html body.theme-blue a:hover,
+.markdown-preview.markdown-preview.theme-blue a:hover,
+html body.theme-ao a:hover,
+.markdown-preview.markdown-preview.theme-ao a:hover,
+html body.blue a:hover,
+.markdown-preview.markdown-preview.blue a:hover,
+html body .theme-blue a:hover,
+.markdown-preview.markdown-preview .theme-blue a:hover,
+html body .theme-ao a:hover,
+.markdown-preview.markdown-preview .theme-ao a:hover,
+html body .blue a:hover,
+.markdown-preview.markdown-preview .blue a:hover {
+  color: #436392 !important;
+}
+@media print {
+  html.theme-blue html body h1,
+  html.theme-blue .markdown-preview.markdown-preview h1,
+  html.theme-ao html body h1,
+  html.theme-ao .markdown-preview.markdown-preview h1,
+  html.blue html body h1,
+  html.blue .markdown-preview.markdown-preview h1,
+  body.theme-blue html body h1,
+  body.theme-blue .markdown-preview.markdown-preview h1,
+  body.theme-ao html body h1,
+  body.theme-ao .markdown-preview.markdown-preview h1,
+  body.blue html body h1,
+  body.blue .markdown-preview.markdown-preview h1,
+  html body.theme-blue h1,
+  .markdown-preview.markdown-preview.theme-blue h1,
+  html body.theme-ao h1,
+  .markdown-preview.markdown-preview.theme-ao h1,
+  html body.blue h1,
+  .markdown-preview.markdown-preview.blue h1,
+  html body .theme-blue h1,
+  .markdown-preview.markdown-preview .theme-blue h1,
+  html body .theme-ao h1,
+  .markdown-preview.markdown-preview .theme-ao h1,
+  html body .blue h1,
+  .markdown-preview.markdown-preview .blue h1 {
+    border-bottom-color: #5e81b5 !important;
+  }
+  html.theme-blue html body h2,
+  html.theme-blue .markdown-preview.markdown-preview h2,
+  html.theme-ao html body h2,
+  html.theme-ao .markdown-preview.markdown-preview h2,
+  html.blue html body h2,
+  html.blue .markdown-preview.markdown-preview h2,
+  body.theme-blue html body h2,
+  body.theme-blue .markdown-preview.markdown-preview h2,
+  body.theme-ao html body h2,
+  body.theme-ao .markdown-preview.markdown-preview h2,
+  body.blue html body h2,
+  body.blue .markdown-preview.markdown-preview h2,
+  html body.theme-blue h2,
+  .markdown-preview.markdown-preview.theme-blue h2,
+  html body.theme-ao h2,
+  .markdown-preview.markdown-preview.theme-ao h2,
+  html body.blue h2,
+  .markdown-preview.markdown-preview.blue h2,
+  html body .theme-blue h2,
+  .markdown-preview.markdown-preview .theme-blue h2,
+  html body .theme-ao h2,
+  .markdown-preview.markdown-preview .theme-ao h2,
+  html body .blue h2,
+  .markdown-preview.markdown-preview .blue h2 {
+    border-left-color: #5e81b5 !important;
+  }
+  html.theme-blue html body blockquote,
+  html.theme-blue .markdown-preview.markdown-preview blockquote,
+  html.theme-ao html body blockquote,
+  html.theme-ao .markdown-preview.markdown-preview blockquote,
+  html.blue html body blockquote,
+  html.blue .markdown-preview.markdown-preview blockquote,
+  body.theme-blue html body blockquote,
+  body.theme-blue .markdown-preview.markdown-preview blockquote,
+  body.theme-ao html body blockquote,
+  body.theme-ao .markdown-preview.markdown-preview blockquote,
+  body.blue html body blockquote,
+  body.blue .markdown-preview.markdown-preview blockquote,
+  html body.theme-blue blockquote,
+  .markdown-preview.markdown-preview.theme-blue blockquote,
+  html body.theme-ao blockquote,
+  .markdown-preview.markdown-preview.theme-ao blockquote,
+  html body.blue blockquote,
+  .markdown-preview.markdown-preview.blue blockquote,
+  html body .theme-blue blockquote,
+  .markdown-preview.markdown-preview .theme-blue blockquote,
+  html body .theme-ao blockquote,
+  .markdown-preview.markdown-preview .theme-ao blockquote,
+  html body .blue blockquote,
+  .markdown-preview.markdown-preview .blue blockquote {
+    border-left-color: #5e81b5 !important;
+  }
+  html.theme-blue html body a,
+  html.theme-blue .markdown-preview.markdown-preview a,
+  html.theme-ao html body a,
+  html.theme-ao .markdown-preview.markdown-preview a,
+  html.blue html body a,
+  html.blue .markdown-preview.markdown-preview a,
+  body.theme-blue html body a,
+  body.theme-blue .markdown-preview.markdown-preview a,
+  body.theme-ao html body a,
+  body.theme-ao .markdown-preview.markdown-preview a,
+  body.blue html body a,
+  body.blue .markdown-preview.markdown-preview a,
+  html body.theme-blue a,
+  .markdown-preview.markdown-preview.theme-blue a,
+  html body.theme-ao a,
+  .markdown-preview.markdown-preview.theme-ao a,
+  html body.blue a,
+  .markdown-preview.markdown-preview.blue a,
+  html body .theme-blue a,
+  .markdown-preview.markdown-preview .theme-blue a,
+  html body .theme-ao a,
+  .markdown-preview.markdown-preview .theme-ao a,
+  html body .blue a,
+  .markdown-preview.markdown-preview .blue a {
+    color: #5e81b5 !important;
+  }
+}
+html.theme-orange html body h1,
+html.theme-orange .markdown-preview.markdown-preview h1,
+html.theme-daidai html body h1,
+html.theme-daidai .markdown-preview.markdown-preview h1,
+html.orange html body h1,
+html.orange .markdown-preview.markdown-preview h1,
+body.theme-orange html body h1,
+body.theme-orange .markdown-preview.markdown-preview h1,
+body.theme-daidai html body h1,
+body.theme-daidai .markdown-preview.markdown-preview h1,
+body.orange html body h1,
+body.orange .markdown-preview.markdown-preview h1,
+html body.theme-orange h1,
+.markdown-preview.markdown-preview.theme-orange h1,
+html body.theme-daidai h1,
+.markdown-preview.markdown-preview.theme-daidai h1,
+html body.orange h1,
+.markdown-preview.markdown-preview.orange h1,
+html body .theme-orange h1,
+.markdown-preview.markdown-preview .theme-orange h1,
+html body .theme-daidai h1,
+.markdown-preview.markdown-preview .theme-daidai h1,
+html body .orange h1,
+.markdown-preview.markdown-preview .orange h1 {
+  border-bottom-color: #e19c24 !important;
+}
+html.theme-orange html body h2,
+html.theme-orange .markdown-preview.markdown-preview h2,
+html.theme-daidai html body h2,
+html.theme-daidai .markdown-preview.markdown-preview h2,
+html.orange html body h2,
+html.orange .markdown-preview.markdown-preview h2,
+body.theme-orange html body h2,
+body.theme-orange .markdown-preview.markdown-preview h2,
+body.theme-daidai html body h2,
+body.theme-daidai .markdown-preview.markdown-preview h2,
+body.orange html body h2,
+body.orange .markdown-preview.markdown-preview h2,
+html body.theme-orange h2,
+.markdown-preview.markdown-preview.theme-orange h2,
+html body.theme-daidai h2,
+.markdown-preview.markdown-preview.theme-daidai h2,
+html body.orange h2,
+.markdown-preview.markdown-preview.orange h2,
+html body .theme-orange h2,
+.markdown-preview.markdown-preview .theme-orange h2,
+html body .theme-daidai h2,
+.markdown-preview.markdown-preview .theme-daidai h2,
+html body .orange h2,
+.markdown-preview.markdown-preview .orange h2 {
+  border-left-color: #e19c24 !important;
+  background: linear-gradient(to right, rgba(225, 156, 36, 0.09), transparent 70%) !important;
+}
+html.theme-orange html body blockquote,
+html.theme-orange .markdown-preview.markdown-preview blockquote,
+html.theme-daidai html body blockquote,
+html.theme-daidai .markdown-preview.markdown-preview blockquote,
+html.orange html body blockquote,
+html.orange .markdown-preview.markdown-preview blockquote,
+body.theme-orange html body blockquote,
+body.theme-orange .markdown-preview.markdown-preview blockquote,
+body.theme-daidai html body blockquote,
+body.theme-daidai .markdown-preview.markdown-preview blockquote,
+body.orange html body blockquote,
+body.orange .markdown-preview.markdown-preview blockquote,
+html body.theme-orange blockquote,
+.markdown-preview.markdown-preview.theme-orange blockquote,
+html body.theme-daidai blockquote,
+.markdown-preview.markdown-preview.theme-daidai blockquote,
+html body.orange blockquote,
+.markdown-preview.markdown-preview.orange blockquote,
+html body .theme-orange blockquote,
+.markdown-preview.markdown-preview .theme-orange blockquote,
+html body .theme-daidai blockquote,
+.markdown-preview.markdown-preview .theme-daidai blockquote,
+html body .orange blockquote,
+.markdown-preview.markdown-preview .orange blockquote {
+  border-left-color: #e19c24 !important;
+}
+html.theme-orange html body a,
+html.theme-orange .markdown-preview.markdown-preview a,
+html.theme-daidai html body a,
+html.theme-daidai .markdown-preview.markdown-preview a,
+html.orange html body a,
+html.orange .markdown-preview.markdown-preview a,
+body.theme-orange html body a,
+body.theme-orange .markdown-preview.markdown-preview a,
+body.theme-daidai html body a,
+body.theme-daidai .markdown-preview.markdown-preview a,
+body.orange html body a,
+body.orange .markdown-preview.markdown-preview a,
+html body.theme-orange a,
+.markdown-preview.markdown-preview.theme-orange a,
+html body.theme-daidai a,
+.markdown-preview.markdown-preview.theme-daidai a,
+html body.orange a,
+.markdown-preview.markdown-preview.orange a,
+html body .theme-orange a,
+.markdown-preview.markdown-preview .theme-orange a,
+html body .theme-daidai a,
+.markdown-preview.markdown-preview .theme-daidai a,
+html body .orange a,
+.markdown-preview.markdown-preview .orange a {
+  color: #e19c24 !important;
+}
+html.theme-orange html body a:hover,
+html.theme-orange .markdown-preview.markdown-preview a:hover,
+html.theme-daidai html body a:hover,
+html.theme-daidai .markdown-preview.markdown-preview a:hover,
+html.orange html body a:hover,
+html.orange .markdown-preview.markdown-preview a:hover,
+body.theme-orange html body a:hover,
+body.theme-orange .markdown-preview.markdown-preview a:hover,
+body.theme-daidai html body a:hover,
+body.theme-daidai .markdown-preview.markdown-preview a:hover,
+body.orange html body a:hover,
+body.orange .markdown-preview.markdown-preview a:hover,
+html body.theme-orange a:hover,
+.markdown-preview.markdown-preview.theme-orange a:hover,
+html body.theme-daidai a:hover,
+.markdown-preview.markdown-preview.theme-daidai a:hover,
+html body.orange a:hover,
+.markdown-preview.markdown-preview.orange a:hover,
+html body .theme-orange a:hover,
+.markdown-preview.markdown-preview .theme-orange a:hover,
+html body .theme-daidai a:hover,
+.markdown-preview.markdown-preview .theme-daidai a:hover,
+html body .orange a:hover,
+.markdown-preview.markdown-preview .orange a:hover {
+  color: #b07818 !important;
+}
+@media print {
+  html.theme-orange html body h1,
+  html.theme-orange .markdown-preview.markdown-preview h1,
+  html.theme-daidai html body h1,
+  html.theme-daidai .markdown-preview.markdown-preview h1,
+  html.orange html body h1,
+  html.orange .markdown-preview.markdown-preview h1,
+  body.theme-orange html body h1,
+  body.theme-orange .markdown-preview.markdown-preview h1,
+  body.theme-daidai html body h1,
+  body.theme-daidai .markdown-preview.markdown-preview h1,
+  body.orange html body h1,
+  body.orange .markdown-preview.markdown-preview h1,
+  html body.theme-orange h1,
+  .markdown-preview.markdown-preview.theme-orange h1,
+  html body.theme-daidai h1,
+  .markdown-preview.markdown-preview.theme-daidai h1,
+  html body.orange h1,
+  .markdown-preview.markdown-preview.orange h1,
+  html body .theme-orange h1,
+  .markdown-preview.markdown-preview .theme-orange h1,
+  html body .theme-daidai h1,
+  .markdown-preview.markdown-preview .theme-daidai h1,
+  html body .orange h1,
+  .markdown-preview.markdown-preview .orange h1 {
+    border-bottom-color: #e19c24 !important;
+  }
+  html.theme-orange html body h2,
+  html.theme-orange .markdown-preview.markdown-preview h2,
+  html.theme-daidai html body h2,
+  html.theme-daidai .markdown-preview.markdown-preview h2,
+  html.orange html body h2,
+  html.orange .markdown-preview.markdown-preview h2,
+  body.theme-orange html body h2,
+  body.theme-orange .markdown-preview.markdown-preview h2,
+  body.theme-daidai html body h2,
+  body.theme-daidai .markdown-preview.markdown-preview h2,
+  body.orange html body h2,
+  body.orange .markdown-preview.markdown-preview h2,
+  html body.theme-orange h2,
+  .markdown-preview.markdown-preview.theme-orange h2,
+  html body.theme-daidai h2,
+  .markdown-preview.markdown-preview.theme-daidai h2,
+  html body.orange h2,
+  .markdown-preview.markdown-preview.orange h2,
+  html body .theme-orange h2,
+  .markdown-preview.markdown-preview .theme-orange h2,
+  html body .theme-daidai h2,
+  .markdown-preview.markdown-preview .theme-daidai h2,
+  html body .orange h2,
+  .markdown-preview.markdown-preview .orange h2 {
+    border-left-color: #e19c24 !important;
+  }
+  html.theme-orange html body blockquote,
+  html.theme-orange .markdown-preview.markdown-preview blockquote,
+  html.theme-daidai html body blockquote,
+  html.theme-daidai .markdown-preview.markdown-preview blockquote,
+  html.orange html body blockquote,
+  html.orange .markdown-preview.markdown-preview blockquote,
+  body.theme-orange html body blockquote,
+  body.theme-orange .markdown-preview.markdown-preview blockquote,
+  body.theme-daidai html body blockquote,
+  body.theme-daidai .markdown-preview.markdown-preview blockquote,
+  body.orange html body blockquote,
+  body.orange .markdown-preview.markdown-preview blockquote,
+  html body.theme-orange blockquote,
+  .markdown-preview.markdown-preview.theme-orange blockquote,
+  html body.theme-daidai blockquote,
+  .markdown-preview.markdown-preview.theme-daidai blockquote,
+  html body.orange blockquote,
+  .markdown-preview.markdown-preview.orange blockquote,
+  html body .theme-orange blockquote,
+  .markdown-preview.markdown-preview .theme-orange blockquote,
+  html body .theme-daidai blockquote,
+  .markdown-preview.markdown-preview .theme-daidai blockquote,
+  html body .orange blockquote,
+  .markdown-preview.markdown-preview .orange blockquote {
+    border-left-color: #e19c24 !important;
+  }
+  html.theme-orange html body a,
+  html.theme-orange .markdown-preview.markdown-preview a,
+  html.theme-daidai html body a,
+  html.theme-daidai .markdown-preview.markdown-preview a,
+  html.orange html body a,
+  html.orange .markdown-preview.markdown-preview a,
+  body.theme-orange html body a,
+  body.theme-orange .markdown-preview.markdown-preview a,
+  body.theme-daidai html body a,
+  body.theme-daidai .markdown-preview.markdown-preview a,
+  body.orange html body a,
+  body.orange .markdown-preview.markdown-preview a,
+  html body.theme-orange a,
+  .markdown-preview.markdown-preview.theme-orange a,
+  html body.theme-daidai a,
+  .markdown-preview.markdown-preview.theme-daidai a,
+  html body.orange a,
+  .markdown-preview.markdown-preview.orange a,
+  html body .theme-orange a,
+  .markdown-preview.markdown-preview .theme-orange a,
+  html body .theme-daidai a,
+  .markdown-preview.markdown-preview .theme-daidai a,
+  html body .orange a,
+  .markdown-preview.markdown-preview .orange a {
+    color: #e19c24 !important;
+  }
+}
+html.theme-green html body h1,
+html.theme-green .markdown-preview.markdown-preview h1,
+html.theme-midori html body h1,
+html.theme-midori .markdown-preview.markdown-preview h1,
+html.green html body h1,
+html.green .markdown-preview.markdown-preview h1,
+body.theme-green html body h1,
+body.theme-green .markdown-preview.markdown-preview h1,
+body.theme-midori html body h1,
+body.theme-midori .markdown-preview.markdown-preview h1,
+body.green html body h1,
+body.green .markdown-preview.markdown-preview h1,
+html body.theme-green h1,
+.markdown-preview.markdown-preview.theme-green h1,
+html body.theme-midori h1,
+.markdown-preview.markdown-preview.theme-midori h1,
+html body.green h1,
+.markdown-preview.markdown-preview.green h1,
+html body .theme-green h1,
+.markdown-preview.markdown-preview .theme-green h1,
+html body .theme-midori h1,
+.markdown-preview.markdown-preview .theme-midori h1,
+html body .green h1,
+.markdown-preview.markdown-preview .green h1 {
+  border-bottom-color: #8fb131 !important;
+}
+html.theme-green html body h2,
+html.theme-green .markdown-preview.markdown-preview h2,
+html.theme-midori html body h2,
+html.theme-midori .markdown-preview.markdown-preview h2,
+html.green html body h2,
+html.green .markdown-preview.markdown-preview h2,
+body.theme-green html body h2,
+body.theme-green .markdown-preview.markdown-preview h2,
+body.theme-midori html body h2,
+body.theme-midori .markdown-preview.markdown-preview h2,
+body.green html body h2,
+body.green .markdown-preview.markdown-preview h2,
+html body.theme-green h2,
+.markdown-preview.markdown-preview.theme-green h2,
+html body.theme-midori h2,
+.markdown-preview.markdown-preview.theme-midori h2,
+html body.green h2,
+.markdown-preview.markdown-preview.green h2,
+html body .theme-green h2,
+.markdown-preview.markdown-preview .theme-green h2,
+html body .theme-midori h2,
+.markdown-preview.markdown-preview .theme-midori h2,
+html body .green h2,
+.markdown-preview.markdown-preview .green h2 {
+  border-left-color: #8fb131 !important;
+  background: linear-gradient(to right, rgba(143, 177, 49, 0.09), transparent 70%) !important;
+}
+html.theme-green html body blockquote,
+html.theme-green .markdown-preview.markdown-preview blockquote,
+html.theme-midori html body blockquote,
+html.theme-midori .markdown-preview.markdown-preview blockquote,
+html.green html body blockquote,
+html.green .markdown-preview.markdown-preview blockquote,
+body.theme-green html body blockquote,
+body.theme-green .markdown-preview.markdown-preview blockquote,
+body.theme-midori html body blockquote,
+body.theme-midori .markdown-preview.markdown-preview blockquote,
+body.green html body blockquote,
+body.green .markdown-preview.markdown-preview blockquote,
+html body.theme-green blockquote,
+.markdown-preview.markdown-preview.theme-green blockquote,
+html body.theme-midori blockquote,
+.markdown-preview.markdown-preview.theme-midori blockquote,
+html body.green blockquote,
+.markdown-preview.markdown-preview.green blockquote,
+html body .theme-green blockquote,
+.markdown-preview.markdown-preview .theme-green blockquote,
+html body .theme-midori blockquote,
+.markdown-preview.markdown-preview .theme-midori blockquote,
+html body .green blockquote,
+.markdown-preview.markdown-preview .green blockquote {
+  border-left-color: #8fb131 !important;
+}
+html.theme-green html body a,
+html.theme-green .markdown-preview.markdown-preview a,
+html.theme-midori html body a,
+html.theme-midori .markdown-preview.markdown-preview a,
+html.green html body a,
+html.green .markdown-preview.markdown-preview a,
+body.theme-green html body a,
+body.theme-green .markdown-preview.markdown-preview a,
+body.theme-midori html body a,
+body.theme-midori .markdown-preview.markdown-preview a,
+body.green html body a,
+body.green .markdown-preview.markdown-preview a,
+html body.theme-green a,
+.markdown-preview.markdown-preview.theme-green a,
+html body.theme-midori a,
+.markdown-preview.markdown-preview.theme-midori a,
+html body.green a,
+.markdown-preview.markdown-preview.green a,
+html body .theme-green a,
+.markdown-preview.markdown-preview .theme-green a,
+html body .theme-midori a,
+.markdown-preview.markdown-preview .theme-midori a,
+html body .green a,
+.markdown-preview.markdown-preview .green a {
+  color: #8fb131 !important;
+}
+html.theme-green html body a:hover,
+html.theme-green .markdown-preview.markdown-preview a:hover,
+html.theme-midori html body a:hover,
+html.theme-midori .markdown-preview.markdown-preview a:hover,
+html.green html body a:hover,
+html.green .markdown-preview.markdown-preview a:hover,
+body.theme-green html body a:hover,
+body.theme-green .markdown-preview.markdown-preview a:hover,
+body.theme-midori html body a:hover,
+body.theme-midori .markdown-preview.markdown-preview a:hover,
+body.green html body a:hover,
+body.green .markdown-preview.markdown-preview a:hover,
+html body.theme-green a:hover,
+.markdown-preview.markdown-preview.theme-green a:hover,
+html body.theme-midori a:hover,
+.markdown-preview.markdown-preview.theme-midori a:hover,
+html body.green a:hover,
+.markdown-preview.markdown-preview.green a:hover,
+html body .theme-green a:hover,
+.markdown-preview.markdown-preview .theme-green a:hover,
+html body .theme-midori a:hover,
+.markdown-preview.markdown-preview .theme-midori a:hover,
+html body .green a:hover,
+.markdown-preview.markdown-preview .green a:hover {
+  color: #688124 !important;
+}
+@media print {
+  html.theme-green html body h1,
+  html.theme-green .markdown-preview.markdown-preview h1,
+  html.theme-midori html body h1,
+  html.theme-midori .markdown-preview.markdown-preview h1,
+  html.green html body h1,
+  html.green .markdown-preview.markdown-preview h1,
+  body.theme-green html body h1,
+  body.theme-green .markdown-preview.markdown-preview h1,
+  body.theme-midori html body h1,
+  body.theme-midori .markdown-preview.markdown-preview h1,
+  body.green html body h1,
+  body.green .markdown-preview.markdown-preview h1,
+  html body.theme-green h1,
+  .markdown-preview.markdown-preview.theme-green h1,
+  html body.theme-midori h1,
+  .markdown-preview.markdown-preview.theme-midori h1,
+  html body.green h1,
+  .markdown-preview.markdown-preview.green h1,
+  html body .theme-green h1,
+  .markdown-preview.markdown-preview .theme-green h1,
+  html body .theme-midori h1,
+  .markdown-preview.markdown-preview .theme-midori h1,
+  html body .green h1,
+  .markdown-preview.markdown-preview .green h1 {
+    border-bottom-color: #8fb131 !important;
+  }
+  html.theme-green html body h2,
+  html.theme-green .markdown-preview.markdown-preview h2,
+  html.theme-midori html body h2,
+  html.theme-midori .markdown-preview.markdown-preview h2,
+  html.green html body h2,
+  html.green .markdown-preview.markdown-preview h2,
+  body.theme-green html body h2,
+  body.theme-green .markdown-preview.markdown-preview h2,
+  body.theme-midori html body h2,
+  body.theme-midori .markdown-preview.markdown-preview h2,
+  body.green html body h2,
+  body.green .markdown-preview.markdown-preview h2,
+  html body.theme-green h2,
+  .markdown-preview.markdown-preview.theme-green h2,
+  html body.theme-midori h2,
+  .markdown-preview.markdown-preview.theme-midori h2,
+  html body.green h2,
+  .markdown-preview.markdown-preview.green h2,
+  html body .theme-green h2,
+  .markdown-preview.markdown-preview .theme-green h2,
+  html body .theme-midori h2,
+  .markdown-preview.markdown-preview .theme-midori h2,
+  html body .green h2,
+  .markdown-preview.markdown-preview .green h2 {
+    border-left-color: #8fb131 !important;
+  }
+  html.theme-green html body blockquote,
+  html.theme-green .markdown-preview.markdown-preview blockquote,
+  html.theme-midori html body blockquote,
+  html.theme-midori .markdown-preview.markdown-preview blockquote,
+  html.green html body blockquote,
+  html.green .markdown-preview.markdown-preview blockquote,
+  body.theme-green html body blockquote,
+  body.theme-green .markdown-preview.markdown-preview blockquote,
+  body.theme-midori html body blockquote,
+  body.theme-midori .markdown-preview.markdown-preview blockquote,
+  body.green html body blockquote,
+  body.green .markdown-preview.markdown-preview blockquote,
+  html body.theme-green blockquote,
+  .markdown-preview.markdown-preview.theme-green blockquote,
+  html body.theme-midori blockquote,
+  .markdown-preview.markdown-preview.theme-midori blockquote,
+  html body.green blockquote,
+  .markdown-preview.markdown-preview.green blockquote,
+  html body .theme-green blockquote,
+  .markdown-preview.markdown-preview .theme-green blockquote,
+  html body .theme-midori blockquote,
+  .markdown-preview.markdown-preview .theme-midori blockquote,
+  html body .green blockquote,
+  .markdown-preview.markdown-preview .green blockquote {
+    border-left-color: #8fb131 !important;
+  }
+  html.theme-green html body a,
+  html.theme-green .markdown-preview.markdown-preview a,
+  html.theme-midori html body a,
+  html.theme-midori .markdown-preview.markdown-preview a,
+  html.green html body a,
+  html.green .markdown-preview.markdown-preview a,
+  body.theme-green html body a,
+  body.theme-green .markdown-preview.markdown-preview a,
+  body.theme-midori html body a,
+  body.theme-midori .markdown-preview.markdown-preview a,
+  body.green html body a,
+  body.green .markdown-preview.markdown-preview a,
+  html body.theme-green a,
+  .markdown-preview.markdown-preview.theme-green a,
+  html body.theme-midori a,
+  .markdown-preview.markdown-preview.theme-midori a,
+  html body.green a,
+  .markdown-preview.markdown-preview.green a,
+  html body .theme-green a,
+  .markdown-preview.markdown-preview .theme-green a,
+  html body .theme-midori a,
+  .markdown-preview.markdown-preview .theme-midori a,
+  html body .green a,
+  .markdown-preview.markdown-preview .green a {
+    color: #8fb131 !important;
+  }
+}
+html.theme-red html body h1,
+html.theme-red .markdown-preview.markdown-preview h1,
+html.theme-aka html body h1,
+html.theme-aka .markdown-preview.markdown-preview h1,
+html.red html body h1,
+html.red .markdown-preview.markdown-preview h1,
+body.theme-red html body h1,
+body.theme-red .markdown-preview.markdown-preview h1,
+body.theme-aka html body h1,
+body.theme-aka .markdown-preview.markdown-preview h1,
+body.red html body h1,
+body.red .markdown-preview.markdown-preview h1,
+html body.theme-red h1,
+.markdown-preview.markdown-preview.theme-red h1,
+html body.theme-aka h1,
+.markdown-preview.markdown-preview.theme-aka h1,
+html body.red h1,
+.markdown-preview.markdown-preview.red h1,
+html body .theme-red h1,
+.markdown-preview.markdown-preview .theme-red h1,
+html body .theme-aka h1,
+.markdown-preview.markdown-preview .theme-aka h1,
+html body .red h1,
+.markdown-preview.markdown-preview .red h1 {
+  border-bottom-color: #ec6235 !important;
+}
+html.theme-red html body h2,
+html.theme-red .markdown-preview.markdown-preview h2,
+html.theme-aka html body h2,
+html.theme-aka .markdown-preview.markdown-preview h2,
+html.red html body h2,
+html.red .markdown-preview.markdown-preview h2,
+body.theme-red html body h2,
+body.theme-red .markdown-preview.markdown-preview h2,
+body.theme-aka html body h2,
+body.theme-aka .markdown-preview.markdown-preview h2,
+body.red html body h2,
+body.red .markdown-preview.markdown-preview h2,
+html body.theme-red h2,
+.markdown-preview.markdown-preview.theme-red h2,
+html body.theme-aka h2,
+.markdown-preview.markdown-preview.theme-aka h2,
+html body.red h2,
+.markdown-preview.markdown-preview.red h2,
+html body .theme-red h2,
+.markdown-preview.markdown-preview .theme-red h2,
+html body .theme-aka h2,
+.markdown-preview.markdown-preview .theme-aka h2,
+html body .red h2,
+.markdown-preview.markdown-preview .red h2 {
+  border-left-color: #ec6235 !important;
+  background: linear-gradient(to right, rgba(236, 98, 53, 0.09), transparent 70%) !important;
+}
+html.theme-red html body blockquote,
+html.theme-red .markdown-preview.markdown-preview blockquote,
+html.theme-aka html body blockquote,
+html.theme-aka .markdown-preview.markdown-preview blockquote,
+html.red html body blockquote,
+html.red .markdown-preview.markdown-preview blockquote,
+body.theme-red html body blockquote,
+body.theme-red .markdown-preview.markdown-preview blockquote,
+body.theme-aka html body blockquote,
+body.theme-aka .markdown-preview.markdown-preview blockquote,
+body.red html body blockquote,
+body.red .markdown-preview.markdown-preview blockquote,
+html body.theme-red blockquote,
+.markdown-preview.markdown-preview.theme-red blockquote,
+html body.theme-aka blockquote,
+.markdown-preview.markdown-preview.theme-aka blockquote,
+html body.red blockquote,
+.markdown-preview.markdown-preview.red blockquote,
+html body .theme-red blockquote,
+.markdown-preview.markdown-preview .theme-red blockquote,
+html body .theme-aka blockquote,
+.markdown-preview.markdown-preview .theme-aka blockquote,
+html body .red blockquote,
+.markdown-preview.markdown-preview .red blockquote {
+  border-left-color: #ec6235 !important;
+}
+html.theme-red html body a,
+html.theme-red .markdown-preview.markdown-preview a,
+html.theme-aka html body a,
+html.theme-aka .markdown-preview.markdown-preview a,
+html.red html body a,
+html.red .markdown-preview.markdown-preview a,
+body.theme-red html body a,
+body.theme-red .markdown-preview.markdown-preview a,
+body.theme-aka html body a,
+body.theme-aka .markdown-preview.markdown-preview a,
+body.red html body a,
+body.red .markdown-preview.markdown-preview a,
+html body.theme-red a,
+.markdown-preview.markdown-preview.theme-red a,
+html body.theme-aka a,
+.markdown-preview.markdown-preview.theme-aka a,
+html body.red a,
+.markdown-preview.markdown-preview.red a,
+html body .theme-red a,
+.markdown-preview.markdown-preview .theme-red a,
+html body .theme-aka a,
+.markdown-preview.markdown-preview .theme-aka a,
+html body .red a,
+.markdown-preview.markdown-preview .red a {
+  color: #ec6235 !important;
+}
+html.theme-red html body a:hover,
+html.theme-red .markdown-preview.markdown-preview a:hover,
+html.theme-aka html body a:hover,
+html.theme-aka .markdown-preview.markdown-preview a:hover,
+html.red html body a:hover,
+html.red .markdown-preview.markdown-preview a:hover,
+body.theme-red html body a:hover,
+body.theme-red .markdown-preview.markdown-preview a:hover,
+body.theme-aka html body a:hover,
+body.theme-aka .markdown-preview.markdown-preview a:hover,
+body.red html body a:hover,
+body.red .markdown-preview.markdown-preview a:hover,
+html body.theme-red a:hover,
+.markdown-preview.markdown-preview.theme-red a:hover,
+html body.theme-aka a:hover,
+.markdown-preview.markdown-preview.theme-aka a:hover,
+html body.red a:hover,
+.markdown-preview.markdown-preview.red a:hover,
+html body .theme-red a:hover,
+.markdown-preview.markdown-preview .theme-red a:hover,
+html body .theme-aka a:hover,
+.markdown-preview.markdown-preview .theme-aka a:hover,
+html body .red a:hover,
+.markdown-preview.markdown-preview .red a:hover {
+  color: #d04214 !important;
+}
+@media print {
+  html.theme-red html body h1,
+  html.theme-red .markdown-preview.markdown-preview h1,
+  html.theme-aka html body h1,
+  html.theme-aka .markdown-preview.markdown-preview h1,
+  html.red html body h1,
+  html.red .markdown-preview.markdown-preview h1,
+  body.theme-red html body h1,
+  body.theme-red .markdown-preview.markdown-preview h1,
+  body.theme-aka html body h1,
+  body.theme-aka .markdown-preview.markdown-preview h1,
+  body.red html body h1,
+  body.red .markdown-preview.markdown-preview h1,
+  html body.theme-red h1,
+  .markdown-preview.markdown-preview.theme-red h1,
+  html body.theme-aka h1,
+  .markdown-preview.markdown-preview.theme-aka h1,
+  html body.red h1,
+  .markdown-preview.markdown-preview.red h1,
+  html body .theme-red h1,
+  .markdown-preview.markdown-preview .theme-red h1,
+  html body .theme-aka h1,
+  .markdown-preview.markdown-preview .theme-aka h1,
+  html body .red h1,
+  .markdown-preview.markdown-preview .red h1 {
+    border-bottom-color: #ec6235 !important;
+  }
+  html.theme-red html body h2,
+  html.theme-red .markdown-preview.markdown-preview h2,
+  html.theme-aka html body h2,
+  html.theme-aka .markdown-preview.markdown-preview h2,
+  html.red html body h2,
+  html.red .markdown-preview.markdown-preview h2,
+  body.theme-red html body h2,
+  body.theme-red .markdown-preview.markdown-preview h2,
+  body.theme-aka html body h2,
+  body.theme-aka .markdown-preview.markdown-preview h2,
+  body.red html body h2,
+  body.red .markdown-preview.markdown-preview h2,
+  html body.theme-red h2,
+  .markdown-preview.markdown-preview.theme-red h2,
+  html body.theme-aka h2,
+  .markdown-preview.markdown-preview.theme-aka h2,
+  html body.red h2,
+  .markdown-preview.markdown-preview.red h2,
+  html body .theme-red h2,
+  .markdown-preview.markdown-preview .theme-red h2,
+  html body .theme-aka h2,
+  .markdown-preview.markdown-preview .theme-aka h2,
+  html body .red h2,
+  .markdown-preview.markdown-preview .red h2 {
+    border-left-color: #ec6235 !important;
+  }
+  html.theme-red html body blockquote,
+  html.theme-red .markdown-preview.markdown-preview blockquote,
+  html.theme-aka html body blockquote,
+  html.theme-aka .markdown-preview.markdown-preview blockquote,
+  html.red html body blockquote,
+  html.red .markdown-preview.markdown-preview blockquote,
+  body.theme-red html body blockquote,
+  body.theme-red .markdown-preview.markdown-preview blockquote,
+  body.theme-aka html body blockquote,
+  body.theme-aka .markdown-preview.markdown-preview blockquote,
+  body.red html body blockquote,
+  body.red .markdown-preview.markdown-preview blockquote,
+  html body.theme-red blockquote,
+  .markdown-preview.markdown-preview.theme-red blockquote,
+  html body.theme-aka blockquote,
+  .markdown-preview.markdown-preview.theme-aka blockquote,
+  html body.red blockquote,
+  .markdown-preview.markdown-preview.red blockquote,
+  html body .theme-red blockquote,
+  .markdown-preview.markdown-preview .theme-red blockquote,
+  html body .theme-aka blockquote,
+  .markdown-preview.markdown-preview .theme-aka blockquote,
+  html body .red blockquote,
+  .markdown-preview.markdown-preview .red blockquote {
+    border-left-color: #ec6235 !important;
+  }
+  html.theme-red html body a,
+  html.theme-red .markdown-preview.markdown-preview a,
+  html.theme-aka html body a,
+  html.theme-aka .markdown-preview.markdown-preview a,
+  html.red html body a,
+  html.red .markdown-preview.markdown-preview a,
+  body.theme-red html body a,
+  body.theme-red .markdown-preview.markdown-preview a,
+  body.theme-aka html body a,
+  body.theme-aka .markdown-preview.markdown-preview a,
+  body.red html body a,
+  body.red .markdown-preview.markdown-preview a,
+  html body.theme-red a,
+  .markdown-preview.markdown-preview.theme-red a,
+  html body.theme-aka a,
+  .markdown-preview.markdown-preview.theme-aka a,
+  html body.red a,
+  .markdown-preview.markdown-preview.red a,
+  html body .theme-red a,
+  .markdown-preview.markdown-preview .theme-red a,
+  html body .theme-aka a,
+  .markdown-preview.markdown-preview .theme-aka a,
+  html body .red a,
+  .markdown-preview.markdown-preview .red a {
+    color: #ec6235 !important;
+  }
+}
+html.theme-purple html body h1,
+html.theme-purple .markdown-preview.markdown-preview h1,
+html.theme-murasaki html body h1,
+html.theme-murasaki .markdown-preview.markdown-preview h1,
+html.purple html body h1,
+html.purple .markdown-preview.markdown-preview h1,
+body.theme-purple html body h1,
+body.theme-purple .markdown-preview.markdown-preview h1,
+body.theme-murasaki html body h1,
+body.theme-murasaki .markdown-preview.markdown-preview h1,
+body.purple html body h1,
+body.purple .markdown-preview.markdown-preview h1,
+html body.theme-purple h1,
+.markdown-preview.markdown-preview.theme-purple h1,
+html body.theme-murasaki h1,
+.markdown-preview.markdown-preview.theme-murasaki h1,
+html body.purple h1,
+.markdown-preview.markdown-preview.purple h1,
+html body .theme-purple h1,
+.markdown-preview.markdown-preview .theme-purple h1,
+html body .theme-murasaki h1,
+.markdown-preview.markdown-preview .theme-murasaki h1,
+html body .purple h1,
+.markdown-preview.markdown-preview .purple h1 {
+  border-bottom-color: #8778b3 !important;
+}
+html.theme-purple html body h2,
+html.theme-purple .markdown-preview.markdown-preview h2,
+html.theme-murasaki html body h2,
+html.theme-murasaki .markdown-preview.markdown-preview h2,
+html.purple html body h2,
+html.purple .markdown-preview.markdown-preview h2,
+body.theme-purple html body h2,
+body.theme-purple .markdown-preview.markdown-preview h2,
+body.theme-murasaki html body h2,
+body.theme-murasaki .markdown-preview.markdown-preview h2,
+body.purple html body h2,
+body.purple .markdown-preview.markdown-preview h2,
+html body.theme-purple h2,
+.markdown-preview.markdown-preview.theme-purple h2,
+html body.theme-murasaki h2,
+.markdown-preview.markdown-preview.theme-murasaki h2,
+html body.purple h2,
+.markdown-preview.markdown-preview.purple h2,
+html body .theme-purple h2,
+.markdown-preview.markdown-preview .theme-purple h2,
+html body .theme-murasaki h2,
+.markdown-preview.markdown-preview .theme-murasaki h2,
+html body .purple h2,
+.markdown-preview.markdown-preview .purple h2 {
+  border-left-color: #8778b3 !important;
+  background: linear-gradient(to right, rgba(135, 120, 179, 0.09), transparent 70%) !important;
+}
+html.theme-purple html body blockquote,
+html.theme-purple .markdown-preview.markdown-preview blockquote,
+html.theme-murasaki html body blockquote,
+html.theme-murasaki .markdown-preview.markdown-preview blockquote,
+html.purple html body blockquote,
+html.purple .markdown-preview.markdown-preview blockquote,
+body.theme-purple html body blockquote,
+body.theme-purple .markdown-preview.markdown-preview blockquote,
+body.theme-murasaki html body blockquote,
+body.theme-murasaki .markdown-preview.markdown-preview blockquote,
+body.purple html body blockquote,
+body.purple .markdown-preview.markdown-preview blockquote,
+html body.theme-purple blockquote,
+.markdown-preview.markdown-preview.theme-purple blockquote,
+html body.theme-murasaki blockquote,
+.markdown-preview.markdown-preview.theme-murasaki blockquote,
+html body.purple blockquote,
+.markdown-preview.markdown-preview.purple blockquote,
+html body .theme-purple blockquote,
+.markdown-preview.markdown-preview .theme-purple blockquote,
+html body .theme-murasaki blockquote,
+.markdown-preview.markdown-preview .theme-murasaki blockquote,
+html body .purple blockquote,
+.markdown-preview.markdown-preview .purple blockquote {
+  border-left-color: #8778b3 !important;
+}
+html.theme-purple html body a,
+html.theme-purple .markdown-preview.markdown-preview a,
+html.theme-murasaki html body a,
+html.theme-murasaki .markdown-preview.markdown-preview a,
+html.purple html body a,
+html.purple .markdown-preview.markdown-preview a,
+body.theme-purple html body a,
+body.theme-purple .markdown-preview.markdown-preview a,
+body.theme-murasaki html body a,
+body.theme-murasaki .markdown-preview.markdown-preview a,
+body.purple html body a,
+body.purple .markdown-preview.markdown-preview a,
+html body.theme-purple a,
+.markdown-preview.markdown-preview.theme-purple a,
+html body.theme-murasaki a,
+.markdown-preview.markdown-preview.theme-murasaki a,
+html body.purple a,
+.markdown-preview.markdown-preview.purple a,
+html body .theme-purple a,
+.markdown-preview.markdown-preview .theme-purple a,
+html body .theme-murasaki a,
+.markdown-preview.markdown-preview .theme-murasaki a,
+html body .purple a,
+.markdown-preview.markdown-preview .purple a {
+  color: #8778b3 !important;
+}
+html.theme-purple html body a:hover,
+html.theme-purple .markdown-preview.markdown-preview a:hover,
+html.theme-murasaki html body a:hover,
+html.theme-murasaki .markdown-preview.markdown-preview a:hover,
+html.purple html body a:hover,
+html.purple .markdown-preview.markdown-preview a:hover,
+body.theme-purple html body a:hover,
+body.theme-purple .markdown-preview.markdown-preview a:hover,
+body.theme-murasaki html body a:hover,
+body.theme-murasaki .markdown-preview.markdown-preview a:hover,
+body.purple html body a:hover,
+body.purple .markdown-preview.markdown-preview a:hover,
+html body.theme-purple a:hover,
+.markdown-preview.markdown-preview.theme-purple a:hover,
+html body.theme-murasaki a:hover,
+.markdown-preview.markdown-preview.theme-murasaki a:hover,
+html body.purple a:hover,
+.markdown-preview.markdown-preview.purple a:hover,
+html body .theme-purple a:hover,
+.markdown-preview.markdown-preview .theme-purple a:hover,
+html body .theme-murasaki a:hover,
+.markdown-preview.markdown-preview .theme-murasaki a:hover,
+html body .purple a:hover,
+.markdown-preview.markdown-preview .purple a:hover {
+  color: #675698 !important;
+}
+@media print {
+  html.theme-purple html body h1,
+  html.theme-purple .markdown-preview.markdown-preview h1,
+  html.theme-murasaki html body h1,
+  html.theme-murasaki .markdown-preview.markdown-preview h1,
+  html.purple html body h1,
+  html.purple .markdown-preview.markdown-preview h1,
+  body.theme-purple html body h1,
+  body.theme-purple .markdown-preview.markdown-preview h1,
+  body.theme-murasaki html body h1,
+  body.theme-murasaki .markdown-preview.markdown-preview h1,
+  body.purple html body h1,
+  body.purple .markdown-preview.markdown-preview h1,
+  html body.theme-purple h1,
+  .markdown-preview.markdown-preview.theme-purple h1,
+  html body.theme-murasaki h1,
+  .markdown-preview.markdown-preview.theme-murasaki h1,
+  html body.purple h1,
+  .markdown-preview.markdown-preview.purple h1,
+  html body .theme-purple h1,
+  .markdown-preview.markdown-preview .theme-purple h1,
+  html body .theme-murasaki h1,
+  .markdown-preview.markdown-preview .theme-murasaki h1,
+  html body .purple h1,
+  .markdown-preview.markdown-preview .purple h1 {
+    border-bottom-color: #8778b3 !important;
+  }
+  html.theme-purple html body h2,
+  html.theme-purple .markdown-preview.markdown-preview h2,
+  html.theme-murasaki html body h2,
+  html.theme-murasaki .markdown-preview.markdown-preview h2,
+  html.purple html body h2,
+  html.purple .markdown-preview.markdown-preview h2,
+  body.theme-purple html body h2,
+  body.theme-purple .markdown-preview.markdown-preview h2,
+  body.theme-murasaki html body h2,
+  body.theme-murasaki .markdown-preview.markdown-preview h2,
+  body.purple html body h2,
+  body.purple .markdown-preview.markdown-preview h2,
+  html body.theme-purple h2,
+  .markdown-preview.markdown-preview.theme-purple h2,
+  html body.theme-murasaki h2,
+  .markdown-preview.markdown-preview.theme-murasaki h2,
+  html body.purple h2,
+  .markdown-preview.markdown-preview.purple h2,
+  html body .theme-purple h2,
+  .markdown-preview.markdown-preview .theme-purple h2,
+  html body .theme-murasaki h2,
+  .markdown-preview.markdown-preview .theme-murasaki h2,
+  html body .purple h2,
+  .markdown-preview.markdown-preview .purple h2 {
+    border-left-color: #8778b3 !important;
+  }
+  html.theme-purple html body blockquote,
+  html.theme-purple .markdown-preview.markdown-preview blockquote,
+  html.theme-murasaki html body blockquote,
+  html.theme-murasaki .markdown-preview.markdown-preview blockquote,
+  html.purple html body blockquote,
+  html.purple .markdown-preview.markdown-preview blockquote,
+  body.theme-purple html body blockquote,
+  body.theme-purple .markdown-preview.markdown-preview blockquote,
+  body.theme-murasaki html body blockquote,
+  body.theme-murasaki .markdown-preview.markdown-preview blockquote,
+  body.purple html body blockquote,
+  body.purple .markdown-preview.markdown-preview blockquote,
+  html body.theme-purple blockquote,
+  .markdown-preview.markdown-preview.theme-purple blockquote,
+  html body.theme-murasaki blockquote,
+  .markdown-preview.markdown-preview.theme-murasaki blockquote,
+  html body.purple blockquote,
+  .markdown-preview.markdown-preview.purple blockquote,
+  html body .theme-purple blockquote,
+  .markdown-preview.markdown-preview .theme-purple blockquote,
+  html body .theme-murasaki blockquote,
+  .markdown-preview.markdown-preview .theme-murasaki blockquote,
+  html body .purple blockquote,
+  .markdown-preview.markdown-preview .purple blockquote {
+    border-left-color: #8778b3 !important;
+  }
+  html.theme-purple html body a,
+  html.theme-purple .markdown-preview.markdown-preview a,
+  html.theme-murasaki html body a,
+  html.theme-murasaki .markdown-preview.markdown-preview a,
+  html.purple html body a,
+  html.purple .markdown-preview.markdown-preview a,
+  body.theme-purple html body a,
+  body.theme-purple .markdown-preview.markdown-preview a,
+  body.theme-murasaki html body a,
+  body.theme-murasaki .markdown-preview.markdown-preview a,
+  body.purple html body a,
+  body.purple .markdown-preview.markdown-preview a,
+  html body.theme-purple a,
+  .markdown-preview.markdown-preview.theme-purple a,
+  html body.theme-murasaki a,
+  .markdown-preview.markdown-preview.theme-murasaki a,
+  html body.purple a,
+  .markdown-preview.markdown-preview.purple a,
+  html body .theme-purple a,
+  .markdown-preview.markdown-preview .theme-purple a,
+  html body .theme-murasaki a,
+  .markdown-preview.markdown-preview .theme-murasaki a,
+  html body .purple a,
+  .markdown-preview.markdown-preview .purple a {
+    color: #8778b3 !important;
+  }
+}
+html.theme-brown html body h1,
+html.theme-brown .markdown-preview.markdown-preview h1,
+html.theme-cha html body h1,
+html.theme-cha .markdown-preview.markdown-preview h1,
+html.brown html body h1,
+html.brown .markdown-preview.markdown-preview h1,
+body.theme-brown html body h1,
+body.theme-brown .markdown-preview.markdown-preview h1,
+body.theme-cha html body h1,
+body.theme-cha .markdown-preview.markdown-preview h1,
+body.brown html body h1,
+body.brown .markdown-preview.markdown-preview h1,
+html body.theme-brown h1,
+.markdown-preview.markdown-preview.theme-brown h1,
+html body.theme-cha h1,
+.markdown-preview.markdown-preview.theme-cha h1,
+html body.brown h1,
+.markdown-preview.markdown-preview.brown h1,
+html body .theme-brown h1,
+.markdown-preview.markdown-preview .theme-brown h1,
+html body .theme-cha h1,
+.markdown-preview.markdown-preview .theme-cha h1,
+html body .brown h1,
+.markdown-preview.markdown-preview .brown h1 {
+  border-bottom-color: #c56e1a !important;
+}
+html.theme-brown html body h2,
+html.theme-brown .markdown-preview.markdown-preview h2,
+html.theme-cha html body h2,
+html.theme-cha .markdown-preview.markdown-preview h2,
+html.brown html body h2,
+html.brown .markdown-preview.markdown-preview h2,
+body.theme-brown html body h2,
+body.theme-brown .markdown-preview.markdown-preview h2,
+body.theme-cha html body h2,
+body.theme-cha .markdown-preview.markdown-preview h2,
+body.brown html body h2,
+body.brown .markdown-preview.markdown-preview h2,
+html body.theme-brown h2,
+.markdown-preview.markdown-preview.theme-brown h2,
+html body.theme-cha h2,
+.markdown-preview.markdown-preview.theme-cha h2,
+html body.brown h2,
+.markdown-preview.markdown-preview.brown h2,
+html body .theme-brown h2,
+.markdown-preview.markdown-preview .theme-brown h2,
+html body .theme-cha h2,
+.markdown-preview.markdown-preview .theme-cha h2,
+html body .brown h2,
+.markdown-preview.markdown-preview .brown h2 {
+  border-left-color: #c56e1a !important;
+  background: linear-gradient(to right, rgba(197, 110, 26, 0.09), transparent 70%) !important;
+}
+html.theme-brown html body blockquote,
+html.theme-brown .markdown-preview.markdown-preview blockquote,
+html.theme-cha html body blockquote,
+html.theme-cha .markdown-preview.markdown-preview blockquote,
+html.brown html body blockquote,
+html.brown .markdown-preview.markdown-preview blockquote,
+body.theme-brown html body blockquote,
+body.theme-brown .markdown-preview.markdown-preview blockquote,
+body.theme-cha html body blockquote,
+body.theme-cha .markdown-preview.markdown-preview blockquote,
+body.brown html body blockquote,
+body.brown .markdown-preview.markdown-preview blockquote,
+html body.theme-brown blockquote,
+.markdown-preview.markdown-preview.theme-brown blockquote,
+html body.theme-cha blockquote,
+.markdown-preview.markdown-preview.theme-cha blockquote,
+html body.brown blockquote,
+.markdown-preview.markdown-preview.brown blockquote,
+html body .theme-brown blockquote,
+.markdown-preview.markdown-preview .theme-brown blockquote,
+html body .theme-cha blockquote,
+.markdown-preview.markdown-preview .theme-cha blockquote,
+html body .brown blockquote,
+.markdown-preview.markdown-preview .brown blockquote {
+  border-left-color: #c56e1a !important;
+}
+html.theme-brown html body a,
+html.theme-brown .markdown-preview.markdown-preview a,
+html.theme-cha html body a,
+html.theme-cha .markdown-preview.markdown-preview a,
+html.brown html body a,
+html.brown .markdown-preview.markdown-preview a,
+body.theme-brown html body a,
+body.theme-brown .markdown-preview.markdown-preview a,
+body.theme-cha html body a,
+body.theme-cha .markdown-preview.markdown-preview a,
+body.brown html body a,
+body.brown .markdown-preview.markdown-preview a,
+html body.theme-brown a,
+.markdown-preview.markdown-preview.theme-brown a,
+html body.theme-cha a,
+.markdown-preview.markdown-preview.theme-cha a,
+html body.brown a,
+.markdown-preview.markdown-preview.brown a,
+html body .theme-brown a,
+.markdown-preview.markdown-preview .theme-brown a,
+html body .theme-cha a,
+.markdown-preview.markdown-preview .theme-cha a,
+html body .brown a,
+.markdown-preview.markdown-preview .brown a {
+  color: #c56e1a !important;
+}
+html.theme-brown html body a:hover,
+html.theme-brown .markdown-preview.markdown-preview a:hover,
+html.theme-cha html body a:hover,
+html.theme-cha .markdown-preview.markdown-preview a:hover,
+html.brown html body a:hover,
+html.brown .markdown-preview.markdown-preview a:hover,
+body.theme-brown html body a:hover,
+body.theme-brown .markdown-preview.markdown-preview a:hover,
+body.theme-cha html body a:hover,
+body.theme-cha .markdown-preview.markdown-preview a:hover,
+body.brown html body a:hover,
+body.brown .markdown-preview.markdown-preview a:hover,
+html body.theme-brown a:hover,
+.markdown-preview.markdown-preview.theme-brown a:hover,
+html body.theme-cha a:hover,
+.markdown-preview.markdown-preview.theme-cha a:hover,
+html body.brown a:hover,
+.markdown-preview.markdown-preview.brown a:hover,
+html body .theme-brown a:hover,
+.markdown-preview.markdown-preview .theme-brown a:hover,
+html body .theme-cha a:hover,
+.markdown-preview.markdown-preview .theme-cha a:hover,
+html body .brown a:hover,
+.markdown-preview.markdown-preview .brown a:hover {
+  color: #8f5013 !important;
+}
+@media print {
+  html.theme-brown html body h1,
+  html.theme-brown .markdown-preview.markdown-preview h1,
+  html.theme-cha html body h1,
+  html.theme-cha .markdown-preview.markdown-preview h1,
+  html.brown html body h1,
+  html.brown .markdown-preview.markdown-preview h1,
+  body.theme-brown html body h1,
+  body.theme-brown .markdown-preview.markdown-preview h1,
+  body.theme-cha html body h1,
+  body.theme-cha .markdown-preview.markdown-preview h1,
+  body.brown html body h1,
+  body.brown .markdown-preview.markdown-preview h1,
+  html body.theme-brown h1,
+  .markdown-preview.markdown-preview.theme-brown h1,
+  html body.theme-cha h1,
+  .markdown-preview.markdown-preview.theme-cha h1,
+  html body.brown h1,
+  .markdown-preview.markdown-preview.brown h1,
+  html body .theme-brown h1,
+  .markdown-preview.markdown-preview .theme-brown h1,
+  html body .theme-cha h1,
+  .markdown-preview.markdown-preview .theme-cha h1,
+  html body .brown h1,
+  .markdown-preview.markdown-preview .brown h1 {
+    border-bottom-color: #c56e1a !important;
+  }
+  html.theme-brown html body h2,
+  html.theme-brown .markdown-preview.markdown-preview h2,
+  html.theme-cha html body h2,
+  html.theme-cha .markdown-preview.markdown-preview h2,
+  html.brown html body h2,
+  html.brown .markdown-preview.markdown-preview h2,
+  body.theme-brown html body h2,
+  body.theme-brown .markdown-preview.markdown-preview h2,
+  body.theme-cha html body h2,
+  body.theme-cha .markdown-preview.markdown-preview h2,
+  body.brown html body h2,
+  body.brown .markdown-preview.markdown-preview h2,
+  html body.theme-brown h2,
+  .markdown-preview.markdown-preview.theme-brown h2,
+  html body.theme-cha h2,
+  .markdown-preview.markdown-preview.theme-cha h2,
+  html body.brown h2,
+  .markdown-preview.markdown-preview.brown h2,
+  html body .theme-brown h2,
+  .markdown-preview.markdown-preview .theme-brown h2,
+  html body .theme-cha h2,
+  .markdown-preview.markdown-preview .theme-cha h2,
+  html body .brown h2,
+  .markdown-preview.markdown-preview .brown h2 {
+    border-left-color: #c56e1a !important;
+  }
+  html.theme-brown html body blockquote,
+  html.theme-brown .markdown-preview.markdown-preview blockquote,
+  html.theme-cha html body blockquote,
+  html.theme-cha .markdown-preview.markdown-preview blockquote,
+  html.brown html body blockquote,
+  html.brown .markdown-preview.markdown-preview blockquote,
+  body.theme-brown html body blockquote,
+  body.theme-brown .markdown-preview.markdown-preview blockquote,
+  body.theme-cha html body blockquote,
+  body.theme-cha .markdown-preview.markdown-preview blockquote,
+  body.brown html body blockquote,
+  body.brown .markdown-preview.markdown-preview blockquote,
+  html body.theme-brown blockquote,
+  .markdown-preview.markdown-preview.theme-brown blockquote,
+  html body.theme-cha blockquote,
+  .markdown-preview.markdown-preview.theme-cha blockquote,
+  html body.brown blockquote,
+  .markdown-preview.markdown-preview.brown blockquote,
+  html body .theme-brown blockquote,
+  .markdown-preview.markdown-preview .theme-brown blockquote,
+  html body .theme-cha blockquote,
+  .markdown-preview.markdown-preview .theme-cha blockquote,
+  html body .brown blockquote,
+  .markdown-preview.markdown-preview .brown blockquote {
+    border-left-color: #c56e1a !important;
+  }
+  html.theme-brown html body a,
+  html.theme-brown .markdown-preview.markdown-preview a,
+  html.theme-cha html body a,
+  html.theme-cha .markdown-preview.markdown-preview a,
+  html.brown html body a,
+  html.brown .markdown-preview.markdown-preview a,
+  body.theme-brown html body a,
+  body.theme-brown .markdown-preview.markdown-preview a,
+  body.theme-cha html body a,
+  body.theme-cha .markdown-preview.markdown-preview a,
+  body.brown html body a,
+  body.brown .markdown-preview.markdown-preview a,
+  html body.theme-brown a,
+  .markdown-preview.markdown-preview.theme-brown a,
+  html body.theme-cha a,
+  .markdown-preview.markdown-preview.theme-cha a,
+  html body.brown a,
+  .markdown-preview.markdown-preview.brown a,
+  html body .theme-brown a,
+  .markdown-preview.markdown-preview .theme-brown a,
+  html body .theme-cha a,
+  .markdown-preview.markdown-preview .theme-cha a,
+  html body .brown a,
+  .markdown-preview.markdown-preview .brown a {
+    color: #c56e1a !important;
+  }
+}
+html.theme-cyan html body h1,
+html.theme-cyan .markdown-preview.markdown-preview h1,
+html.theme-mizu html body h1,
+html.theme-mizu .markdown-preview.markdown-preview h1,
+html.theme-aqua html body h1,
+html.theme-aqua .markdown-preview.markdown-preview h1,
+html.cyan html body h1,
+html.cyan .markdown-preview.markdown-preview h1,
+body.theme-cyan html body h1,
+body.theme-cyan .markdown-preview.markdown-preview h1,
+body.theme-mizu html body h1,
+body.theme-mizu .markdown-preview.markdown-preview h1,
+body.theme-aqua html body h1,
+body.theme-aqua .markdown-preview.markdown-preview h1,
+body.cyan html body h1,
+body.cyan .markdown-preview.markdown-preview h1,
+html body.theme-cyan h1,
+.markdown-preview.markdown-preview.theme-cyan h1,
+html body.theme-mizu h1,
+.markdown-preview.markdown-preview.theme-mizu h1,
+html body.theme-aqua h1,
+.markdown-preview.markdown-preview.theme-aqua h1,
+html body.cyan h1,
+.markdown-preview.markdown-preview.cyan h1,
+html body .theme-cyan h1,
+.markdown-preview.markdown-preview .theme-cyan h1,
+html body .theme-mizu h1,
+.markdown-preview.markdown-preview .theme-mizu h1,
+html body .theme-aqua h1,
+.markdown-preview.markdown-preview .theme-aqua h1,
+html body .cyan h1,
+.markdown-preview.markdown-preview .cyan h1 {
+  border-bottom-color: #5d9ec8 !important;
+}
+html.theme-cyan html body h2,
+html.theme-cyan .markdown-preview.markdown-preview h2,
+html.theme-mizu html body h2,
+html.theme-mizu .markdown-preview.markdown-preview h2,
+html.theme-aqua html body h2,
+html.theme-aqua .markdown-preview.markdown-preview h2,
+html.cyan html body h2,
+html.cyan .markdown-preview.markdown-preview h2,
+body.theme-cyan html body h2,
+body.theme-cyan .markdown-preview.markdown-preview h2,
+body.theme-mizu html body h2,
+body.theme-mizu .markdown-preview.markdown-preview h2,
+body.theme-aqua html body h2,
+body.theme-aqua .markdown-preview.markdown-preview h2,
+body.cyan html body h2,
+body.cyan .markdown-preview.markdown-preview h2,
+html body.theme-cyan h2,
+.markdown-preview.markdown-preview.theme-cyan h2,
+html body.theme-mizu h2,
+.markdown-preview.markdown-preview.theme-mizu h2,
+html body.theme-aqua h2,
+.markdown-preview.markdown-preview.theme-aqua h2,
+html body.cyan h2,
+.markdown-preview.markdown-preview.cyan h2,
+html body .theme-cyan h2,
+.markdown-preview.markdown-preview .theme-cyan h2,
+html body .theme-mizu h2,
+.markdown-preview.markdown-preview .theme-mizu h2,
+html body .theme-aqua h2,
+.markdown-preview.markdown-preview .theme-aqua h2,
+html body .cyan h2,
+.markdown-preview.markdown-preview .cyan h2 {
+  border-left-color: #5d9ec8 !important;
+  background: linear-gradient(to right, rgba(93, 158, 200, 0.09), transparent 70%) !important;
+}
+html.theme-cyan html body blockquote,
+html.theme-cyan .markdown-preview.markdown-preview blockquote,
+html.theme-mizu html body blockquote,
+html.theme-mizu .markdown-preview.markdown-preview blockquote,
+html.theme-aqua html body blockquote,
+html.theme-aqua .markdown-preview.markdown-preview blockquote,
+html.cyan html body blockquote,
+html.cyan .markdown-preview.markdown-preview blockquote,
+body.theme-cyan html body blockquote,
+body.theme-cyan .markdown-preview.markdown-preview blockquote,
+body.theme-mizu html body blockquote,
+body.theme-mizu .markdown-preview.markdown-preview blockquote,
+body.theme-aqua html body blockquote,
+body.theme-aqua .markdown-preview.markdown-preview blockquote,
+body.cyan html body blockquote,
+body.cyan .markdown-preview.markdown-preview blockquote,
+html body.theme-cyan blockquote,
+.markdown-preview.markdown-preview.theme-cyan blockquote,
+html body.theme-mizu blockquote,
+.markdown-preview.markdown-preview.theme-mizu blockquote,
+html body.theme-aqua blockquote,
+.markdown-preview.markdown-preview.theme-aqua blockquote,
+html body.cyan blockquote,
+.markdown-preview.markdown-preview.cyan blockquote,
+html body .theme-cyan blockquote,
+.markdown-preview.markdown-preview .theme-cyan blockquote,
+html body .theme-mizu blockquote,
+.markdown-preview.markdown-preview .theme-mizu blockquote,
+html body .theme-aqua blockquote,
+.markdown-preview.markdown-preview .theme-aqua blockquote,
+html body .cyan blockquote,
+.markdown-preview.markdown-preview .cyan blockquote {
+  border-left-color: #5d9ec8 !important;
+}
+html.theme-cyan html body a,
+html.theme-cyan .markdown-preview.markdown-preview a,
+html.theme-mizu html body a,
+html.theme-mizu .markdown-preview.markdown-preview a,
+html.theme-aqua html body a,
+html.theme-aqua .markdown-preview.markdown-preview a,
+html.cyan html body a,
+html.cyan .markdown-preview.markdown-preview a,
+body.theme-cyan html body a,
+body.theme-cyan .markdown-preview.markdown-preview a,
+body.theme-mizu html body a,
+body.theme-mizu .markdown-preview.markdown-preview a,
+body.theme-aqua html body a,
+body.theme-aqua .markdown-preview.markdown-preview a,
+body.cyan html body a,
+body.cyan .markdown-preview.markdown-preview a,
+html body.theme-cyan a,
+.markdown-preview.markdown-preview.theme-cyan a,
+html body.theme-mizu a,
+.markdown-preview.markdown-preview.theme-mizu a,
+html body.theme-aqua a,
+.markdown-preview.markdown-preview.theme-aqua a,
+html body.cyan a,
+.markdown-preview.markdown-preview.cyan a,
+html body .theme-cyan a,
+.markdown-preview.markdown-preview .theme-cyan a,
+html body .theme-mizu a,
+.markdown-preview.markdown-preview .theme-mizu a,
+html body .theme-aqua a,
+.markdown-preview.markdown-preview .theme-aqua a,
+html body .cyan a,
+.markdown-preview.markdown-preview .cyan a {
+  color: #5d9ec8 !important;
+}
+html.theme-cyan html body a:hover,
+html.theme-cyan .markdown-preview.markdown-preview a:hover,
+html.theme-mizu html body a:hover,
+html.theme-mizu .markdown-preview.markdown-preview a:hover,
+html.theme-aqua html body a:hover,
+html.theme-aqua .markdown-preview.markdown-preview a:hover,
+html.cyan html body a:hover,
+html.cyan .markdown-preview.markdown-preview a:hover,
+body.theme-cyan html body a:hover,
+body.theme-cyan .markdown-preview.markdown-preview a:hover,
+body.theme-mizu html body a:hover,
+body.theme-mizu .markdown-preview.markdown-preview a:hover,
+body.theme-aqua html body a:hover,
+body.theme-aqua .markdown-preview.markdown-preview a:hover,
+body.cyan html body a:hover,
+body.cyan .markdown-preview.markdown-preview a:hover,
+html body.theme-cyan a:hover,
+.markdown-preview.markdown-preview.theme-cyan a:hover,
+html body.theme-mizu a:hover,
+.markdown-preview.markdown-preview.theme-mizu a:hover,
+html body.theme-aqua a:hover,
+.markdown-preview.markdown-preview.theme-aqua a:hover,
+html body.cyan a:hover,
+.markdown-preview.markdown-preview.cyan a:hover,
+html body .theme-cyan a:hover,
+.markdown-preview.markdown-preview .theme-cyan a:hover,
+html body .theme-mizu a:hover,
+.markdown-preview.markdown-preview .theme-mizu a:hover,
+html body .theme-aqua a:hover,
+.markdown-preview.markdown-preview .theme-aqua a:hover,
+html body .cyan a:hover,
+.markdown-preview.markdown-preview .cyan a:hover {
+  color: #3b80ad !important;
+}
+@media print {
+  html.theme-cyan html body h1,
+  html.theme-cyan .markdown-preview.markdown-preview h1,
+  html.theme-mizu html body h1,
+  html.theme-mizu .markdown-preview.markdown-preview h1,
+  html.theme-aqua html body h1,
+  html.theme-aqua .markdown-preview.markdown-preview h1,
+  html.cyan html body h1,
+  html.cyan .markdown-preview.markdown-preview h1,
+  body.theme-cyan html body h1,
+  body.theme-cyan .markdown-preview.markdown-preview h1,
+  body.theme-mizu html body h1,
+  body.theme-mizu .markdown-preview.markdown-preview h1,
+  body.theme-aqua html body h1,
+  body.theme-aqua .markdown-preview.markdown-preview h1,
+  body.cyan html body h1,
+  body.cyan .markdown-preview.markdown-preview h1,
+  html body.theme-cyan h1,
+  .markdown-preview.markdown-preview.theme-cyan h1,
+  html body.theme-mizu h1,
+  .markdown-preview.markdown-preview.theme-mizu h1,
+  html body.theme-aqua h1,
+  .markdown-preview.markdown-preview.theme-aqua h1,
+  html body.cyan h1,
+  .markdown-preview.markdown-preview.cyan h1,
+  html body .theme-cyan h1,
+  .markdown-preview.markdown-preview .theme-cyan h1,
+  html body .theme-mizu h1,
+  .markdown-preview.markdown-preview .theme-mizu h1,
+  html body .theme-aqua h1,
+  .markdown-preview.markdown-preview .theme-aqua h1,
+  html body .cyan h1,
+  .markdown-preview.markdown-preview .cyan h1 {
+    border-bottom-color: #5d9ec8 !important;
+  }
+  html.theme-cyan html body h2,
+  html.theme-cyan .markdown-preview.markdown-preview h2,
+  html.theme-mizu html body h2,
+  html.theme-mizu .markdown-preview.markdown-preview h2,
+  html.theme-aqua html body h2,
+  html.theme-aqua .markdown-preview.markdown-preview h2,
+  html.cyan html body h2,
+  html.cyan .markdown-preview.markdown-preview h2,
+  body.theme-cyan html body h2,
+  body.theme-cyan .markdown-preview.markdown-preview h2,
+  body.theme-mizu html body h2,
+  body.theme-mizu .markdown-preview.markdown-preview h2,
+  body.theme-aqua html body h2,
+  body.theme-aqua .markdown-preview.markdown-preview h2,
+  body.cyan html body h2,
+  body.cyan .markdown-preview.markdown-preview h2,
+  html body.theme-cyan h2,
+  .markdown-preview.markdown-preview.theme-cyan h2,
+  html body.theme-mizu h2,
+  .markdown-preview.markdown-preview.theme-mizu h2,
+  html body.theme-aqua h2,
+  .markdown-preview.markdown-preview.theme-aqua h2,
+  html body.cyan h2,
+  .markdown-preview.markdown-preview.cyan h2,
+  html body .theme-cyan h2,
+  .markdown-preview.markdown-preview .theme-cyan h2,
+  html body .theme-mizu h2,
+  .markdown-preview.markdown-preview .theme-mizu h2,
+  html body .theme-aqua h2,
+  .markdown-preview.markdown-preview .theme-aqua h2,
+  html body .cyan h2,
+  .markdown-preview.markdown-preview .cyan h2 {
+    border-left-color: #5d9ec8 !important;
+  }
+  html.theme-cyan html body blockquote,
+  html.theme-cyan .markdown-preview.markdown-preview blockquote,
+  html.theme-mizu html body blockquote,
+  html.theme-mizu .markdown-preview.markdown-preview blockquote,
+  html.theme-aqua html body blockquote,
+  html.theme-aqua .markdown-preview.markdown-preview blockquote,
+  html.cyan html body blockquote,
+  html.cyan .markdown-preview.markdown-preview blockquote,
+  body.theme-cyan html body blockquote,
+  body.theme-cyan .markdown-preview.markdown-preview blockquote,
+  body.theme-mizu html body blockquote,
+  body.theme-mizu .markdown-preview.markdown-preview blockquote,
+  body.theme-aqua html body blockquote,
+  body.theme-aqua .markdown-preview.markdown-preview blockquote,
+  body.cyan html body blockquote,
+  body.cyan .markdown-preview.markdown-preview blockquote,
+  html body.theme-cyan blockquote,
+  .markdown-preview.markdown-preview.theme-cyan blockquote,
+  html body.theme-mizu blockquote,
+  .markdown-preview.markdown-preview.theme-mizu blockquote,
+  html body.theme-aqua blockquote,
+  .markdown-preview.markdown-preview.theme-aqua blockquote,
+  html body.cyan blockquote,
+  .markdown-preview.markdown-preview.cyan blockquote,
+  html body .theme-cyan blockquote,
+  .markdown-preview.markdown-preview .theme-cyan blockquote,
+  html body .theme-mizu blockquote,
+  .markdown-preview.markdown-preview .theme-mizu blockquote,
+  html body .theme-aqua blockquote,
+  .markdown-preview.markdown-preview .theme-aqua blockquote,
+  html body .cyan blockquote,
+  .markdown-preview.markdown-preview .cyan blockquote {
+    border-left-color: #5d9ec8 !important;
+  }
+  html.theme-cyan html body a,
+  html.theme-cyan .markdown-preview.markdown-preview a,
+  html.theme-mizu html body a,
+  html.theme-mizu .markdown-preview.markdown-preview a,
+  html.theme-aqua html body a,
+  html.theme-aqua .markdown-preview.markdown-preview a,
+  html.cyan html body a,
+  html.cyan .markdown-preview.markdown-preview a,
+  body.theme-cyan html body a,
+  body.theme-cyan .markdown-preview.markdown-preview a,
+  body.theme-mizu html body a,
+  body.theme-mizu .markdown-preview.markdown-preview a,
+  body.theme-aqua html body a,
+  body.theme-aqua .markdown-preview.markdown-preview a,
+  body.cyan html body a,
+  body.cyan .markdown-preview.markdown-preview a,
+  html body.theme-cyan a,
+  .markdown-preview.markdown-preview.theme-cyan a,
+  html body.theme-mizu a,
+  .markdown-preview.markdown-preview.theme-mizu a,
+  html body.theme-aqua a,
+  .markdown-preview.markdown-preview.theme-aqua a,
+  html body.cyan a,
+  .markdown-preview.markdown-preview.cyan a,
+  html body .theme-cyan a,
+  .markdown-preview.markdown-preview .theme-cyan a,
+  html body .theme-mizu a,
+  .markdown-preview.markdown-preview .theme-mizu a,
+  html body .theme-aqua a,
+  .markdown-preview.markdown-preview .theme-aqua a,
+  html body .cyan a,
+  .markdown-preview.markdown-preview .cyan a {
+    color: #5d9ec8 !important;
+  }
+}
+html.theme-yellow html body h1,
+html.theme-yellow .markdown-preview.markdown-preview h1,
+html.theme-ki html body h1,
+html.theme-ki .markdown-preview.markdown-preview h1,
+html.yellow html body h1,
+html.yellow .markdown-preview.markdown-preview h1,
+body.theme-yellow html body h1,
+body.theme-yellow .markdown-preview.markdown-preview h1,
+body.theme-ki html body h1,
+body.theme-ki .markdown-preview.markdown-preview h1,
+body.yellow html body h1,
+body.yellow .markdown-preview.markdown-preview h1,
+html body.theme-yellow h1,
+.markdown-preview.markdown-preview.theme-yellow h1,
+html body.theme-ki h1,
+.markdown-preview.markdown-preview.theme-ki h1,
+html body.yellow h1,
+.markdown-preview.markdown-preview.yellow h1,
+html body .theme-yellow h1,
+.markdown-preview.markdown-preview .theme-yellow h1,
+html body .theme-ki h1,
+.markdown-preview.markdown-preview .theme-ki h1,
+html body .yellow h1,
+.markdown-preview.markdown-preview .yellow h1 {
+  border-bottom-color: #ffbf00 !important;
+}
+html.theme-yellow html body h2,
+html.theme-yellow .markdown-preview.markdown-preview h2,
+html.theme-ki html body h2,
+html.theme-ki .markdown-preview.markdown-preview h2,
+html.yellow html body h2,
+html.yellow .markdown-preview.markdown-preview h2,
+body.theme-yellow html body h2,
+body.theme-yellow .markdown-preview.markdown-preview h2,
+body.theme-ki html body h2,
+body.theme-ki .markdown-preview.markdown-preview h2,
+body.yellow html body h2,
+body.yellow .markdown-preview.markdown-preview h2,
+html body.theme-yellow h2,
+.markdown-preview.markdown-preview.theme-yellow h2,
+html body.theme-ki h2,
+.markdown-preview.markdown-preview.theme-ki h2,
+html body.yellow h2,
+.markdown-preview.markdown-preview.yellow h2,
+html body .theme-yellow h2,
+.markdown-preview.markdown-preview .theme-yellow h2,
+html body .theme-ki h2,
+.markdown-preview.markdown-preview .theme-ki h2,
+html body .yellow h2,
+.markdown-preview.markdown-preview .yellow h2 {
+  border-left-color: #ffbf00 !important;
+  background: linear-gradient(to right, rgba(255, 191, 0, 0.15), transparent 70%) !important;
+}
+html.theme-yellow html body blockquote,
+html.theme-yellow .markdown-preview.markdown-preview blockquote,
+html.theme-ki html body blockquote,
+html.theme-ki .markdown-preview.markdown-preview blockquote,
+html.yellow html body blockquote,
+html.yellow .markdown-preview.markdown-preview blockquote,
+body.theme-yellow html body blockquote,
+body.theme-yellow .markdown-preview.markdown-preview blockquote,
+body.theme-ki html body blockquote,
+body.theme-ki .markdown-preview.markdown-preview blockquote,
+body.yellow html body blockquote,
+body.yellow .markdown-preview.markdown-preview blockquote,
+html body.theme-yellow blockquote,
+.markdown-preview.markdown-preview.theme-yellow blockquote,
+html body.theme-ki blockquote,
+.markdown-preview.markdown-preview.theme-ki blockquote,
+html body.yellow blockquote,
+.markdown-preview.markdown-preview.yellow blockquote,
+html body .theme-yellow blockquote,
+.markdown-preview.markdown-preview .theme-yellow blockquote,
+html body .theme-ki blockquote,
+.markdown-preview.markdown-preview .theme-ki blockquote,
+html body .yellow blockquote,
+.markdown-preview.markdown-preview .yellow blockquote {
+  border-left-color: #ffbf00 !important;
+}
+html.theme-yellow html body a,
+html.theme-yellow .markdown-preview.markdown-preview a,
+html.theme-ki html body a,
+html.theme-ki .markdown-preview.markdown-preview a,
+html.yellow html body a,
+html.yellow .markdown-preview.markdown-preview a,
+body.theme-yellow html body a,
+body.theme-yellow .markdown-preview.markdown-preview a,
+body.theme-ki html body a,
+body.theme-ki .markdown-preview.markdown-preview a,
+body.yellow html body a,
+body.yellow .markdown-preview.markdown-preview a,
+html body.theme-yellow a,
+.markdown-preview.markdown-preview.theme-yellow a,
+html body.theme-ki a,
+.markdown-preview.markdown-preview.theme-ki a,
+html body.yellow a,
+.markdown-preview.markdown-preview.yellow a,
+html body .theme-yellow a,
+.markdown-preview.markdown-preview .theme-yellow a,
+html body .theme-ki a,
+.markdown-preview.markdown-preview .theme-ki a,
+html body .yellow a,
+.markdown-preview.markdown-preview .yellow a {
+  color: #b45309 !important;
+}
+html.theme-yellow html body a:hover,
+html.theme-yellow .markdown-preview.markdown-preview a:hover,
+html.theme-ki html body a:hover,
+html.theme-ki .markdown-preview.markdown-preview a:hover,
+html.yellow html body a:hover,
+html.yellow .markdown-preview.markdown-preview a:hover,
+body.theme-yellow html body a:hover,
+body.theme-yellow .markdown-preview.markdown-preview a:hover,
+body.theme-ki html body a:hover,
+body.theme-ki .markdown-preview.markdown-preview a:hover,
+body.yellow html body a:hover,
+body.yellow .markdown-preview.markdown-preview a:hover,
+html body.theme-yellow a:hover,
+.markdown-preview.markdown-preview.theme-yellow a:hover,
+html body.theme-ki a:hover,
+.markdown-preview.markdown-preview.theme-ki a:hover,
+html body.yellow a:hover,
+.markdown-preview.markdown-preview.yellow a:hover,
+html body .theme-yellow a:hover,
+.markdown-preview.markdown-preview .theme-yellow a:hover,
+html body .theme-ki a:hover,
+.markdown-preview.markdown-preview .theme-ki a:hover,
+html body .yellow a:hover,
+.markdown-preview.markdown-preview .yellow a:hover {
+  color: #833d07 !important;
+}
+@media print {
+  html.theme-yellow html body h1,
+  html.theme-yellow .markdown-preview.markdown-preview h1,
+  html.theme-ki html body h1,
+  html.theme-ki .markdown-preview.markdown-preview h1,
+  html.yellow html body h1,
+  html.yellow .markdown-preview.markdown-preview h1,
+  body.theme-yellow html body h1,
+  body.theme-yellow .markdown-preview.markdown-preview h1,
+  body.theme-ki html body h1,
+  body.theme-ki .markdown-preview.markdown-preview h1,
+  body.yellow html body h1,
+  body.yellow .markdown-preview.markdown-preview h1,
+  html body.theme-yellow h1,
+  .markdown-preview.markdown-preview.theme-yellow h1,
+  html body.theme-ki h1,
+  .markdown-preview.markdown-preview.theme-ki h1,
+  html body.yellow h1,
+  .markdown-preview.markdown-preview.yellow h1,
+  html body .theme-yellow h1,
+  .markdown-preview.markdown-preview .theme-yellow h1,
+  html body .theme-ki h1,
+  .markdown-preview.markdown-preview .theme-ki h1,
+  html body .yellow h1,
+  .markdown-preview.markdown-preview .yellow h1 {
+    border-bottom-color: #ffbf00 !important;
+  }
+  html.theme-yellow html body h2,
+  html.theme-yellow .markdown-preview.markdown-preview h2,
+  html.theme-ki html body h2,
+  html.theme-ki .markdown-preview.markdown-preview h2,
+  html.yellow html body h2,
+  html.yellow .markdown-preview.markdown-preview h2,
+  body.theme-yellow html body h2,
+  body.theme-yellow .markdown-preview.markdown-preview h2,
+  body.theme-ki html body h2,
+  body.theme-ki .markdown-preview.markdown-preview h2,
+  body.yellow html body h2,
+  body.yellow .markdown-preview.markdown-preview h2,
+  html body.theme-yellow h2,
+  .markdown-preview.markdown-preview.theme-yellow h2,
+  html body.theme-ki h2,
+  .markdown-preview.markdown-preview.theme-ki h2,
+  html body.yellow h2,
+  .markdown-preview.markdown-preview.yellow h2,
+  html body .theme-yellow h2,
+  .markdown-preview.markdown-preview .theme-yellow h2,
+  html body .theme-ki h2,
+  .markdown-preview.markdown-preview .theme-ki h2,
+  html body .yellow h2,
+  .markdown-preview.markdown-preview .yellow h2 {
+    border-left-color: #ffbf00 !important;
+  }
+  html.theme-yellow html body blockquote,
+  html.theme-yellow .markdown-preview.markdown-preview blockquote,
+  html.theme-ki html body blockquote,
+  html.theme-ki .markdown-preview.markdown-preview blockquote,
+  html.yellow html body blockquote,
+  html.yellow .markdown-preview.markdown-preview blockquote,
+  body.theme-yellow html body blockquote,
+  body.theme-yellow .markdown-preview.markdown-preview blockquote,
+  body.theme-ki html body blockquote,
+  body.theme-ki .markdown-preview.markdown-preview blockquote,
+  body.yellow html body blockquote,
+  body.yellow .markdown-preview.markdown-preview blockquote,
+  html body.theme-yellow blockquote,
+  .markdown-preview.markdown-preview.theme-yellow blockquote,
+  html body.theme-ki blockquote,
+  .markdown-preview.markdown-preview.theme-ki blockquote,
+  html body.yellow blockquote,
+  .markdown-preview.markdown-preview.yellow blockquote,
+  html body .theme-yellow blockquote,
+  .markdown-preview.markdown-preview .theme-yellow blockquote,
+  html body .theme-ki blockquote,
+  .markdown-preview.markdown-preview .theme-ki blockquote,
+  html body .yellow blockquote,
+  .markdown-preview.markdown-preview .yellow blockquote {
+    border-left-color: #ffbf00 !important;
+  }
+  html.theme-yellow html body a,
+  html.theme-yellow .markdown-preview.markdown-preview a,
+  html.theme-ki html body a,
+  html.theme-ki .markdown-preview.markdown-preview a,
+  html.yellow html body a,
+  html.yellow .markdown-preview.markdown-preview a,
+  body.theme-yellow html body a,
+  body.theme-yellow .markdown-preview.markdown-preview a,
+  body.theme-ki html body a,
+  body.theme-ki .markdown-preview.markdown-preview a,
+  body.yellow html body a,
+  body.yellow .markdown-preview.markdown-preview a,
+  html body.theme-yellow a,
+  .markdown-preview.markdown-preview.theme-yellow a,
+  html body.theme-ki a,
+  .markdown-preview.markdown-preview.theme-ki a,
+  html body.yellow a,
+  .markdown-preview.markdown-preview.yellow a,
+  html body .theme-yellow a,
+  .markdown-preview.markdown-preview .theme-yellow a,
+  html body .theme-ki a,
+  .markdown-preview.markdown-preview .theme-ki a,
+  html body .yellow a,
+  .markdown-preview.markdown-preview .yellow a {
+    color: #b45309 !important;
+  }
+}
+@media print {
+  html body,
+  .markdown-preview.markdown-preview {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #111827 !important;
+    background: #ffffff !important;
+    font-size: 10.5pt !important;
+    line-height: 1.65 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  html body h1,
+  .markdown-preview.markdown-preview h1,
+  html body h2,
+  .markdown-preview.markdown-preview h2,
+  html body h3,
+  .markdown-preview.markdown-preview h3,
+  html body h4,
+  .markdown-preview.markdown-preview h4,
+  html body h5,
+  .markdown-preview.markdown-preview h5,
+  html body h6,
+  .markdown-preview.markdown-preview h6 {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  html body table,
+  .markdown-preview.markdown-preview table,
+  html body pre,
+  .markdown-preview.markdown-preview pre,
+  html body blockquote,
+  .markdown-preview.markdown-preview blockquote,
+  html body img,
+  .markdown-preview.markdown-preview img,
+  html body figure,
+  .markdown-preview.markdown-preview figure {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    box-shadow: none !important;
+  }
+  html body tr,
+  .markdown-preview.markdown-preview tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  html body h1,
+  .markdown-preview.markdown-preview h1 {
+    font-size: 18pt !important;
+    border-bottom: 2pt solid #5e81b5 !important;
+    margin-top: 1.2em !important;
+    margin-bottom: 0.6em !important;
+  }
+  html body h2,
+  .markdown-preview.markdown-preview h2 {
+    font-size: 14pt !important;
+    border-left: 3.5pt solid #5e81b5 !important;
+    border-bottom: 1pt solid #cbd5e1 !important;
+    background: #f8fafc !important;
+    margin-top: 1.4em !important;
+    padding: 3pt 6pt 3pt 8pt !important;
+  }
+  html body h3,
+  .markdown-preview.markdown-preview h3 {
+    font-size: 12pt !important;
+    border-bottom: 1pt dashed #94a3b8 !important;
+    margin-top: 1.2em !important;
+    padding-bottom: 2pt !important;
+  }
+  html body table,
+  .markdown-preview.markdown-preview table {
+    box-shadow: none !important;
+    margin: 1em 0 !important;
+    border: 0.8pt solid #cbd5e1 !important;
+  }
+  html body table th,
+  .markdown-preview.markdown-preview table th {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    border: 0.8pt solid #cbd5e1 !important;
+    padding: 6pt 10pt !important;
+  }
+  html body table td,
+  .markdown-preview.markdown-preview table td {
+    border: 0.8pt solid #cbd5e1 !important;
+    padding: 5pt 10pt !important;
+    color: #1e293b !important;
+  }
+  html body table tr:nth-child(even),
+  .markdown-preview.markdown-preview table tr:nth-child(even) {
+    background-color: #f8fafc !important;
+  }
+  html body pre,
+  .markdown-preview.markdown-preview pre {
+    background-color: #f8fafc !important;
+    border: 0.8pt solid #e2e8f0 !important;
+    padding: 10pt 14pt !important;
+    margin: 1.1em 0 !important;
+    font-size: 9pt !important;
+    line-height: 1.45 !important;
+  }
+  html body code,
+  .markdown-preview.markdown-preview code {
+    background-color: #f1f5f9 !important;
+    border: 0.5pt solid #e2e8f0 !important;
+    color: #0f172a !important;
+    padding: 0.1em 0.35em !important;
+  }
+  html body blockquote,
+  .markdown-preview.markdown-preview blockquote {
+    background-color: #f8fafc !important;
+    border-left: 3pt solid #5e81b5 !important;
+    padding: 8pt 12pt !important;
+    margin: 1em 0 !important;
+  }
+  html body a,
+  .markdown-preview.markdown-preview a {
+    color: #5e81b5 !important;
+    text-decoration: none !important;
+  }
+}

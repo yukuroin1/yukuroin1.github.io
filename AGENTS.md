@@ -20,7 +20,13 @@ When the user asks to publish, process, or release files from `inbox/`, treat th
 5. For HTML, preserve the author's layout while ensuring it has `lang="ja"` when appropriate, UTF-8 charset, a viewport declaration, a useful `<title>`, and a description meta tag. Fix invalid local asset paths.
 6. Add one card per publication inside the `CONTENT-CARDS` markers in `index.html`. Link directory pages with a trailing slash and write a short, content-based description. Keep existing cards unless the user explicitly asks to remove them.
 7. Remove the processed source from `inbox/`, leaving `inbox/README.md` in place. Never publish secrets, credentials, private personal data, or unrelated files found beside an input.
-8. Run `python scripts/check_site.py` and `git diff --check`. Preview affected HTML locally when the change warrants it.
-9. When the user asked to publish, commit the scoped changes, push `master`, and verify both `Validate site` and `pages build and deployment` complete successfully. Confirm the new public URL returns HTTP 200 before reporting completion.
+8. If `style.less` was modified, run `python scripts/build_style.py` to regenerate `asset/style.css`.
+9. Run `python scripts/check_site.py` and `git diff --check`. Preview affected HTML locally when the change warrants it.
+10. When the user asked to publish, commit the scoped changes, push `master`, and verify both `Validate site` and `pages build and deployment` complete successfully. Confirm the new public URL returns HTTP 200 before reporting completion.
+
+## Markdown styles and themes
+
+Markdown pages are rendered using `_layouts/default.html` with `asset/style.css` compiled from `style.less`.
+An optional `theme` property in front matter (`blue`, `orange`, `green`, `red`, `purple`, `brown`, `cyan`, `yellow`) switches the accent color. Default is `blue`.
 
 The `inbox/` directory is intentionally excluded from Jekyll and from site validation. Files become public only after they are processed into `content/` and linked from the home page.

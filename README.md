@@ -28,11 +28,19 @@ inbox/
 
 ## 更新を確認する
 
-文字コードと内部リンクは、次のコマンドで公開前に確認できます。
+文字コード、内部リンク、および `style.less` と `asset/style.css` の同期は、次のコマンドで公開前に確認できます。
 
 ```powershell
 python scripts/check_site.py
 ```
+
+`style.less`（Markdown プレビュー用のスタイルシート）を編集した場合は、次のコマンドで `asset/style.css` へコンパイルします。
+
+```powershell
+python scripts/build_style.py
+```
+
+Markdown ページ（`.md`）の front matter に `theme: green` や `theme: orange` などを指定することで、アクセントカラーを8色（青・橙・緑・赤・紫・茶・水・黄）から切り替えることも可能です（初期値: `blue`）。
 
 静的 HTML は、リポジトリのルートで次を実行すると `http://localhost:8000/` から確認できます。
 
