@@ -4,7 +4,7 @@
 
 ## `inbox` から公開する
 
-新しい Markdown、HTML、関連画像などを `inbox/` に置き、Codexへ次のように依頼します。
+新しい Markdown、HTML、関連画像などを `inbox/` に置き、AIアシスタントへ次のように依頼します。
 
 ```text
 inbox に入れたファイルを公開してください。
@@ -24,7 +24,7 @@ inbox/
 
 `inbox/` はJekyllの公開対象と自動検査から除外されています。ファイルを置いただけでは公開されません。
 
-詳しい投入ルールは [`inbox/README.md`](inbox/README.md)、公開処理の規則は [`AGENTS.md`](AGENTS.md) に記載しています。
+記事の執筆やスタイル変更の全体的な手順は [**サイト運用・執筆マニュアル (`MANUAL.md`)**](MANUAL.md) をご覧ください。詳しい投入ルールは [`inbox/README.md`](inbox/README.md)、AIアシスタント向けの公開処理規則は [`AGENTS.md`](AGENTS.md) に記載しています。
 
 ## 更新を確認する
 
