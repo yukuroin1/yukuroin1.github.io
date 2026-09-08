@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import os
+import subprocess
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -99,6 +101,35 @@ def local_target_exists(source: Path, value: str) -> bool:
     return False
 
 
+def get_git_commit_time(path: Path) -> int | None:
+    try:
+        result = subprocess.run(
+            ["git", "log", "-1", "--format=%ct", "--", str(path.relative_to(ROOT))],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        timestamp = result.stdout.strip()
+        return int(timestamp) if timestamp else None
+    except Exception:
+        return None
+
+
+def is_git_dirty(path: Path) -> bool:
+    try:
+        result = subprocess.run(
+            ["git", "status", "--porcelain", "--", str(path.relative_to(ROOT))],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        return bool(result.stdout.strip())
+    except Exception:
+        return False
+
+
 def check_style_sync() -> list[str]:
     less_file = ROOT / "style.less"
     css_file = ROOT / "asset" / "style.css"
@@ -108,11 +139,35 @@ def check_style_sync() -> list[str]:
     if not css_file.is_file():
         return [f"{css_file.relative_to(ROOT)} is missing. Run 'python scripts/build_style.py'."]
 
-    if less_file.stat().st_mtime > css_file.stat().st_mtime:
+    # CI環境（GitHub Actions等）ではmtimeがチェックアウト順で不定のためGitコミット時刻を比較
+    is_ci = os.environ.get("GITHUB_ACTIONS") == "true" or os.environ.get("CI") == "true"
+    if is_ci:
+        less_commit = get_git_commit_time(less_file)
+        css_commit = get_git_commit_time(css_file)
+        if less_commit is not None and css_commit is not None and less_commit > css_commit:
+            return [
+                f"{less_file.name} has newer git commits than {css_file.relative_to(ROOT)}. "
+                "Run 'python scripts/build_style.py' to update CSS."
+            ]
+        return []
+
+    # ローカル環境：未コミットの変更がある場合
+    if is_git_dirty(less_file) and not is_git_dirty(css_file):
+        if less_file.stat().st_mtime > css_file.stat().st_mtime:
+            return [
+                f"{less_file.name} is modified locally without updating {css_file.relative_to(ROOT)}. "
+                "Run 'python scripts/build_style.py' to update CSS."
+            ]
+
+    # ローカル環境：コミット履歴の比較
+    less_commit = get_git_commit_time(less_file)
+    css_commit = get_git_commit_time(css_file)
+    if less_commit is not None and css_commit is not None and less_commit > css_commit:
         return [
-            f"{less_file.name} is newer than {css_file.relative_to(ROOT)}. "
+            f"{less_file.name} has newer git commits than {css_file.relative_to(ROOT)}. "
             "Run 'python scripts/build_style.py' to update CSS."
         ]
+
     return []
 
 
